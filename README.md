@@ -77,6 +77,24 @@ Branch names follow the conventions described below:
 
 Feature or issue branches can be merged into `develop`, *only by Pull Request*. Code review is required before merge. Reviewer may accept your PR or point out potential bugs, design flaw, inconsistencies, or any other errors you've made. After review, you can fix problems and then request a review again, or discard the commit.
 
+If you wanted to add a dashboard feature, You would take the following steps:
+ 1. Create a branch named `feature/dashboard` from `develop`. 
+ 1. Make a change and commit on the branch.
+ 1. Create a pull request in github and assign a reviewer to it.
+ 1. A reviewer leaves comments on changes you made.
+ 1. Revise your commit and ask for a review again
+ 1. After the reviewer accepts your pull request, your branch is automatically merged into `develop` branch.
+ 1. `git pull origin develop` to pull the merged `develop` branch (optional)
+
+It is proven to be a good practice to merge branches in one direction. For example, `develop` can be merged into `master`, not vice versa. Like, `feature/<feature name>` branch can be merged into develop, but not vice versa. This practice will make your workflow simple and predictable. See  https://nvie.com/posts/a-successful-git-branching-model/ 
+
+```
+master branch ________________________________________________....
+develop branch _____________________________/    \_________/
+feature branches \______/  \______/  |   |
+Issue branches                       \___/
+```
+
 
 
 ## Coding Conventions
