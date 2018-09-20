@@ -55,3 +55,47 @@ yarn start
 ```
 
 Then browse to `http://localhost:4200`.
+
+## Coding Conventions
+The style guidelines and best practices for our engineering team.
+
+### Typescript Styles
+
+---
+
+- 2 **spaces** for an indent
+- **No unused variables**
+- **Space after keywords**
+    - **YES**: `if (condition) { ... }`
+    - **NO**: `if(condition) { ... }`
+- **Append `{` next to `if` , `while`, rather than on the next line.**
+    - **YES**
+
+            `if (condition) { 
+            } else if (condition2) {
+            } else {
+            }` 
+
+    - **No**
+
+            if (condition)
+            { 
+            }
+            else if (condition2)
+            {
+            }
+            else
+            {
+            }
+
+- **Always use `===` instead of `==`**
+    - **Exception**: `obj == null` is allowed to check `null || undefined` .
+
+### Python Styles
+
+---
+
+- 4 spaces
+- For other styles that are not specified in this file, it is recommended that you follow PEP 8
+
+    [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
