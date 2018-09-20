@@ -18,19 +18,19 @@ _/    _/  _/        _/        _/    _/    _/          _/    _/  _/    _/  _/    
 # KiWi Project
 ## Setting up your environment
 You need following requirements before getting started with the project.
- * Yarn 1.9.4 or above: Faster alternative package manager which replaces NPM.
- * Pipenv: A brand-new package manager for Python.
+ * Yarn 1.9.4 or above: Faster alternative package manager for nodejs. Way better than NPM.
+ * Pipenv: A package manager for Python. 
  * Python 3.6
  * Node 10.0 or above
 
-It is assumed that you already have those requirements installed on your labtop.
+It is assumed that you already have those requirements installed on your desktop or labtop.
 
-First, you need to initialize dev environemnts for frontend. At the root working directory, type the following.
+First, you need to initialize develop environemnts for frontend. At the root working directory, type the following commands.
 ```bash
 cd backend
 pipenv sync
 ```
-Then, you need to migrate your database. Type this:
+Then, you need to migrate your database. Type these commands:
 ```bash
 cd kiwi
 pipenv run ./manage.py migrate
@@ -60,8 +60,8 @@ Then browse to `http://localhost:4200`.
 To cooperate efficiently, you need to keep several rules when you push your commits.
 
 Rules:
-- All commit shouldn't have any build-time error. It doesn't mean your commits must be bug-free. Rather, it means they should not crash at app build time or the beginning of server start.
-- Describe your commit concisely in plain english or korean. e.g. `Add a receipt panel in the page#3`. But please don't
+- All commit shouldn't have any build-time error. It doesn't mean your commits must be bug-free. Rather, they should not crash at app build time or at server start.
+- Describe your commit concisely to a commit message in plain english or korean. e.g. `Add a receipt panel in the page#3`. There is no strict rule, but it should faithfully explain what this commit is. So please don't do this:
   - Fix a bug, 버그 수정 : What did you fix?
   - Done!, 됐다! : Done what?
   - Wow! : Wow?
@@ -70,12 +70,13 @@ Rules:
 
 Branch names follow the conventions described below:
 
-- `master`: The main release branch. This branch will be used for the progress presentation & last presentation. Keep this clean and production-ready as possible.
+- `master`: The main release branch. This branch will be used for the progress presentation & final presentation. Keep this clean and production-ready as possible.
 - `develop`: This is main branch for development. This is merged into `master` branch at the end of sprint.
 - `feature/<feature name>`: your work starts here. It can be merged into `develop` branch when finished. e.g. `feature/sprint1-page1`
 - `issue/<number>`: bugfix for an issue. The name starts with `issue/`followed by issue number. e.g. `issue/12`
 
-Feature or issue branches can be merged only into `develop`, *only by Pull Request*. Code review is required before merge. Reviewer may accept your PR or point out potential bugs, design flaw, inconsistencies, or any other errors you've made. After review, you can fix problems and then request a review again, or discard the commit.
+Feature or issue branches can be merged into `develop`, *only by Pull Request*. Code review is required before merge. Reviewer may accept your PR or point out potential bugs, design flaw, inconsistencies, or any other errors you've made. After review, you can fix problems and then request a review again, or discard the commit.
+
 
 
 ## Coding Conventions
