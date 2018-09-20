@@ -56,6 +56,28 @@ yarn start
 
 Then browse to `http://localhost:4200`.
 
+## Git Workflow and Conventions
+To cooperate efficiently, you need to keep several rules when you push your commits.
+
+Rules:
+- All commit shouldn't have any build-time error. It doesn't mean your commits must be bug-free. Rather, it means they should not crash at app build time or the beginning of server start.
+- Describe your commit concisely in plain english or korean. e.g. `Add a receipt panel in the page#3`. But please don't
+  - Fix a bug, 버그 수정 : What did you fix?
+  - Done!, 됐다! : Done what?
+  - Wow! : Wow?
+  - asdf : ...
+
+
+Branch names follow the conventions described below:
+
+- `master`: The main release branch. This branch will be used for the progress presentation & last presentation. Keep this clean and production-ready as possible.
+- `develop`: This is main branch for development. This is merged into `master` branch at the end of sprint.
+- `feature/<feature name>`: your work starts here. It can be merged into `develop` branch when finished. e.g. `feature/sprint1-page1`
+- `issue/<number>`: bugfix for an issue. The name starts with `issue/`followed by issue number. e.g. `issue/12`
+
+Feature or issue branches can be merged only into `develop`, *only by Pull Request*. Code review is required before merge. Reviewer may accept your PR or point out potential bugs, design flaw, inconsistencies, or any other errors you've made. After review, you can fix problems and then request a review again, or discard the commit.
+
+
 ## Coding Conventions
 The style guidelines and best practices for our engineering team.
 
@@ -98,3 +120,4 @@ The style guidelines and best practices for our engineering team.
 - For other styles that are not specified in this file, it is recommended that you follow PEP 8
 
     [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
+    
