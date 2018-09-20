@@ -84,16 +84,27 @@ If you wanted to add a dashboard feature, You would take the following steps:
  1. A reviewer leaves comments on changes you made.
  1. Revise your commit and ask for a review again
  1. After the reviewer accepts your pull request, your branch is automatically merged into `develop` branch.
- 1. `git pull origin develop` to pull the merged `develop` branch (optional)
+ 1. `git pull origin develop` to pull the merged `develop` branch on your laptop (optional)
 
-It is proven to be a good practice to merge branches in one direction. For example, `develop` can be merged into `master`, not vice versa. Like, `feature/<feature name>` branch can be merged into develop, but not vice versa. This practice will make your workflow simple and predictable. See  https://nvie.com/posts/a-successful-git-branching-model/ 
+It is proven to be a good practice to merge branches in one direction. For example, `develop` can be merged into `master`, not vice versa. Like, `feature/<feature name>` branch can be merged into develop, but not vice versa.
+After you merge `develop` to `master`, `develop` branch should move on to the merged commit. In this case, simply delete `develop` branch and recreate `develop`. To wrap it up, following commands merge `develop` to `master` and make `develop` incorporate merged commit.
+
+```bash
+git checkout master
+git merge develop
+git branch -d develop
+git branch develop
+```
+
+This practice will make your workflow simple and predictable. See  https://nvie.com/posts/a-successful-git-branching-model/ 
 
 ```
-master branch ________________________________________________....
-develop branch _____________________________/    \_________/
-feature branches \______/  \______/  |   |
-Issue branches                       \___/
+master (release) branch  ________________________________________________...
+develop branch           _____________________________/    \_________/
+feature branches         \______/  \______/  |   |
+Issue branches                               \___/
 ```
+
 
 
 
