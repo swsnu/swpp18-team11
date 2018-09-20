@@ -31,7 +31,7 @@ cd backend
 pipenv sync
 ```
 Then, you need to migrate your database. Type this:
-```
+```bash
 cd kiwi
 pipenv run ./manage.py migrate
 ```
@@ -63,21 +63,21 @@ The style guidelines and best practices for our engineering team.
 
 ---
 
-- 2 **spaces** for an indent
+- **2 spaces** for an indent
 - **No unused variables**
 - **Space after keywords**
     - **YES**: `if (condition) { ... }`
     - **NO**: `if(condition) { ... }`
 - **Append `{` next to `if` , `while`, rather than on the next line.**
     - **YES**
-
-            `if (condition) { 
+    
+            if (condition) { 
             } else if (condition2) {
             } else {
-            }` 
+            }
 
     - **No**
-
+    
             if (condition)
             { 
             }
@@ -87,7 +87,6 @@ The style guidelines and best practices for our engineering team.
             else
             {
             }
-
 - **Always use `===` instead of `==`**
     - **Exception**: `obj == null` is allowed to check `null || undefined` .
 
