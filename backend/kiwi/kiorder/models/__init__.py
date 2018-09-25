@@ -1,1 +1,2 @@
-from . import base
+from . import base, user
+from .user import User
