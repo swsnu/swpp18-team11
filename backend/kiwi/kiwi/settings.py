@@ -79,6 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'TEST': {'NAME': ':memory:'}
     }
 }
 SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
