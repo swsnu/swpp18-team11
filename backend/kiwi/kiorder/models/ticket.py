@@ -5,8 +5,13 @@ from .tx import Tx
 from .store import Store
 
 class Ticket(UserOwnable):
+    class Meta:
+        indexes = [
+            models.Index(fields=['store', 'removed', 'created_at']),
+        ]
+
     STATE_CHOICES = (
-        ('waiting', 'Waiting'),
+        ('todo', 'Todo'),
         ('doing', 'Doing'),
         ('done', 'Done'),
     )
@@ -14,9 +19,11 @@ class Ticket(UserOwnable):
     state = models.CharField(
         max_length=16,
         choices=STATE_CHOICES,
-        default="waiting"
+        default="todo"
     )
     number = models.IntegerField()
+
+    removed = models.BooleanField(default=False)
 
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     tx = models.ForeignKey(Tx, on_delete=models.CASCADE)
