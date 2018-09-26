@@ -12,4 +12,5 @@ class Store(UserOwnable):
         null=True,
         on_delete=models.CASCADE,
     )
+    timezone = models.TextField()
 

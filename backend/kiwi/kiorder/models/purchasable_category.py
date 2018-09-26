@@ -1,9 +1,9 @@
 from django.db import models
 
 
-from .mixins import UserOwnable
+from .mixins import UserOwnable, FranchiseOwnable
 from .purchasable import Purchasable
 
-class PurchasableCategory(UserOwnable):
+class PurchasableCategory(UserOwnable, FranchiseOwnable):
     purchasables = models.ManyToManyField(Purchasable)
 

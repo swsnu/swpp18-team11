@@ -11,3 +11,13 @@ class UserOwnable(models.Model):
         on_delete=models.SET_NULL,
     )
 
+
+class FranchiseOwnable(models.Model):
+    class Meta:
+        abstract = True
+    franchise = models.ForeignKey(
+        "Franchise",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+

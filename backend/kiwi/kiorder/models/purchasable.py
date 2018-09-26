@@ -1,9 +1,9 @@
 from django.db import models
 
-from .mixins import UserOwnable
+from .mixins import UserOwnable, FranchiseOwnable
 from .purchasable_option import PurchasableOption
 
-class Purchasable(UserOwnable):
+class Purchasable(UserOwnable, FranchiseOwnable):
     name = models.CharField(max_length=255)
     base_price = models.DecimalField(max_digits=19, decimal_places=10)
 
