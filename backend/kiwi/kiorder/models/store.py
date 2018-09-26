@@ -1,8 +1,12 @@
 from django.db import models
+
 from django.contrib.gis.db import models
+from sortedm2m.fields import SortedManyToManyField
 
 from .franchise import Franchise
+from .purchasable_category import PurchasableCategory
 from .mixins import UserOwnable
+
 
 class Store(UserOwnable):
     name = models.CharField(max_length=255)
@@ -13,4 +17,6 @@ class Store(UserOwnable):
         on_delete=models.CASCADE,
     )
     timezone = models.TextField()
+
+    purchasable_categories = SortedManyToManyField(PurchasableCategory)
 

@@ -6,8 +6,11 @@ name = "pypi"
 [packages]
 django = "*"
 gtts = "*"
+"django-sortedm2m" = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.6.2"
