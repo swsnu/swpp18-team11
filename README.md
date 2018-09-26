@@ -17,13 +17,25 @@ _/    _/  _/        _/        _/    _/    _/          _/    _/  _/    _/  _/    
 ````
 # KiWi Project
 ## Setting up your environment
-You need following requirements before getting started with the project.
+### Prerequisites
+You need following prerequisites before getting started with the project.
  * Yarn 1.9.4 or above: Faster alternative package manager for nodejs. Way better than NPM.
  * Pipenv: A package manager for Python. 
- * Python 3.6
+ * Python 3.6 (with sqlite-extension)
  * Node 10.0 or above
+ * libspatialite
+ * GDAL
 
-It is assumed that you already have those requirements installed on your desktop or labtop.
+In order to enable location-oriented query, you will need a both pyhton version with sqlite-extension compiled and libspatialite.
+
+To get pyhton 3.6.2 with sqlite-extension enabled. you have to manually set compiler options to enable the feature. First off, make sure `pyenv` is installed (https://github.com/pyenv/pyenv). Then,
+```bash
+LDFLAGS="-L/usr/local/opt/sqlite/lib -L/usr/local/opt/zlib/lib" CPPFLAGS="-I/usr/local/opt/sqlite/include -I/usr/local/opt/zlib/include" PYTHON_CONFIGURE_OPTS="--enable-loadable-sqlite-extensions" pyenv install 3.6.2
+```
+Also you need to have libspatialite(https://www.gaia-gis.it/fossil/libspatialite/index) and gdal(https://github.com/OSGeo/gdal) installed. The way to build the libraries depends on OS, so check out website of libraries and manual.
+
+
+### Building Workspace
 
 First, you need to initialize develop environemnts for frontend. At the root working directory, type the following commands.
 ```bash
@@ -61,6 +73,7 @@ To cooperate efficiently, you need to keep several rules when you push your comm
 
 Rules:
 - All commit shouldn't have any build-time error. It doesn't mean your commits must be bug-free. Rather, they should not crash at app build time or at server start.
+- All unit test of a commit should pass, except for a hotfix.
 - Describe your commit concisely to a commit message in plain english or korean. e.g. `Add a receipt panel in the page#3`. There is no strict rule, but it should faithfully explain what this commit is. So please don't do this:
   - Fix a bug, 버그 수정 : What did you fix?
   - Done!, 됐다! : Done what?
