@@ -35,6 +35,15 @@ def purchasable_2():
     return x
 
 @pytest.fixture
+def purchasable_with_options_1(purchasable_option_1, purchasable_option_2):
+    x = Purchasable(name="Purchasable With options 1", base_price=10000)
+    x.save()
+    x.purchasable_options.add(purchasable_option_1)
+    x.purchasable_options.add(purchasable_option_2)
+    x.save()
+    return x
+
+@pytest.fixture
 def purchasable_option_1():
     x = PurchasableOption(
         name="Option 1",

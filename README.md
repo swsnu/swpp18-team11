@@ -21,16 +21,16 @@ _/    _/  _/        _/        _/    _/    _/          _/    _/  _/    _/  _/    
 You need following prerequisites before getting started with the project.
  * Yarn 1.9.4 or above: Faster alternative package manager for nodejs. Way better than NPM.
  * Pipenv: A package manager for Python. 
- * Python 3.6 (with sqlite-extension)
+ * Python 3.7 (with sqlite-extension)
  * Node 10.0 or above
  * libspatialite
  * GDAL
 
 In order to enable location-oriented query, you will need a both pyhton version with sqlite-extension compiled and libspatialite.
 
-To get pyhton 3.6.2 with sqlite-extension enabled. you have to manually set compiler options to enable the feature. First off, make sure `pyenv` is installed (https://github.com/pyenv/pyenv). Then,
+To get pyhton 3.7.0 with sqlite-extension enabled. you have to manually set compiler options to enable the feature. First off, make sure `pyenv` is installed (https://github.com/pyenv/pyenv). Then,
 ```bash
-LDFLAGS="-L/usr/local/opt/sqlite/lib -L/usr/local/opt/zlib/lib" CPPFLAGS="-I/usr/local/opt/sqlite/include -I/usr/local/opt/zlib/include" PYTHON_CONFIGURE_OPTS="--enable-loadable-sqlite-extensions" pyenv install 3.6.2
+LDFLAGS="-L/usr/local/opt/sqlite/lib -L/usr/local/opt/zlib/lib" CPPFLAGS="-I/usr/local/opt/sqlite/include -I/usr/local/opt/zlib/include" PYTHON_CONFIGURE_OPTS="--enable-loadable-sqlite-extensions" pyenv install 3.7.0
 ```
 Also you need to have libspatialite(https://www.gaia-gis.it/fossil/libspatialite/index) and gdal(https://github.com/OSGeo/gdal) installed. The way to build the libraries depends on OS, so check out website of libraries and manual.
 

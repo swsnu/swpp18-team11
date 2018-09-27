@@ -2,7 +2,7 @@ from django.db import models
 
 from .purchasable import Purchasable
 from .tx import Tx
-from .txlog import TxLog
+from .tx_log import TxLog
 
 class TxItem(models.Model):
     purchasable = models.ForeignKey(

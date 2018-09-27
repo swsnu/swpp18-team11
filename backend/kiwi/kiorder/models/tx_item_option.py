@@ -15,3 +15,4 @@ class TxItemOption(models.Model):
     purchasable_option_name = models.CharField(max_length=255)
     base_price = models.DecimalField(max_digits=19, decimal_places=10)
     qty = models.IntegerField()
+    total_price = models.DecimalField(max_digits=19, decimal_places=10)
