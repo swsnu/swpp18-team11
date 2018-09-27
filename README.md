@@ -40,7 +40,7 @@ Also you need to have libspatialite(https://www.gaia-gis.it/fossil/libspatialite
 First, you need to initialize develop environemnts for frontend. At the root working directory, type the following commands.
 ```bash
 cd backend
-pipenv sync
+pipenv sync --dev
 ```
 Then, you need to migrate your database. Type these commands:
 ```bash
