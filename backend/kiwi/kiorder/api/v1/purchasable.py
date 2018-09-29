@@ -15,7 +15,7 @@ class Purchasable(BaseResource):
         return {
             "id": purch.id,
             "name": purch.name,
-            "thumbnail": purch.image.url, 
+            "thumbnail": purch.image and purch.image.url, 
             "base_price": purch.base_price,
             "options": [
                 self.represent_option(option)
