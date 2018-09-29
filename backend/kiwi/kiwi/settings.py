@@ -128,3 +128,6 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = "kiorder.User"
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+
