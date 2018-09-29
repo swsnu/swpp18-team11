@@ -19,5 +19,9 @@ class Store(UserOwnable):
     timezone = models.TextField()
     next_number = models.IntegerField(default=0)
 
-    purchasable_categories = SortedManyToManyField(PurchasableCategory)
+    purchasable_categories = SortedManyToManyField(PurchasableCategory, blank=True)
+
+
+    def __str__(self):
+        return self.name
 

@@ -8,3 +8,5 @@ class PurchasableCategory(UserOwnable, FranchiseOwnable):
     name = models.CharField(max_length=255)
     purchasables = SortedManyToManyField(Purchasable)
 
+    def __str__(self):
+        return self.name

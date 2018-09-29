@@ -63,7 +63,7 @@ def test_tx_order(tx_service, ticket_service, utxid, order_spec, purchase_method
     assert isinstance(loaded_order_tx.purchase_method, TestPurchaseMethod)
 
     # Step 3: credit and finish order
-    with tx_service.finish_order(order_tx) as creditor:
+    with tx_service.finish_order(loaded_order_tx) as creditor:
         value_date = date(1994, 7, 13)
         creditor.credit_order(
             amount=1000,
@@ -75,8 +75,10 @@ def test_tx_order(tx_service, ticket_service, utxid, order_spec, purchase_method
 
     ## Expections
     loaded_order_tx = tx_service.load(utxid)
-    assert order_tx.state == 'done'
+    assert loaded_order_tx.state == 'done'
     assert loaded_order_tx.tx is not None
+    assert len(loaded_order_tx.tx.txitem_set.all()) > 0
+    assert loaded_order_tx._tx_log.tx
 
     assert loaded_order_tx.tx.txitem_set.first().purchasable == order_spec.purchasable_specs[0].purchasable
     assert loaded_order_tx.tx.txitem_set.first().qty == order_spec.purchasable_specs[0].qty

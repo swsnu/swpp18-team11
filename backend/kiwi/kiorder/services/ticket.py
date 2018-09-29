@@ -24,6 +24,15 @@ class TicketService:
         ticket.save()
         return ticket
 
+    def load(self, id) -> Optional[Ticket]:
+        return Ticket.objects.filter(id=id).first()
+
+    def save_ticket(self, ticket: Ticket):
+        ticket.save()
+
+    def ticket_of_tx(self, utxid) -> Optional[Ticket]:
+        return Ticket.objects.filter(tx__utxid=utxid, removed=False).first()
+
     def active_tickets_in(self, store: Store, state: Optional[str] = None) -> List[Ticket]:
         query = Ticket.objects.filter(store=store, removed=False)
         if state is not None:

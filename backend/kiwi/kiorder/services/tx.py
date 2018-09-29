@@ -30,7 +30,7 @@ class PurchasableSpec:
 
     @property
     def total_price(self):
-        return sum(spec.total_price for spec in self.purchasable_option_specs)
+        return self.purchasable.base_price + sum(spec.total_price for spec in self.purchasable_option_specs)
 
 @dataclass
 class OrderSpec:
@@ -67,12 +67,15 @@ class OrderTx:
 @dataclass
 class OrderCreditor:
     order_tx: OrderTx
+    mock: bool = False
+
     def credit_order(self, *,
                      amount: Union[str, int, Decimal],
                      name: str,
                      ref: str,
                      bank: str,
                      value_date: Optional[datetime.date] = None):
+        if self.mock: return
         value_date = value_date or datetime.date.today()
         decimal_amount = Decimal(amount)
         credit = TxCredit(
@@ -127,16 +130,19 @@ class TxService:
 
     def save(self, order_tx: OrderTx):
         purchase_method = order_tx.purchase_method
+        tx_likes = [order_tx._tx, order_tx._tx_log]
         if purchase_method:
             purchase_type_name = PurchaseMethod.get_name_of(purchase_method.__class__)
             purchase_data = purchase_method.dump()
-            tx_likes = [order_tx._tx, order_tx._tx_log]
             for tx_like in tx_likes:
                 if not tx_like:
                     continue
                 tx_like.purchase_type = purchase_type_name
                 tx_like.purchase_data = purchase_data
                 tx_like.save()
+
+        for tx_like in tx_likes:
+            if tx_like: tx_like.save()
 
     def start_order(self, order_tx: OrderTx, purchase_method: "PurchaseMethod"):
         order_tx.purchase_method = purchase_method
@@ -145,16 +151,26 @@ class TxService:
 
     @contextmanager
     def finish_order(self, order_tx: OrderTx) -> ContextManager[OrderCreditor]:
-        tx = Tx()
-        order_tx._tx_log.state = 'done'
-        order_tx._tx_log.assign_to(tx)
-        tx.save()
-        tx.txitem_set.set(order_tx._tx_log.txitem_set.all())
+        if order_tx.state != 'pending':
+            yield OrderCreditor(order_tx, mock=True)
+            return
 
+        tx_log = order_tx._tx_log
+        tx_log.state = 'done'
+        tx_log.save()
+
+        tx = Tx()
+        tx_log.assign_to(tx)
+        tx.save()
+        tx_log.tx = tx
+        tx_log.save()
+
+        for tx_item in order_tx._tx_log.txitem_set.all():
+            tx_item.tx = tx
+            tx_item.save()
         order_tx._tx = tx
 
         yield OrderCreditor(order_tx)
-
         self._after_finished(order_tx)
 
     def _after_finished(self, order_tx):
