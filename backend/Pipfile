@@ -8,6 +8,7 @@ django = "*"
 gtts = "*"
 "django-sortedm2m" = "*"
 pillow = "*"
+django-map-widgets = "*"
 
 [dev-packages]
 pytest = "*"
