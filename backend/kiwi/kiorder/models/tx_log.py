@@ -1,12 +1,14 @@
 from django.db import models
 
 from .mixins import UserOwnable
-from .tx import Tx, TxLike
+from .tx import Tx
+from .tx_like import TxLike
 
 class TxLog(TxLike):
     STATE_CHOICES = (
         ('ready', 'Ready'),
-        ('done', 'Delivered'),
+        ('pending', 'Pending'),
+        ('done', 'Done'),
         ('cancelled', 'Cancelled'),
         ('rollback', 'Rolled back'),
     )

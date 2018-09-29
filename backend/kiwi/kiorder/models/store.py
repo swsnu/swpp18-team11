@@ -17,6 +17,7 @@ class Store(UserOwnable):
         on_delete=models.CASCADE,
     )
     timezone = models.TextField()
+    next_number = models.IntegerField(default=0)
 
     purchasable_categories = SortedManyToManyField(PurchasableCategory)
 
