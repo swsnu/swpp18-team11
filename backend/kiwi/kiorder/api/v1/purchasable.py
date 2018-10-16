@@ -33,10 +33,26 @@ class Purchasable(BaseResource):
             ]
         }
 
-    def get(self, request):
+    def get_purchasable_by_id(self, purchasable_categories, purch_id):
+        for pc in purchasable_categories:
+            for p in pc.purchasables.all():
+                if p.id == purch_id:
+                    return p
+
+        return None
+
+    def get(self, request, **kwargs):
         store_service = StoreService()
         store = self.get_current_store()
         purchasable_categories = store_service.purchasable_categories(store)
+
+        if 'id' in kwargs.keys():
+            purch_id = kwargs.get('id')
+            purchasable = self.get_purchasable_by_id(purchasable_categories, purch_id)
+            if purchasable:
+                return self.success(self.represent_purchasable(purchasable))
+            else:
+                return self.error(message="Menu not found")
 
         return self.success({
             "list": [
