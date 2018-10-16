@@ -1,6 +1,6 @@
-import { Menu } from "./menu";
+import { Purchasable } from "./purchasable";
 
 export class Category {
   name: string
-  purchasables: Menu[]
+  purchasables: Purchasable[]
 }

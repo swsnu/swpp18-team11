@@ -1,7 +1,6 @@
 import { Option } from "./option";
 
-export class Menu {
-
+export class Purchasable {
   id: number
   name: string
   thumbnail: string
