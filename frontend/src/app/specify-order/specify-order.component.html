@@ -1,29 +1,41 @@
-<img width="200" height="200" src="http://img.seoul.co.kr/img/upload/2017/08/08/SSI_20170808184141_V.jpg"/>
-<h4 id="name">Product Name: 노맛버거</h4>
-------------------------------------
-<h5 id="mainMenu">
-  단품 8000
-  <label id="mainMenuQuantity">
-    <button> - </button> 1 <button> + </button>
-  </label>
-</h5>
+<div *ngIf="product">
+  <img width="200" height="200" src="{{product.thumbnail}}"/>
+  <h4 id="name">Product Name: {{product.name}} </h4>
+  ----------------------------------------------------------
+  <h5 id="mainMenu">
+    단품 {{product.base_price}}원
+    <label id="mainMenuQuantity">
+      <button (click)="decrement()">-</button>{{product.quantity}}개<button (click)="increment()">+</button>
+    </label>
+  </h5>
 
-<div id="selectedOption">
-  추가옵션
-  <ul>
-    <li>양상추 * 1 = 300</li>
-    <li>치즈 * 1 = 300</li>
-  </ul>
+  <div>
+    선택한 옵션
+    <ul>
+      <div *ngIf="selectedOptions.length > 0">
+        <div *ngFor="let option of selectedOptions">
+          <div *ngIf="option.quantity > 0">
+            <li>
+              <label id="optionName{{option.id}}">{{option.name}}</label>
+              <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
+              <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
+            </li>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+
+  <label id="totalPrice"> 총 {{product.total_price}}원 </label>
+  <div>
+    <button (click)="openOptionSelectPage()">추가옵션 선택</button>
+    <button>장바구니 담기</button>
+    <button>바로 구매</button>
+  </div>
+
+  <div *ngIf="expandOption">
+    <app-select-option [options]="product.options"
+    (optionChanged)="updateOptionChange($event)"></app-select-option>
+  </div>
+
 </div>
-
-<label id="totalPrice"> 총 8600원 </label>
-<div>
-  <button (click)="openOptionSelectPage()">추가옵션 선택</button>
-  <button>장바구니 담기</button>
-  <button>바로 구매</button>
-</div>
-
-<div *ngIf="expandOption">
-  <app-select-option></app-select-option>
-</div>
-
