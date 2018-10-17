@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ManageOrderService } from './manage-order.service';
-import { timer, Observable, from } from 'rxjs';
-import { map, publish, refCount, tap, concat, concatMap, pairwise, share } from 'rxjs/operators';
+import { timer, Observable, from, Subject } from 'rxjs';
+import { map, publish, refCount, tap, merge, concatMap, pairwise, share } from 'rxjs/operators';
 import { Ticket } from './ticket';
 import { TicketChange, TicketArrived, TicketModified, TicketRemoved } from './ticket-change';
 
@@ -14,8 +14,9 @@ import sortBy from 'lodash/sortBy';
   providedIn: 'root'
 })
 export class ManageOrderStateService {
+  private updateTrigger$: Subject<any> = new Subject();
   private timer$: Observable<any> = timer(0, 1000);
-  private ticker$: Observable<any> = this.timer$.pipe(publish(), refCount());
+  private ticker$: Observable<any> = this.timer$.pipe(merge(this.updateTrigger$), publish(), refCount());
   public tickets$: Observable<Ticket[]>;
   public ticketChanges$: Observable<TicketChange>;
 
@@ -31,7 +32,11 @@ export class ManageOrderStateService {
     )
   }
 
-  diff(oldTickets: Ticket[], newTickets: Ticket[]): Observable<TicketChange> {
+  forceRefresh() {
+    this.updateTrigger$.next(null);
+  }
+
+  private diff(oldTickets: Ticket[], newTickets: Ticket[]): Observable<TicketChange> {
     const oldById = {}, newById = {}
     oldTickets.forEach(x => oldById[x.id] = x)
     newTickets.forEach(x => newById[x.id] = x)

@@ -4,7 +4,7 @@ import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-order-display',

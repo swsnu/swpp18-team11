@@ -27,8 +27,7 @@ export class ManageOrderService {
     ticket.setState(state)
 
     const httpOptions = {headers: new HttpHeaders({'Content-Type':  'application/x-www-form-urlencoded'})}
-    const formData = new FormData()
-    formData.append('state', ticket.state)
+    const formData = `state=${ticket.state}`
 
     return this.http.patch(`/kiorder/api/v1/ticket/${ticket.id}`, formData, httpOptions).pipe(map((x: any) => this.loadTicket(x.data)))
   }
