@@ -1,7 +1,7 @@
 manage-order-display works!
 <h1> Done </h1>
 <ul>
-  <li *ngFor='let ticket of doneTickets$ | async'>
+  <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
     {{ ticket.number }}
   </li>
 </ul>
