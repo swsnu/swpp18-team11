@@ -1,0 +1,7 @@
+manage-order works!
+<ul>
+  <li *ngFor="let ticket of tickets$ | async">
+    {{ ticket.state }}
+    {{ ticket.number }}
+  </li>
+</ul>

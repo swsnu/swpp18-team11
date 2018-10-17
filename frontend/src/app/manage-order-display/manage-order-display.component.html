@@ -1,0 +1,14 @@
+manage-order-display works!
+<h1> Done </h1>
+<ul>
+  <li *ngFor='let ticket of doneTickets$ | async'>
+    {{ ticket.number }}
+  </li>
+</ul>
+
+<h1> Doing </h1>
+<ul>
+  <li *ngFor='let ticket of doingTickets$ | async'>
+    {{ ticket.number }}
+  </li>
+</ul>
