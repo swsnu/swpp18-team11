@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpecifyOrderComponent } from './specify-order/specify-order.component';
 import { SelectOptionComponent } from './select-option/select-option.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpecifyOrderComponent,
-    SelectOptionComponent
+    SelectOptionComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

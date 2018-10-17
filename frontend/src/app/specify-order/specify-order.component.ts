@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { Purchasable } from './purchasable';
 import { Option } from './option';
@@ -19,7 +20,8 @@ export class SpecifyOrderComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -73,7 +75,9 @@ export class SpecifyOrderComponent implements OnInit {
     return;
   }
   buyNow(): void {
-    // TODO
+    // const buyList = [this.product];
+    // this.purchasableService.buyNow(buyList
+    this.router.navigate(['/payment']);
     return;
   }
 }
