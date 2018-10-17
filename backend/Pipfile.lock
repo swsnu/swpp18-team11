@@ -5,7 +5,7 @@
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.7.0"
+            "python_version": "3.7"
         },
         "sources": [
             {
@@ -299,6 +299,7 @@
                 "sha256:ccad8461b5d912782726af17122113e196085e7e11d57cf0c9b982bf1ab2c7be"
             ],
             "version": "==2.0.6"
+
         },
         "ptyprocess": {
             "hashes": [
