@@ -11,8 +11,10 @@
 <div *ngIf="selected">
   <ul>
     <li *ngFor="let menu of selected.purchasables">
-      <div routerLink="/{{menu.id}}">  <!--route to Feature 2-->
-        <img src="http://localhost:8000{{menu.thumbnail}}">
+      <div>
+           <!--app-specify-order [purchasable]="toPurchasable(menu)"-->
+        <img src="{{menu.thumbnail}}"
+             routerLink="/{{menu.id}}">
         <br>{{menu.name}}
         <br>{{menu.base_price}}
       </div>

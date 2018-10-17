@@ -9,5 +9,11 @@
     "target": "http://localhost:8000",
     "secure": false,
     "changeOrigin": true
+  },
+
+  "/media": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true
   }
 }

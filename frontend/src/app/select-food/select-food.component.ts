@@ -5,6 +5,8 @@ import { map } from "rxjs/operators";
 import { MenuDataService } from "../menu-data.service";
 
 import { Category } from "../category";
+import { Menu } from "../menu";
+import { Purchasable } from "../purchasable";
 
 @Component({
   selector: 'app-select-food',
@@ -28,20 +30,21 @@ export class SelectFoodComponent implements OnInit {
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories()
   }
-  /* TODO: async binding.
-      getPurchasables(): Observable<Purchasable[]> {
+
+  // Purchasable has 'total_price' and 'quantity'
+  toPurchasable(menu: Menu): Purchasable{
+    let purchasable: Purchasable = <Purchasable> menu
+    return purchasable
+  }
+
+  /* TODO: async binding
+      getPurchasables(): Observable<Menu[]> {
       return this.selector.pipe(
         map((category: Category) => category.purchasables)
       )
     }
-
-    getName() {
-      this.selector.subscribe(
-        item => this.name = item.name,
-        error => console.log(error)
-      )
-    }
   */
+
   selectCategory(selected: Category): void {
     //this.selector.next(selected)
     this.selected = selected

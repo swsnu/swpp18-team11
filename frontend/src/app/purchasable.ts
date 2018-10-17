@@ -1,9 +1,10 @@
-import { Option } from "./option";
+import { Menu } from "./menu";
 
-export class Purchasable {
-  id: number
-  name: string
-  thumbnail: string
-  base_price: number
-  options: Option[]
+export class Purchasable extends Menu {
+  constructor(
+    public quantity: number = 0,
+    public total_price: number = 0
+  ){
+    super()
+  }
 }
