@@ -1,0 +1,8 @@
+<h3> 아래 상품을 결제하시겠습니까? </h3>
+<ul>
+  <div *ngFor="let product of buyList">
+    <li>{{product.name}}({{product.quantity}}개): {{product.total_price}}원</li>
+  </div>
+</ul>
+
+<h3 align="center">총 {{totalPrice}}원</h3>
