@@ -23,8 +23,6 @@ export class MyCartService {
       )
   }
 
-  //그럼 edit-purchasable service 만들게요
-
   /** MyCart Component function **/
   removePurchasable(toDelete: Purchasable): void {
     this.updateMyCart(
@@ -51,6 +49,7 @@ export class MyCartService {
   emptyMyCart(): Observable<Purchasable[]> {
     return this.setMyCart([])
   }
+
 
 
 }
