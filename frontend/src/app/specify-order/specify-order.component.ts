@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
+
 import { Purchasable } from './purchasable';
 import { Option } from './option';
 import { BackendResponse } from './backend-response';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-specify-order',
@@ -16,7 +17,10 @@ export class SpecifyOrderComponent implements OnInit {
   product: Purchasable;
   selectedOptions: Option[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private location: Location
+  ) { }
 
   ngOnInit() {
     this.getProductInfo()
@@ -25,10 +29,12 @@ export class SpecifyOrderComponent implements OnInit {
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
         this.updateTotalPrice();
-      });
+      })
+      .catch(error => alert('존재하지 않는 메뉴 id입니다'));
   }
   getProductInfo(): Promise<BackendResponse> {
-    const url = '/kiorder/api/v1/purchasable/2';
+    const id: string = this.location.path().substring(7);
+    const url = '/kiorder/api/v1/purchasable/' + id;
     return this.http.get<BackendResponse>(url)
       .pipe()
       .toPromise();
@@ -39,7 +45,7 @@ export class SpecifyOrderComponent implements OnInit {
   updateTotalPrice(): void {
     let optionPrice = 0;
     for (const option of this.selectedOptions) {
-      optionPrice += option.quantity * option.base_price;
+      optionPrice += option.total_price;
     }
     this.product.total_price = this.product.quantity * (this.product.base_price + optionPrice);
   }
