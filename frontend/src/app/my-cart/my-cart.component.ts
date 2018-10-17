@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 
 import { Purchasable } from "../purchasable";
 import { MyCartService } from "../my-cart.service";
+import { PaymentService } from "../payment.service";
 
 @Component({
   selector: 'app-my-cart',
@@ -14,7 +15,8 @@ export class MyCartComponent implements OnInit {
   myCart$ : Observable<Purchasable[]>
 
   constructor(
-    private myCartService: MyCartService
+    private myCartService: MyCartService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit() {
@@ -29,5 +31,8 @@ export class MyCartComponent implements OnInit {
     this.myCartService.removePurchasable(purchasable)
   }
 
+  toPaymentPage(): void {
+    this.paymentService.toPaymentPage()
+  }
 
 }

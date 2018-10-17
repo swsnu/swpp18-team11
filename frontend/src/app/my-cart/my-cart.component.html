@@ -1,14 +1,32 @@
 <div>My Cart
   <ul>
-    <li *ngFor = "let purchasable of myCart | async">
-      <img src="{{purchasable.templateUrl}}"
+    <li *ngFor = "let purchasable of myCart$ | async">
+      <img src="{{purchasable.thumbnail}}"
            width="50" height="50">
       {{purchasable.name}}
-      {{purchasable.quantity}}
+      {{purchasable.quantity}}개
       <p></p>
       {{purchasable.total_price}}
-      <!--TODO: app-edit-purchasable component-->
+
+      <div>
+        <ul>
+          <li *ngFor ="let option of purchasable.options">
+            <div *ngIf ="option.quantity > 0">
+              <label id="optionName{{option.id}}">{{option.name}}</label>
+              <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
+              <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <button (click)="purchasable.decrement()">-</button>
+        {{purchasable.quantity}}
+        <button (click)="purchasable.increment()">+</button>
+      </div>
       <button (click)="removePurchasable(purchasable)">X</button>
+      <button (click)="toPaymentPage()">바로 구매</button>
     </li>
   </ul>
 </div>
