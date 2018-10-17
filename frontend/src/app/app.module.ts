@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+
+import { SelectFoodComponent } from './select-food/select-food.component';
 import { SpecifyOrderComponent } from './specify-order/specify-order.component';
 import { SelectOptionComponent } from './select-option/select-option.component';
 import { PaymentComponent } from './payment/payment.component';
@@ -11,6 +13,7 @@ import { PaymentComponent } from './payment/payment.component';
 @NgModule({
   declarations: [
     AppComponent,
+    SelectFoodComponent,
     SpecifyOrderComponent,
     SelectOptionComponent,
     PaymentComponent
