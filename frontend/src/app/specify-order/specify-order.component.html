@@ -36,8 +36,7 @@
 
   <div *ngIf="expandOption">
     <app-select-option [options]="product.options"
-    (optionChanged)="updateOptionChange($event)"></app-select-option>
+                       (optionChanged)="updateOptionChange($event)"></app-select-option>
   </div>
 
 </div>
-<button routerLink="/mycart"> 장바구니로 </button>

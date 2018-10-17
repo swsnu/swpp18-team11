@@ -2,7 +2,7 @@
 <ng-template #step1>
 <h3> 아래 상품을 결제하시겠습니까? </h3>
 <ul>
-  <div *ngFor="let product of buyList">
+  <div *ngFor="let product of myCart">
     <li>{{product.name}}({{product.quantity}}개): {{product.total_price}}원</li>
   </div>
 </ul>
@@ -36,5 +36,6 @@
     </div>
   </ng-template>
 </ng-template>
-<button (click)="cancelPayment()">취소</button>
+<button (click)="calcel()">뒤로 가기</button>
+<button (click)="cancelPayment()">결제 취소</button>
 <button (click)="confirm()">확인</button>

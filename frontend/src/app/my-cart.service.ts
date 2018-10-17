@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 import { Purchasable } from "./purchasable";
 
@@ -9,59 +8,71 @@ import { Purchasable } from "./purchasable";
 })
 export class MyCartService {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) {}
 
-  myCartStorage(): Purchasable[] {
-    return JSON.parse(localStorage.getItem('myCart'))
+  toMyCartPage(): void {
+    this.router.navigate(['/mycart'])
+  }
+
+  loadStorage(): Purchasable[] {
+    let localCart: string = localStorage.getItem('myCart')
+    return (localCart)? JSON.parse(localCart) : []
+  }
+
+  saveStorage(myCart: Purchasable[]): void {
+    localStorage.setItem('myCart', JSON.stringify(myCart))
   }
 
   /** SelectOrder Component function **/
-  getMyCartCount(): Observable<number> {
-    return of(this.myCartStorage())
-      .pipe(
-        map((purchasables: Purchasable[]) => purchasables.length)
-      )
+  getMyCartCount(): number {
+    return this.loadStorage().length
   }
 
-  //그럼 edit-purchasable service 만들게요
-
-  /** MyCart Component function **/
-  removePurchasable(toDelete: Purchasable): void {
-    this.updateMyCart(
-      this.myCartStorage().filter(
-      item => item !== toDelete
-      ))
+  /** MyCart, Payment Component function **/
+  getTotalPrice(): number {
+    let totalPrice: number = 0
+    for (let purchasable of this.loadStorage()) {
+      totalPrice += purchasable.total_price
+    }
+    return totalPrice
   }
 
-  /** MyCart GET, PUT, POST, DELETE **/
+  isEmpty(): boolean {
+    return (this.loadStorage().length === 0)
+  }
+
+  removePurchasable(index: number): void {
+    let myCart = this.loadStorage()
+    myCart.splice(index,1)
+    this.saveStorage(myCart)
+  }
+
+  /** MyCart GET operations **/
+  getMyCart(): Purchasable[] {
+    return this.loadStorage()
+  }
+
+  /** MyCart PUT operations **/
+  setMyCart(myCart: Purchasable[]): void {
+    this.saveStorage(myCart)
+  }
+
+  /** MyCart POST operations **/
   addMyCart(product: Purchasable): void {
-    this.getMyCart().subscribe(myCart => {
-      if (myCart) {
-        const newCart = myCart;
-        newCart.push(product);
-        this.setMyCart(newCart);
-      } else {
-        this.setMyCart([product]);
-      }
-    });
-  }
-  getMyCart(): Observable<Purchasable[]> {
-    let myCart: Purchasable[] = this.myCartStorage()
-    return of(myCart)
+    let myCart = this.loadStorage()
+    myCart.push(product)
+    this.saveStorage(myCart)
   }
 
-  setMyCart(myCart: Purchasable[]): Observable<Purchasable[]>{
-    localStorage.setItem('myCart', JSON.stringify(myCart))
-    return of(myCart)
+  updateMyCart(myCart: Purchasable[]): void {
+    this.setMyCart(myCart)
   }
 
-  updateMyCart(myCart: Purchasable[]): Observable<Purchasable[]> {
-    return this.setMyCart(myCart)
+  /** MyCart DELETE operations **/
+  emptyMyCart(): void {
+    this.saveStorage([])
   }
-
-  emptyMyCart(): Observable<Purchasable[]> {
-    return this.setMyCart([])
-  }
-
 
 }

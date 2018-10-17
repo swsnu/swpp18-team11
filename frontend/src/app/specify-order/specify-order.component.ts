@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { MyCartService } from '../my-cart.service';
-import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
@@ -17,7 +16,7 @@ import { BackendResponse } from './backend-response';
 })
 export class SpecifyOrderComponent implements OnInit {
   expandOption = false;
-  // TODO: @Input() product: Purchasable;
+
   product: Purchasable;
   selectedOptions: Option[] = [];
 
@@ -26,7 +25,6 @@ export class SpecifyOrderComponent implements OnInit {
     private location: Location,
     private router: Router,
     private myCartService: MyCartService,
-    private paymentService: PaymentService
   ) { }
 
   ngOnInit() {
@@ -76,9 +74,11 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   addToCart(): void {
-    this.myCartService.addMyCart(this.product);
+    this.myCartService.addMyCart(this.product)
+    this.location.back()
   }
   buyNow(): void {
-    this.paymentService.buyNow([this.product]);
+    this.myCartService.addMyCart(this.product);
+    this.myCartService.toMyCartPage()
   }
 }

@@ -7,19 +7,10 @@ import { Purchasable } from './purchasable';
   providedIn: 'root'
 })
 export class PaymentService {
-  buyList$: Observable<Purchasable[]>;
 
   constructor(private router: Router) { }
-  buyNow(productList: Purchasable[]): void {
-    this.buyList = productList;
-    this.router.navigate(['/payment']);
-  }
-  getBuyList(): Purchasable[] {
-    return this.buyList;
-  }
-  emptyBuyList(): void {
-    this.buyList = [];
-  }
+
+
   notifyPaymentFinished(): void {
     // TODO: Notify the payment info to clerk side
     return;

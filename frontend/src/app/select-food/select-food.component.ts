@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 import { MenuDataService } from "../menu-data.service";
 
 import { Category } from "../category";
-import { Menu } from "../menu";
+import { MyCartService } from "../my-cart.service";
 import { Purchasable } from "../purchasable";
 
 @Component({
@@ -16,38 +16,33 @@ import { Purchasable } from "../purchasable";
 export class SelectFoodComponent implements OnInit {
 
   categories$: Observable<Category[]>
-  //selector: Subject<Category> = new Subject<Category>()
-  selected: Category
+  selectedCategory: Category
+  myCartCount: number = 0
 
   constructor(
-    private menuDataService: MenuDataService
+    private menuDataService: MenuDataService,
+    public myCartService: MyCartService
   ) {}
 
   ngOnInit() {
     this.getCategories()
+    this.getMyCartCount()
   }
 
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories()
   }
 
-  // Purchasable has 'total_price' and 'quantity'
-  toPurchasable(menu: Menu): Purchasable{
-    let purchasable: Purchasable = <Purchasable> menu
-    return purchasable
+  getMyCartCount(): void {
+    this.myCartCount = this.myCartService.getMyCartCount()
+  }
+  selectCategory(selected: Category): void {
+    this.selectedCategory = selected
   }
 
-  /* TODO: async binding
-      getPurchasables(): Observable<Menu[]> {
-      return this.selector.pipe(
-        map((category: Category) => category.purchasables)
-      )
-    }
-  */
-
-  selectCategory(selected: Category): void {
-    //this.selector.next(selected)
-    this.selected = selected
+  emptyCart(){
+    this.myCartService.emptyMyCart()
+    this.getMyCartCount()
   }
 
 }

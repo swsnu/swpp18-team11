@@ -2,49 +2,60 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { MyCartService } from "../my-cart.service";
 import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
+
 export class PaymentComponent implements OnInit {
-  buyList: Purchasable[];
-  totalPrice = 0;
+
+  myCart: Purchasable[];
+  totalPrice: number;
   status = {
     confirmedBuyList: false,
     paymentMethodChosen: false,
     paymentMethod: ''
   };
+
   constructor(
     private location: Location,
     private router: Router,
+    private myCartService: MyCartService,
     private paymentService: PaymentService
   ) { }
 
   ngOnInit() {
-    this.getBuyList();
-    for (const product of this.buyList) {
-      this.totalPrice += product.total_price;
-    }
+    this.getMyCart()
+    this.totalPrice = this.myCartService.getTotalPrice()
   }
-  getBuyList(): void {
-    this.buyList = this.paymentService.getBuyList();
+
+  getMyCart(): void {
+    this.myCart = this.myCartService.getMyCart();
   }
+
   cleanUp(): void {
-    this.paymentService.emptyBuyList();
-    this.getBuyList();
+    this.myCartService.emptyMyCart()
     this.status.confirmedBuyList = false;
     this.status.paymentMethodChosen = false;
     this.status.paymentMethod = '';
   }
+
+  calcel(): void{
+    this.location.back();
+  }
+
   cancelPayment(): void {
     this.cleanUp();
     this.location.back();
   }
+
   confirm(): void {
     if (!this.status.confirmedBuyList) {
       this.confirmBuyList();
