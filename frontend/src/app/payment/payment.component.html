@@ -1,4 +1,40 @@
+<div *ngIf="!status.confirmedBuyList; then step1; else finishedStep1"></div>
+<ng-template #step1>
 <h3> 아래 상품을 결제하시겠습니까? </h3>
-<h4>
+<ul>
+  <div *ngFor="let product of buyList">
+    <li>{{product.name}}({{product.quantity}}개): {{product.total_price}}원</li>
+  </div>
+</ul>
 
-</h4>
+<h3 align="center">총 {{totalPrice}}원</h3>
+</ng-template>
+<ng-template #finishedStep1>
+  <div *ngIf="!status.paymentMethodChosen; then step2; else finishedStep2"></div>
+  <ng-template #step2>
+    결제수단을 선택하세요
+    <ul>
+      <li>
+        <label>카드</label>
+        <input type="checkbox" (click)="setPaymentMethod('card')">
+      </li>
+      <li>
+        <label>현금</label>
+        <input type="checkbox" (click)="setPaymentMethod('cash')">
+      </li>
+      <li>
+        <label>모바일</label>
+        <input type="checkbox" (click)="setPaymentMethod('mobile')">
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template #finishedStep2>
+    결제 정보를 입력하세요
+    <div>
+      <label>결제정보</label>
+      <input type="text"/>
+    </div>
+  </ng-template>
+</ng-template>
+<button (click)="cancelPayment()">취소</button>
+<button (click)="confirm()">확인</button>
