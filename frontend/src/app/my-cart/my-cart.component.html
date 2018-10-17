@@ -1,0 +1,14 @@
+<div>My Cart
+  <ul>
+    <li *ngFor = "let purchasable of (myCart$ | async)">
+      <img src="{{purchasable.thumbnail}}"
+           width="50" height="50">
+      {{purchasable.name}}
+      {{purchasable.quantity}}
+      <p></p>
+      {{purchasable.total_price}}
+      <!--TODO: app-edit-purchasable component-->
+      <button (click)="removePurchasable(purchasable)">X</button>
+    </li>
+  </ul>
+</div>

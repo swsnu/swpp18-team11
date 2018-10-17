@@ -10,5 +10,4 @@ export class Option {
   name: string
   base_price: number
   max_capacity: number
-
 }

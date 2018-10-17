@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { SelectFoodComponent } from './select-food/select-food.component';
 import { SpecifyOrderComponent } from './specify-order/specify-order.component';
 import { SelectOptionComponent } from './select-option/select-option.component';
+import { MyCartComponent } from './my-cart/my-cart.component';
 import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { PaymentComponent } from './payment/payment.component';
     SelectFoodComponent,
     SpecifyOrderComponent,
     SelectOptionComponent,
+    MyCartComponent,
     PaymentComponent
   ],
   imports: [

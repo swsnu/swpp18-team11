@@ -7,7 +7,7 @@ import { Purchasable } from './purchasable';
   providedIn: 'root'
 })
 export class PaymentService {
-  buyList: Purchasable[];
+  buyList$: Observable<Purchasable[]>;
 
   constructor(private router: Router) { }
   buyNow(productList: Purchasable[]): void {

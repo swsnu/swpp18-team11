@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { MyCartService } from '../my-cart.service';
 import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
@@ -24,6 +25,7 @@ export class SpecifyOrderComponent implements OnInit {
     private http: HttpClient,
     private location: Location,
     private router: Router,
+    private myCartService: MyCartService,
     private paymentService: PaymentService
   ) { }
 
@@ -74,8 +76,7 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   addToCart(): void {
-    // TODO
-    return;
+    this.myCartService.addMyCart(this.product);
   }
   buyNow(): void {
     this.paymentService.buyNow([this.product]);
