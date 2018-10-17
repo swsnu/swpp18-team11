@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-<<<<<<< HEAD
 import { RouterModule, Routes } from '@angular/router';
 
 import { SelectFoodComponent} from "./select-food/select-food.component";
