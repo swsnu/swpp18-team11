@@ -66,8 +66,7 @@ export class SpecifyOrderComponent implements OnInit {
     this.updateTotalPrice();
   }
   cancel(): void {
-    // TODO
-    return;
+    this.location.back();
   }
   addToCart(): void {
     // TODO
