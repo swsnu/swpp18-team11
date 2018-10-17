@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Purchasable } from '../specify-order/purchasable';
+import { Purchasable } from '../purchasable';
 
 @Component({
   selector: 'app-payment',

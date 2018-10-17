@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
-import { Purchasable } from './purchasable';
-import { Option } from './option';
+import { Purchasable } from '../purchasable';
+import { Option } from '../option';
 import { BackendResponse } from './backend-response';
 
 @Component({

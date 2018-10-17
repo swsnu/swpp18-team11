@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { Option } from '../specify-order/option';
+import { Option } from '../option';
 
 @Component({
   selector: 'app-select-option',
