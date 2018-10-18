@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
 import { Category } from "./category";
+import {Purchasable} from "./purchasable";
 
 
 const httpOptions = {
@@ -15,13 +16,14 @@ const httpOptions = {
 })
 export class MenuDataService {
 
+  purchasable$: Observable<Purchasable>
   private purchasableUrl = '/kiorder/api/v1/purchasable'
 
   constructor(
     private http: HttpClient
   ) {}
 
-
+  /** http GET method **/
   public getCategories(): Observable<Category[]> {
     return this.http.get(this.purchasableUrl)
       .pipe(map((response: any) => {
@@ -29,7 +31,6 @@ export class MenuDataService {
         return categories
       }))
   }
-
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T>=>{
