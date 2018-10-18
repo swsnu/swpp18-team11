@@ -15,7 +15,7 @@ import { ManageOrderDisplayComponent } from './manage-order-display/manage-order
   declarations: [
     AppComponent,
     MyCartComponent,
-    SelectOptionComponent
+    SelectOptionComponent,
     SelectFoodComponent,
     ManageOrderComponent,
     ManageOrderDisplayComponent,
