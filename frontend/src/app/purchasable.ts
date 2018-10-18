@@ -1,34 +1,19 @@
-import { Option } from './option'
+import { Menu } from "./menu";
+import { Option } from "./option";
 
-export class Purchasable {
-
-  id: number;
-  name: string;
-  thumbnail: string;
-  base_price: number;
-  options: Option[];
-  quantity: number;
-  total_price: number;
+export class Purchasable extends Menu {
+  constructor(
+    public quantity: number = 0,
+    public total_price: number = 0
+  ){
+    super()
+  }
 
   updateTotalPrice(): void {
     let optionPrice = 0;
     for (const option of this.options) {
-      optionPrice += option.base_price * option.quantity
+      optionPrice += option.total_price;
     }
     this.total_price = this.quantity * (this.base_price + optionPrice);
-  }
-
-  decrement(): void {
-    if (this.quantity > 1) {
-      this.quantity -= 1;
-    }
-    this.updateTotalPrice();
-  }
-
-  increment(): void {
-    if (this.quantity < 100) {
-      this.quantity += 1;
-    }
-    this.updateTotalPrice();
   }
 }

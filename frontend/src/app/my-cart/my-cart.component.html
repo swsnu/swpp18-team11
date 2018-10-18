@@ -1,32 +1,29 @@
 <div>My Cart
   <ul>
-    <li *ngFor = "let purchasable of myCart$ | async">
+    <li *ngFor = "let purchasable of myCart; let idx = index">
       <img src="{{purchasable.thumbnail}}"
            width="50" height="50">
       {{purchasable.name}}
+      <button (click)="increment(idx)">-</button>
       {{purchasable.quantity}}개
-      <p></p>
-      {{purchasable.total_price}}
+      <button (click)="decrement(idx)">+</button>
 
-      <div>
-        <ul>
-          <li *ngFor ="let option of purchasable.options">
-            <div *ngIf ="option.quantity > 0">
-              <label id="optionName{{option.id}}">{{option.name}}</label>
-              <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
-              <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <button (click)="purchasable.decrement()">-</button>
-        {{purchasable.quantity}}
-        <button (click)="purchasable.increment()">+</button>
-      </div>
-      <button (click)="removePurchasable(purchasable)">X</button>
-      <button (click)="toPaymentPage()">바로 구매</button>
+      <ul *ngIf="hasOption(purchasable)">
+        <li *ngFor = "let option of purchasable.options">
+          {{option.name}} x{{option.quantity}}
+        </li>
+        <button (click)="adjustOptions()">옵션 설정</button>
+      </ul>
+      <br>{{purchasable.total_price}}원
+      <button (click)="removePurchasable(idx)">X</button>
     </li>
   </ul>
+</div>
+
+<div>
+  <hr class = "one">
+  total {{totalPrice}}원
+  <button routerLink="/payment">결제하기</button>
+  <button (click)="emptyCart()">장바구니 비우기</button>
+  <button (click)="back()">취소</button>
 </div>

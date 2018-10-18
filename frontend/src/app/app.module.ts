@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MyCartComponent } from './my-cart/my-cart.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SelectOptionComponent } from './select-option/select-option.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyCartComponent
+    MyCartComponent,
+    SelectOptionComponent
   ],
   imports: [
     BrowserModule,
