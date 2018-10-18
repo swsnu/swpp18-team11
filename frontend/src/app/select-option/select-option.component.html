@@ -1,0 +1,18 @@
+<h3> 옵션 </h3>
+<div>
+  선택가능옵션
+  <ul>
+    <div *ngFor="let option of options">
+      <li>
+        <div>
+          <label id="optionName{{option.id}}">{{option.name}}</label>
+          <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
+          <button (click)="decrement(option.id)">-</button>
+          <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
+          <button (click)="increment(option.id)">+</button>
+        </div>
+        (최대 {{option.max_capacity}}개까지 선택 가능)
+      </li>
+    </div>
+  </ul>
+</div>
