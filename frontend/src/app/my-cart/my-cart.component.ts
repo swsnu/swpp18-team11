@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs";
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { Location } from '@angular/common';
 
-import { Purchasable } from "../purchasable";
 import { MyCartService } from "../my-cart.service";
+import { Purchasable } from "../purchasable";
+import { Option } from "../option";
 
 @Component({
   selector: 'app-my-cart',
@@ -15,6 +15,8 @@ export class MyCartComponent implements OnInit {
 
   myCart: Purchasable[]
   totalPrice: number
+  selectedIndex: number // index of purchasable in my cart
+  //cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
 
   constructor(
     private myCartService: MyCartService,
@@ -26,13 +28,16 @@ export class MyCartComponent implements OnInit {
     if(this.myCartService.isEmpty()){
       this.sendToOrderPage()
     }
-    this.updateMyCart()
-  }
-
-  updateMyCart(): void {
     this.getMyCart()
     this.updateTotalPrice()
+    this.selectedIndex = 0 // initialize
   }
+
+  updateMyCart(cartChanged: Purchasable[]): void {
+    this.myCart = cartChanged
+    this.updateTotalPrice()
+  }
+
   getMyCart(): void {
     this.myCart = this.myCartService.getMyCart()
   }
@@ -40,46 +45,74 @@ export class MyCartComponent implements OnInit {
     this.totalPrice = this.myCartService.getTotalPrice()
   }
 
-
-  /** Functions used in my-cart.compomenet.html **/
-
-  hasOption(purchasable: Purchasable): boolean {
-    for (let option of purchasable.options){
-      if(option.quantity !== 0)
-        return true
-    }
-    return false
+  /** Functions used in my-cart.component.html **/
+  selectIndex(index: number): void {
+    // update selectedPurchasable to pass data to select-option component.
+    this.selectedIndex = index
   }
 
-  // TODO: increment, decrement, adjustOptions
-  increment(index: number): void{
+  hasOptions(purchasable: Purchasable): boolean {
+    // check if no options at all
+    if (!purchasable.options)
+      return false
+    else if(purchasable.options.length == 0)
+      return false
+    else
+      return true
+  }
 
+  // some dirty codes to deal with purchasable instances of myCart
+  increment(index: number): void{
+    let changedCart = this.myCart
+    if(changedCart[index].quantity < 100) {
+      changedCart[index].quantity += +1
+      changedCart[index] = this.updatePurchasablePrice(changedCart[index])
+      this.myCartService.updateMyCart(this.myCart)
+      this.updateTotalPrice()
+    }
   }
   decrement(index: number): void{
-
+    let changedCart = this.myCart
+    if(changedCart[index].quantity > 1){
+      changedCart[index].quantity += -1
+      changedCart[index] = this.updatePurchasablePrice(changedCart[index])
+      this.myCartService.updateMyCart(this.myCart)
+      this.updateTotalPrice()
+    }
   }
-  adjustOptions(): void {
 
+  updateOptionChange(changedOptions: Option[]): void {
+    this.myCart[this.selectedIndex].options = changedOptions
+    this.myCart[this.selectedIndex] =
+      this.updatePurchasablePrice(this.myCart[this.selectedIndex])
+    this.myCartService.updateMyCart(this.myCart)
   }
 
   removePurchasable(index: number): void {
     this.myCartService.removePurchasable(index)
-    this.updateMyCart()
+    this.getMyCart()
     if(this.myCartService.isEmpty())
       this.sendToOrderPage()
   }
 
   emptyCart(): void {
     this.myCartService.emptyMyCart()
+    this.myCart = []
     this.sendToOrderPage()
   }
-
   back(): void {
     this.location.back();
   }
-
   sendToOrderPage(): void {
     this.router.navigate(['/order'])
   }
 
+  updatePurchasablePrice(item: Purchasable): Purchasable{
+    let option_total = 0
+    for (let option of item.options){
+      option_total += option.total_price
+    }
+    item.total_price = item.quantity * (item.base_price + option_total)
+    return item
+  }
 }

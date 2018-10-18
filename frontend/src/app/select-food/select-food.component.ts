@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs";
-import { Router } from "@angular/router";
-
 import { MenuDataService } from "../menu-data.service";
 
 import { Category } from "../category";
 import { MyCartService } from "../my-cart.service";
-import { Purchasable } from "../purchasable";
 
 @Component({
   selector: 'app-select-food',
