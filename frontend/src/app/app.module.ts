@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MyCartComponent } from './my-cart/my-cart.component';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { SelectOptionComponent } from './select-option/select-option.component';
-import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { SelectFoodComponent } from './select-food/select-food.component';
+import { SpecifyOrderComponent } from './specify-order/specify-order.component';
+import { SelectOptionComponent } from './select-option/select-option.component';
+import { MyCartComponent } from './my-cart/my-cart.component';
+import { PaymentComponent } from './payment/payment.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
 
@@ -14,6 +16,8 @@ import { ManageOrderDisplayComponent } from './manage-order-display/manage-order
 @NgModule({
   declarations: [
     AppComponent,
+    SpecifyOrderComponent,
+    PaymentComponent,
     MyCartComponent,
     SelectOptionComponent,
     SelectFoodComponent,

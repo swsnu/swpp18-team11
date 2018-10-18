@@ -1,0 +1,42 @@
+<div *ngIf="product">
+  <img width="200" height="200" src="{{product.thumbnail}}"/>
+  <h4 id="name">Product Name: {{product.name}} </h4>
+  ----------------------------------------------------------
+  <h5 id="mainMenu">
+    단품 {{product.base_price}}원
+    <label id="mainMenuQuantity">
+      <button (click)="decrement()">-</button>{{product.quantity}}개<button (click)="increment()">+</button>
+    </label>
+  </h5>
+
+  <div>
+    선택한 옵션
+    <ul>
+      <div *ngIf="selectedOptions.length > 0">
+        <div *ngFor="let option of selectedOptions">
+          <div *ngIf="option.quantity > 0">
+            <li>
+              <label id="optionName{{option.id}}">{{option.name}}</label>
+              <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
+              <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
+            </li>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+
+  <label id="totalPrice"> 총 {{product.total_price}}원 </label>
+  <div>
+    <button (click)="cancel()">취소</button>
+    <button (click)="openOptionSelectPage()">추가옵션 선택</button>
+    <button (click)="addToCart()">장바구니 담기</button>
+    <button (click)="buyNow()">바로 구매</button>
+  </div>
+
+  <div *ngIf="expandOption">
+    <app-select-option [options]="product.options"
+                       (optionChanged)="updateOptionChange($event)"></app-select-option>
+  </div>
+
+</div>

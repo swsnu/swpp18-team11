@@ -18,14 +18,7 @@ export class MyCartService {
 
   loadStorage(): Purchasable[] {
     let localCart: string = localStorage.getItem('myCart')
-    let myCart: Purchasable[]
-
-    if (localCart) {
-      myCart = JSON.parse(localCart)
-    } else {
-      myCart = []
-    }
-    return myCart
+    return (localCart)? JSON.parse(localCart) : []
   }
 
   saveStorage(myCart: Purchasable[]): void {

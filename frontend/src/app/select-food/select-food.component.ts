@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs";
-
 import { MenuDataService } from "../menu-data.service";
 
 import { Category } from "../category";

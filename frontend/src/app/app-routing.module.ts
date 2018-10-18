@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { MyCartComponent } from './my-cart/my-cart.component';
+import { CommonModule } from '@angular/common';
+
 import { SelectFoodComponent } from "./select-food/select-food.component";
+import { SpecifyOrderComponent } from './specify-order/specify-order.component';
+import { MyCartComponent } from './my-cart/my-cart.component';
+import { PaymentComponent } from './payment/payment.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/order', pathMatch: 'full' },
   { path: 'order', component: SelectFoodComponent },
+  { path: 'order/:menu_id', component: SpecifyOrderComponent },
   { path: 'mycart', component: MyCartComponent },
+  { path: 'payment', component: PaymentComponent },
   { path: 'manage/order', component: ManageOrderComponent },
   { path: 'manage/display', component: ManageOrderDisplayComponent },
 ];
