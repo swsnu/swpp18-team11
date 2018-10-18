@@ -11,31 +11,10 @@ export class SelectOptionComponent implements OnInit {
   @Output() optionChanged: EventEmitter<Option[]> = new EventEmitter<Option[]>();
   constructor() { }
 
-  ngOnInit() {
-    if(!this.hasChosenOption()){
-      //initialize options
-      for (const option of this.options) {
-        option.base_price = Math.floor(option.base_price);
-        option.quantity = 0;
-        option.total_price = 0;
-      }
-    }
-  }
+  ngOnInit() {} // option already initialized at specify-order component.
 
   getOptionByID(id: number): Option {
     return this.options.filter(option => option.id === id)[0];
-  }
-
-  hasChosenOption(): boolean {
-    if(!this.options)
-      return false
-    else{
-      for(let option of this.options) {
-        if (option.quantity > 0)
-          return true
-      }
-      return false  // has no options, or all option's quantity is 0
-    }
   }
 
   decrement(id: number): void {

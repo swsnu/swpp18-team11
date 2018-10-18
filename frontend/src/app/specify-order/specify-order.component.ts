@@ -33,6 +33,7 @@ export class SpecifyOrderComponent implements OnInit {
         this.product = purchasable.data;
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
+        this.initializeOption()
         this.updateTotalPrice();
       })
       .catch(error => alert('존재하지 않는 메뉴 id입니다'));
@@ -44,6 +45,29 @@ export class SpecifyOrderComponent implements OnInit {
       .pipe()
       .toPromise();
   }
+
+  initializeOption(): void {
+    if(!this.hasChosenOption()){
+      //initialize options
+      for (const option of this.product.options) {
+        option.base_price = Math.floor(option.base_price);
+        option.quantity = 0;
+        option.total_price = 0;
+      }
+    }
+  }
+  hasChosenOption(): boolean {
+    if(!this.product.options)
+      return false
+    else{
+      for(let option of this.product.options) {
+        if (option.quantity > 0)
+          return true
+      }
+      return false  // has no options, or all option's quantity is 0
+    }
+  }
+
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
   }
