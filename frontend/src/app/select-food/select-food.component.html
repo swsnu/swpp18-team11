@@ -8,29 +8,18 @@
   </ul>
 </div>
 <hr class = "one">
-<div *ngIf="selected">
+<div *ngIf="selectedCategory">
   <ul>
-    <li *ngFor="let menu of selected.purchasables">
+    <li *ngFor="let menu of selectedCategory.purchasables">
       <div>
-           <!--app-specify-order [purchasable]="toPurchasable(menu)"-->
         <img src="{{menu.thumbnail}}"
-             routerLink="/{{menu.id}}">
+             routerLink="/order/{{menu.id}}">
         <br>{{menu.name}}
         <br>{{menu.base_price}}
       </div>
     </li>
   </ul>
 </div>
-
-<!--/div>  TODO: async binding
-<div><p>Name: {{name}}</p>
-  <ul>
-    <li *ngFor="let menu of getPurchasables() | async">
-      <div>
-        <img src="{menu.thumbnail}">
-        <br>{{menu.name}}
-        <br>{{menu.base_price}}
-      </div>
-    </li>
-  </ul>
-</div-->
+<hr class = "one">
+<button routerLink="/mycart">My Cart [{{myCartCount}}]</button>
+<button (click)="emptyCart()">Empty Cart</button>
