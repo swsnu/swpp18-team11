@@ -1,6 +1,23 @@
 {
-  "/api": {
+  "/kiorder/api": {
     "target": "http://localhost:8000",
     "secure": false
+  },
+  "/media": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true
+  },
+
+  "/kiorder/api": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true
+  },
+
+  "/media": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true
   }
 }
