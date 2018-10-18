@@ -24,6 +24,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
+    "lodash": "^4.17.11",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },
