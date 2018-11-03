@@ -1,2 +1,2 @@
-from . import base, purchasable, test_tx, ticket
+from . import base, purchasable, test_tx, ticket, franchise, store
 
