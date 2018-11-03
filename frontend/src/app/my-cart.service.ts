@@ -16,12 +16,22 @@ export class MyCartService {
     this.router.navigate(['/mycart'])
   }
 
-  loadStorage(): Purchasable[] {
+  private loadStorage(): Purchasable[] {
     let localCart: string = localStorage.getItem('myCart')
-    return (localCart)? JSON.parse(localCart) : []
+    if(!localCart){
+      return []
+    }
+    else {
+      let data : Object[] = JSON.parse(localCart)
+      let myCart: Purchasable[] = []
+      for (let purchasable of data) {
+        myCart.push(new Purchasable(purchasable))
+      }
+      return myCart
+    }
   }
 
-  saveStorage(myCart: Purchasable[]): void {
+  private saveStorage(myCart: Purchasable[]): void {
     localStorage.setItem('myCart', JSON.stringify(myCart))
   }
 

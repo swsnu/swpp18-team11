@@ -1,19 +1,18 @@
 import { Menu } from "./menu";
 import { Option } from "./option";
 
-export class Purchasable extends Menu {
-  constructor(
-    public quantity: number = 0,
-    public total_price: number = 0
-  ){
-    super()
+export class Purchasable implements Menu {
+  constructor(args: Partial<Purchasable>){
+    Object.assign(this, args)
   }
 
-  updateTotalPrice(): void {
-    let optionPrice = 0;
-    for (const option of this.options) {
-      optionPrice += option.total_price;
-    }
-    this.total_price = this.quantity * (this.base_price + optionPrice);
-  }
+  id: number
+  name: string
+  thumbnail: string
+  base_price: number
+  options: Option[]
+
+  quantity: number = 0
+  total_price: number = 0
+
 }
