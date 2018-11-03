@@ -33,6 +33,7 @@ describe('MyCartService', () => {
     spyOn(localStorage, 'setItem').and.callFake((key:string, value:string)=>{
       return testStorage[key] = <string> value
     })
+    spyOn(console, 'error')
 
     myCartService = TestBed.get(MyCartService);
     testPurchasable = new Purchasable({
@@ -40,10 +41,10 @@ describe('MyCartService', () => {
       name: 'Hamburger',
       thumbnail: 'jpg',
       base_price: 10,
-      options: []
+      options: [],
+      total_price: 10,
+      quantity: 1
     })
-    testPurchasable.total_price = 10
-    testPurchasable.quantity = 1
     testMyCart = [testPurchasable]
     testStorage['myCart'] = JSON.stringify(testMyCart) // initialize local storage
   })
@@ -76,8 +77,14 @@ describe('MyCartService', () => {
   })
 
   it('removePurchasable should remove item from myCart', ()=>{
+    myCartService.setMyCart([testPurchasable])
     myCartService.removePurchasable(0)
-    expect(localStorage.setItem).toHaveBeenCalledWith('myCart', JSON.stringify([]))
+    expect(myCartService.getMyCart()).toEqual([])
+  })
+
+  it('removePurchasable should not remove if index is wrong', ()=>{
+    myCartService.removePurchasable(999)
+    expect(console.error).toHaveBeenCalledWith('Remove index out of bound')
   })
 
   it('getMyCart should return loadStorage', ()=>{

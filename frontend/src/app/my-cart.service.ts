@@ -55,8 +55,13 @@ export class MyCartService {
 
   removePurchasable(index: number): void {
     let myCart = this.loadStorage()
-    myCart.splice(index,1)
-    this.saveStorage(myCart)
+    if(myCart.length <= index) {
+      console.error('Remove index out of bound')
+    }
+    else {
+      myCart.splice(index, 1)
+      this.saveStorage(myCart)
+    }
   }
 
   /** MyCart GET operations **/
