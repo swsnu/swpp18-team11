@@ -4,7 +4,8 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
 import { Category } from "./category";
-import {Purchasable} from "./purchasable";
+import { Purchasable } from "./purchasable";
+import { BackendResponse } from "./specify-order/backend-response";
 
 
 const httpOptions = {
@@ -30,6 +31,13 @@ export class MenuDataService {
         let categories: Category[] = response.data.list
         return categories
       }))
+  }
+
+  getProductInfo(productId): Promise<BackendResponse> {
+    const url = '/kiorder/api/v1/purchasable/' + productId;
+    return this.http.get<BackendResponse>(url)
+      .pipe()
+      .toPromise();
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

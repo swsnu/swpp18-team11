@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { MenuDataService } from "../menu-data.service";
 import { MyCartService } from '../my-cart.service';
 
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
-import { BackendResponse } from './backend-response';
 
 @Component({
   selector: 'app-specify-order',
@@ -24,11 +24,16 @@ export class SpecifyOrderComponent implements OnInit {
     private http: HttpClient,
     private location: Location,
     private router: Router,
+    private menuDataService: MenuDataService,
     private myCartService: MyCartService,
   ) { }
 
   ngOnInit() {
     this.getProductInfo()
+  }
+  getProductInfo(): void {
+    const id: string = this.location.path().substring(7);
+    this.menuDataService.getProductInfo(id)
       .then(purchasable => {
         this.product = purchasable.data;
         this.product.base_price = Math.floor(this.product.base_price);
@@ -37,13 +42,6 @@ export class SpecifyOrderComponent implements OnInit {
         this.updateTotalPrice();
       })
       .catch(error => alert('존재하지 않는 메뉴 id입니다'));
-  }
-  getProductInfo(): Promise<BackendResponse> {
-    const id: string = this.location.path().substring(7);
-    const url = '/kiorder/api/v1/purchasable/' + id;
-    return this.http.get<BackendResponse>(url)
-      .pipe()
-      .toPromise();
   }
 
   initializeOption(): void {
