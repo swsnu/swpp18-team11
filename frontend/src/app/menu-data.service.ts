@@ -28,7 +28,7 @@ export class MenuDataService {
   public getCategories(): Observable<Category[]> {
     return this.http.get(this.purchasableUrl)
       .pipe(map((response: any) => {
-        let categories: Category[] = response.data.list
+        let categories: Category[] = <Category[]>response.data.list
         return categories
       }))
   }
@@ -38,12 +38,5 @@ export class MenuDataService {
     return this.http.get<BackendResponse>(url)
       .pipe()
       .toPromise();
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T>=>{
-      console.error(error)
-      return Observable.throw(error)
-    }
   }
 }

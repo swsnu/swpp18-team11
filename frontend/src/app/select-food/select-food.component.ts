@@ -29,7 +29,7 @@ export class SelectFoodComponent implements OnInit {
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories()
   }
-
+e
   getMyCartCount(): void {
     this.myCartCount = this.myCartService.getMyCartCount()
   }

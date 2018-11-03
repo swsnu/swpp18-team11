@@ -1,6 +1,6 @@
-import { Purchasable } from '../purchasable';
+import { Purchasable } from "../purchasable";
 
-export class BackendResponse {
+export interface BackendResponse {
   success: boolean;
   data: Purchasable;
 }

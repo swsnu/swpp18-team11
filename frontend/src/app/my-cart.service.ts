@@ -16,12 +16,12 @@ export class MyCartService {
     this.router.navigate(['/mycart'])
   }
 
-  loadStorage(): Purchasable[] {
+  private loadStorage(): Purchasable[] {
     let localCart: string = localStorage.getItem('myCart')
     return (localCart)? JSON.parse(localCart) : []
   }
 
-  saveStorage(myCart: Purchasable[]): void {
+  private saveStorage(myCart: Purchasable[]): void {
     localStorage.setItem('myCart', JSON.stringify(myCart))
   }
 
@@ -54,18 +54,18 @@ export class MyCartService {
     return this.loadStorage()
   }
 
-  /** MyCart PUT operations **/
+  /** MyCart POST operations **/
   setMyCart(myCart: Purchasable[]): void {
     this.saveStorage(myCart)
   }
 
-  /** MyCart POST operations **/
-  addMyCart(product: Purchasable): void {
+  addMyCart(purchasable: Purchasable): void {
     let myCart = this.loadStorage()
-    myCart.push(product)
+    myCart.push(purchasable)
     this.saveStorage(myCart)
   }
 
+  /** MyCart PUT operations **/
   updateMyCart(myCart: Purchasable[]): void {
     this.setMyCart(myCart)
   }
