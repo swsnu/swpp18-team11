@@ -17,22 +17,21 @@ export class PaymentService {
     this.router.navigate(['/payment'])
   }
 
-  notifyPaymentFinished(mycart: Purchasable[]): void {
+  notifyPaymentFinished(mycart: Purchasable[]): Promise<any> {
     const url = '/kiorder/api/v1/test_tx';
     const body = new FormData();
     const order_spec = this.convertMyCartToOrderSpec(mycart);
-    alert(order_spec);
     body.append('order_spec', order_spec);
-    this.http.post(url, body)
+    return this.http.post(url, body)
       .pipe()
       .toPromise()
       .then(res => {
         const utxid = res['data']['utxid'];
-        this.http.post(url + '/' + utxid + '/finish', new FormData())
-          .pipe().toPromise();
+        return this.http.post(url + '/' + utxid + '/finish', new FormData())
+          .pipe()
+          .toPromise();
       })
       .catch(err => console.log(err));
-    return;
   }
 
   convertMyCartToOrderSpec(mycart: Purchasable[]): string {
