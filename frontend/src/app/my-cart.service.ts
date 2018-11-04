@@ -18,7 +18,17 @@ export class MyCartService {
 
   private loadStorage(): Purchasable[] {
     let localCart: string = localStorage.getItem('myCart')
-    return (localCart)? JSON.parse(localCart) : []
+    if(!localCart){
+      return []
+    }
+    else {
+      let data : Object[] = JSON.parse(localCart)
+      let myCart: Purchasable[] = []
+      for (let purchasable of data) {
+        myCart.push(new Purchasable(purchasable))
+      }
+      return myCart
+    }
   }
 
   private saveStorage(myCart: Purchasable[]): void {
@@ -45,8 +55,13 @@ export class MyCartService {
 
   removePurchasable(index: number): void {
     let myCart = this.loadStorage()
-    myCart.splice(index,1)
-    this.saveStorage(myCart)
+    if(myCart.length <= index) {
+      console.error('Remove index out of bound')
+    }
+    else {
+      myCart.splice(index, 1)
+      this.saveStorage(myCart)
+    }
   }
 
   /** MyCart GET operations **/
