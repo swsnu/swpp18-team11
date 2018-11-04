@@ -131,4 +131,3 @@ describe('MyCartService', () => {
     expect(localStorage.setItem).toHaveBeenCalledWith('myCart', JSON.stringify([]))
   })
 });
-

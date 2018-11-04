@@ -1,5 +1,5 @@
 import { Menu } from "./menu";
-import { Option } from "./option";
+import {Option} from "./option";
 
 export class Purchasable implements Menu {
   constructor(args: Partial<Purchasable>){
@@ -14,5 +14,5 @@ export class Purchasable implements Menu {
 
   quantity: number = 0
   total_price: number = 0
-
 }
+

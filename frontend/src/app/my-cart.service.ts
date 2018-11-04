@@ -69,18 +69,18 @@ export class MyCartService {
     return this.loadStorage()
   }
 
-  /** MyCart PUT operations **/
+  /** MyCart POST operations **/
   setMyCart(myCart: Purchasable[]): void {
     this.saveStorage(myCart)
   }
 
-  /** MyCart POST operations **/
-  addMyCart(product: Purchasable): void {
+  addMyCart(purchasable: Purchasable): void {
     let myCart = this.loadStorage()
-    myCart.push(product)
+    myCart.push(purchasable)
     this.saveStorage(myCart)
   }
 
+  /** MyCart PUT operations **/
   updateMyCart(myCart: Purchasable[]): void {
     this.setMyCart(myCart)
   }
