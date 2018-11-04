@@ -4,7 +4,7 @@ import { SelectOptionComponent } from './select-option.component';
 import {SpecifyOrderComponent} from '../specify-order/specify-order.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-fdescribe('SelectOptionComponent', () => {
+describe('SelectOptionComponent', () => {
   let component: SelectOptionComponent;
   let fixture: ComponentFixture<SelectOptionComponent>;
   let option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};

@@ -14,7 +14,7 @@ import {Purchasable} from '../purchasable';
 import {Option} from '../option';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-fdescribe('SpecifyOrderComponent', () => {
+describe('SpecifyOrderComponent', () => {
   let component: SpecifyOrderComponent;
   let fixture: ComponentFixture<SpecifyOrderComponent>;
   let http: HttpClient;

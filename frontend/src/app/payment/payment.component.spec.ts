@@ -12,7 +12,7 @@ import {Purchasable} from '../purchasable';
 import {MyCartService} from '../my-cart.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-fdescribe('PaymentComponent', () => {
+describe('PaymentComponent', () => {
   let component: PaymentComponent;
   let fixture: ComponentFixture<PaymentComponent>;
   let myCart = [{total_price: 1000} as Purchasable];
