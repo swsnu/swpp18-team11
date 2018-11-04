@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { MyCartService } from '../my-cart.service';
-import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
@@ -17,7 +16,7 @@ import { BackendResponse } from './backend-response';
 })
 export class SpecifyOrderComponent implements OnInit {
   expandOption = false;
-  // TODO: @Input() product: Purchasable;
+
   product: Purchasable;
   selectedOptions: Option[] = [];
 
@@ -26,7 +25,6 @@ export class SpecifyOrderComponent implements OnInit {
     private location: Location,
     private router: Router,
     private myCartService: MyCartService,
-    private paymentService: PaymentService
   ) { }
 
   ngOnInit() {
@@ -35,6 +33,7 @@ export class SpecifyOrderComponent implements OnInit {
         this.product = purchasable.data;
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
+        this.initializeOption()
         this.updateTotalPrice();
       })
       .catch(error => alert('존재하지 않는 메뉴 id입니다'));
@@ -46,6 +45,29 @@ export class SpecifyOrderComponent implements OnInit {
       .pipe()
       .toPromise();
   }
+
+  initializeOption(): void {
+    if(!this.hasChosenOption()){
+      //initialize options
+      for (const option of this.product.options) {
+        option.base_price = Math.floor(option.base_price);
+        option.quantity = 0;
+        option.total_price = 0;
+      }
+    }
+  }
+  hasChosenOption(): boolean {
+    if(!this.product.options)
+      return false
+    else{
+      for(let option of this.product.options) {
+        if (option.quantity > 0)
+          return true
+      }
+      return false  // has no options, or all option's quantity is 0
+    }
+  }
+
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
   }
@@ -76,9 +98,11 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   addToCart(): void {
-    this.myCartService.addMyCart(this.product);
+    this.myCartService.addMyCart(this.product)
+    this.location.back()
   }
   buyNow(): void {
-    this.paymentService.buyNow([this.product]);
+    this.myCartService.addMyCart(this.product);
+    this.myCartService.toMyCartPage()
   }
 }
