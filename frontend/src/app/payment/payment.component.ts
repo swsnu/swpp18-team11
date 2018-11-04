@@ -81,7 +81,7 @@ export class PaymentComponent implements OnInit {
     this.status.paymentMethod = method;
   }
   finishPayment(): void {
-    this.paymentService.notifyPaymentFinished();
+    this.paymentService.notifyPaymentFinished(this.myCart);
     this.cleanUp();
     this.router.navigate(['/order']);
   }
