@@ -67,10 +67,6 @@ def ticket_repr(now):
     }
 
 @pytest.fixture
-def store():
-    return MagicMock("Store")
-
-@pytest.fixture
 def TicketService(store, ticket):
     with patch('kiorder.api.v1.base.Store') as Store, \
             patch('kiorder.api.v1.ticket.TicketService') as TicketService:
