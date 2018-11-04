@@ -14,3 +14,7 @@ def test_franchise_api(client):
         assert response.status_code == 200
         assert response.json() == {"success": True, "data": [{"id": 1, "name": "MY_FRANCHISE"}]}
 
+def test_franchise_api_format_error(client):
+    response = client.get('/kiorder/api/v1/franchise', {})
+    assert response.status_code == 400
+

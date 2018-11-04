@@ -120,4 +120,3 @@ def test_patch_ticket(TicketService, client, ticket, ticket_repr):
     assert ticket.state == 'doing'
     TicketService().save_ticket.assert_called_with(ticket)
 
-
