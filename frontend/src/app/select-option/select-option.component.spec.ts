@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectOptionComponent } from './select-option.component';
 import {SpecifyOrderComponent} from '../specify-order/specify-order.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 fdescribe('SelectOptionComponent', () => {
   let component: SelectOptionComponent;
@@ -14,6 +15,9 @@ fdescribe('SelectOptionComponent', () => {
       declarations: [
         SelectOptionComponent,
         SpecifyOrderComponent,
+      ],
+      imports: [
+        NgbModule
       ]
     })
     .compileComponents();

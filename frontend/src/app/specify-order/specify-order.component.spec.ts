@@ -12,6 +12,7 @@ import {HttpClient} from '@angular/common/http';
 import {of} from 'rxjs';
 import {Purchasable} from '../purchasable';
 import {Option} from '../option';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 fdescribe('SpecifyOrderComponent', () => {
   let component: SpecifyOrderComponent;
@@ -21,7 +22,9 @@ fdescribe('SpecifyOrderComponent', () => {
     id: 1,
     name: 'p',
     thumbnail: 'x',
-    base_price: 1000
+    base_price: 1000,
+    total_price: 1000,
+    options: []
   };
   const routes: Routes = [
     { path: '', redirectTo: '/order', pathMatch: 'full'},
@@ -42,7 +45,8 @@ fdescribe('SpecifyOrderComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
+        NgbModule
       ]
     })
     .compileComponents();
@@ -65,6 +69,27 @@ fdescribe('SpecifyOrderComponent', () => {
     expect(component.product.base_price).toBe(1000);
   });
 
+  it('should check if there are chosen options', () => {
+    expect(component.hasChosenOption()).toBe(false);
+    const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
+    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0}
+    component.product.options = [option1, option2];
+    expect(component.hasChosenOption()).toBe(false);
+    component.product.options[0].quantity = 1;
+    expect(component.hasChosenOption()).toBe(true);
+  });
+
+  it('should initialize options', () => {
+    const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
+    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0}
+    component.product.options = [option1, option2];
+    component.initializeOption();
+    expect(component.product.options[0].quantity).toBe(0);
+    expect(component.product.options[0].total_price).toBe(0);
+    expect(component.product.options[1].quantity).toBe(0);
+    expect(component.product.options[1].total_price).toBe(0);
+  });
+  
   it('should expand options', () => {
     expect(component.expandOption).toBe(false);
     component.openOptionSelectPage();
@@ -76,7 +101,7 @@ fdescribe('SpecifyOrderComponent', () => {
     expect(component.product.total_price).toBe(1000);
     component.decrement();
     expect(component.product.quantity).toBe(1);
-    expect(component.product.total_price).toBe(1000);
+    expect(component.product.total_price).toBe(1000, 'should not decrement');
     component.increment();
     expect(component.product.quantity).toBe(2);
     expect(component.product.total_price).toBe(2000);

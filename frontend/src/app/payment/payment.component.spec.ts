@@ -9,16 +9,18 @@ import {MyCartComponent} from '../my-cart/my-cart.component';
 import {SelectOptionComponent} from '../select-option/select-option.component';
 import {PaymentService} from '../payment.service';
 import {Purchasable} from '../purchasable';
+import {MyCartService} from '../my-cart.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 fdescribe('PaymentComponent', () => {
   let component: PaymentComponent;
   let fixture: ComponentFixture<PaymentComponent>;
-  let buyList = [{total_price: 1000} as Purchasable];
-  const paymentServiceSpy = jasmine.createSpyObj('PaymentService', ['getBuyList', 'notifyPaymentFinished', 'emptyBuyList']);
-  paymentServiceSpy.getBuyList.and.callFake(() => buyList)
-  paymentServiceSpy.notifyPaymentFinished.and.callFake(() => {return});
-  paymentServiceSpy.emptyBuyList.and.callFake(() => {
-    buyList = [];
+  let myCart = [{total_price: 1000} as Purchasable];
+  const myCartServiceSpy = jasmine.createSpyObj('MyCarttService', ['getMyCart', 'getTotalPrice', 'emptyMyCart']);
+  myCartServiceSpy.getMyCart.and.callFake(() => myCart)
+  myCartServiceSpy.getTotalPrice.and.callFake(() => 1000);
+  myCartServiceSpy.emptyMyCart.and.callFake(() => {
+    myCart = [];
   })
 
   const routes: Routes = [
@@ -36,13 +38,14 @@ fdescribe('PaymentComponent', () => {
         SelectFoodComponent,
         SpecifyOrderComponent,
         MyCartComponent,
-        SelectOptionComponent
+        SelectOptionComponent,
       ],
       imports: [
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
+        NgbModule
       ],
       providers: [
-        {provide: PaymentService, useValue: paymentServiceSpy}
+        {provide: MyCartService, useValue: myCartServiceSpy}
       ]
     })
     .compileComponents();
@@ -82,7 +85,6 @@ fdescribe('PaymentComponent', () => {
 
   it('should clean up', () => {
     component.cleanUp();
-    expect(component.buyList).toEqual([]);
     expect(component.status.confirmedBuyList).toBe(false);
     expect(component.status.paymentMethodChosen).toBe(false);
   });
