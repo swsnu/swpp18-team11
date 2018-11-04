@@ -64,4 +64,17 @@ describe('SelectFoodComponent', () => {
     component.getMyCartCount()
     expect(component.myCartCount).toEqual(1)
   })
+
+  it('selectCategory should set selectedCategory', ()=>{
+    component.selectedCategory = null
+    let testCategory: Category = {name: '', purchasables:[]}
+    component.selectCategory(testCategory)
+    expect(component.selectedCategory).toEqual(testCategory)
+  })
+
+  it('emptyCart should call myCartService.emptyMyCart', ()=>{
+    component.emptyCart()
+    expect(myCartServiceSpy.emptyMyCart).toHaveBeenCalled()
+    expect(myCartServiceSpy.getMyCartCount).toHaveBeenCalled()
+  })
 });
