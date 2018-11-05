@@ -4,7 +4,7 @@ import { TtsService } from '../tts.service';
 import { TicketChange, TicketArrived } from '../ticket-change';
 import { ManageOrderStateService } from '../manage-order-state.service';
 import { ReplaySubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ManageOrderDisplayComponent } from './manage-order-display.component';
 
@@ -20,9 +20,9 @@ describe('ManageOrderDisplayComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
         { provide: ManageOrderStateService, useValue: manageOrderStateService },
-        { provide: HttpClient, useValue: null },
         { provide: TtsService, useValue: { playTTS: () => null } },
       ],
       declarations: [ ManageOrderDisplayComponent ]
