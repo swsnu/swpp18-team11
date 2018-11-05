@@ -35,16 +35,9 @@ export class PaymentService {
   }
 
   convertMyCartToOrderSpec(mycart: Purchasable[]): string {
-    let order_spec = '';
-    for (const purchasable of mycart) {
-      order_spec += purchasable.id + '-' + purchasable.quantity;
-      for (const option of purchasable.options) {
-        if (option.quantity > 0) {
-          order_spec += '#' + option.id + '-' + option.quantity;
-        }
-      }
-      order_spec += ' ';
-    }
-    return order_spec;
+    return mycart.map(purchsable => {
+      const validOptions = purchsable.options.filter(option => option.quantity > 0);
+      return `${purchsable.id}-${purchsable.quantity}` + validOptions.map(option => `#${option.id}-${option.quantity}`).join('');
+    }).join(' ');
   }
 }
