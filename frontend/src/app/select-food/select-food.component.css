@@ -1,0 +1,18 @@
+.menus {
+  padding-top: 0px;
+}
+.menus .mat-list-item {
+  height: auto;
+  vertical-align: middle;
+  padding: 0px;
+}
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  padding-right: 15px;
+}
+.category-tab {
+  padding-top:0;
+  position: fixed;
+}

@@ -35,6 +35,7 @@ export class SelectOptionComponent implements OnInit {
     this.optionChanged.emit(this.options);
     return;
   }
+  /*
   cancel(): void {
     // TODO
     return;
@@ -42,5 +43,5 @@ export class SelectOptionComponent implements OnInit {
   confirm(): void {
     // TODO
     return;
-  }
+  }*/
 }

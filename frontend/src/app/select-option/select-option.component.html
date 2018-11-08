@@ -1,20 +1,21 @@
-<h3> 옵션 </h3>
 <div>
-  선택가능옵션
-  <ul>
-    <div *ngFor="let option of options">
-      <li>
+  <mat-list>
+    <mat-list-item *ngFor="let option of options">
         <div>
-          <label id="optionName{{option.id}}">{{option.name}}</label>
+          <label id="optionName{{option.id}}">{{option.name}}&nbsp;&nbsp;</label>
           <label id="optionPrice{{option.id}}">{{option.base_price}}원</label>
-          <button (click)="decrement(option.id)">-</button>
-          <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
-          <button (click)="increment(option.id)">+</button>
         </div>
-        (최대 {{option.max_capacity}}개까지 선택 가능)
-      </li>
-    </div>
-  </ul>
+        <div class="quantity-control-buttons">
+          <button mat-button
+                  class="quantity-button"
+                  (click)="decrement(option.id)"
+                  [disabled]="option.quantity < 1">-</button>
+          <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
+          <button mat-button
+                  class="quantity-button"
+                  (click)="increment(option.id)"
+                  [disabled]="option.quantity >= option.max_capacity">+</button>
+        </div>
+    </mat-list-item>
+  </mat-list>
 </div>
-
-<button (click)="cancel()">취소</button> <button (click)="confirm()">확인</button>

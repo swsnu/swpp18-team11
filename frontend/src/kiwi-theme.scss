@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+body { margin: 0; padding: 0 } /* to remove margins from chrome browser*/
+
+$kiwi-theme-primary: mat-palette($mat-brown);
+/*$kiwi-theme-primary: mat-palette($mat-light-green);*/
+$kiwi-theme-accent: mat-palette($mat-lime, A700);
+/*$kiwi-theme-accent: mat-palette($mat-light-green, 400, A100, 500) */
+$kiwi-theme-warn:    mat-palette($mat-red);
+
+$kiwi-theme: mat-light-theme($kiwi-theme-primary, $kiwi-theme-accent, $kiwi-theme-warn);
+
+@include angular-material-theme($kiwi-theme);

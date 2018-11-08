@@ -15,7 +15,9 @@ export class MyCartComponent implements OnInit {
 
   myCart: Purchasable[]
   totalPrice: number
+  selectedTab: number = 0
   selectedIndex: number // index of purchasable in my cart
+  expandOption: boolean = false;
   //cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
 
   constructor(
@@ -46,6 +48,11 @@ export class MyCartComponent implements OnInit {
   }
 
   /** Functions used in my-cart.component.html **/
+  switchTab(): void {
+    // switch selectedTab index between 0 and 1
+    this.selectedTab = (this.selectedTab + 1) % 2
+  }
+
   selectIndex(index: number): void {
     // update selectedPurchasable to pass data to select-option component.
     this.selectedIndex = index
@@ -53,14 +60,32 @@ export class MyCartComponent implements OnInit {
 
   hasOptions(purchasable: Purchasable): boolean {
     // check if no options at all
-    if (!purchasable.options)
-      return false
-    else if(purchasable.options.length == 0)
-      return false
-    else
-      return true
+    if (!purchasable.options) {
+      return false;
+    } else if (purchasable.options.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
+  hasChosenOption(purchasable: Purchasable): boolean {
+    if (!purchasable.options) {
+      return false;
+    } else {
+      for (let option of purchasable.options) {
+        if (option.quantity > 0)
+          return true;
+      }
+      return false;  // has no options, or all option's quantity is 0
+    }
+  }
+  changeOptionPageStatus(opened: boolean):void {
+    this.expandOption = opened
+  }
+  openOptionSelectPage(): void {
+    this.expandOption = !this.expandOption;
+  }
   // some dirty codes to deal with purchasable instances of myCart
   increment(index: number): void{
     let changedCart = this.myCart
@@ -86,6 +111,7 @@ export class MyCartComponent implements OnInit {
     this.myCart[this.selectedIndex] =
       this.updatePurchasablePrice(this.myCart[this.selectedIndex])
     this.myCartService.updateMyCart(this.myCart)
+    this.updateTotalPrice()
   }
 
   removePurchasable(index: number): void {
