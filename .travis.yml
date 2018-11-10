@@ -30,8 +30,12 @@ matrix:
       before_install: 
         - cd backend
         - pip install pipenv
-        - pipenv install --dev
+        - sudo apt-get update
+
       install:
+        - sudo apt-get update -qq
+        - sudo apt-get install -y libproj-dev libgeos-dev
+        - sudo apt-get install -y libspatialite-dev
         - pipenv install --dev
       script:
         - cd kiwi
