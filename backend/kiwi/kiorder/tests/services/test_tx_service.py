@@ -3,7 +3,7 @@ import pytest
 from datetime import date
 from kiorder.services.tx import TxService, OrderSpec, PurchaseMethod 
 from kiorder.services.ticket import TicketService
-from django.contrib.auth.models import User
+from kiorder.models.user import User
 
 class TestPurchaseMethod(PurchaseMethod):
     pass
@@ -39,8 +39,9 @@ def utxid():
 
 @pytest.fixture
 def user():
-    User(username='swpp').save()
-    return User.objects.get(username='swpp')
+    x = User(username='swpp')
+    x.save()
+    return x
 
 @pytest.mark.django_db
 def test_tx_order(tx_service, ticket_service, utxid, user, order_spec, purchase_method):
