@@ -6,7 +6,7 @@ from kiorder.services.tx import TxService, OrderSpec, PurchaseMethod
 from kiorder.services.ticket import TicketService
 from datetime import date
 from .base import BaseResource
-from .purchasable import Purchasable
+from .purchasable import Purchasable as PurchasableView
 
 class TestPurchaseMethod(PurchaseMethod):
     pass
@@ -19,7 +19,7 @@ class BaseTx(BaseResource):
 class TestTx(BaseTx):
     def get(self, request, user_id):
         def represent_purchasable(purch):
-            p = Purchasable()
+            p = PurchasableView()
             return p.represent_purchasable(purch)
 
         tx_items = [{'purchasable': represent_purchasable(tx_item.purchasable),
