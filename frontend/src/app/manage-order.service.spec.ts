@@ -7,16 +7,23 @@ import { Ticket } from './ticket';
 
 describe('ManageOrderService', () => {
   let httpClientSpy: any;
-  let purchsable = {
+  const purchsable = {
     id: 1,
-    name: "F",
+    name: 'F',
     qty: 2,
     options: []
   };
-  let data = { id: 1, state: 'todo', number: 1, created_at: '2018-01-01T00:00:00Z', updated_at: '2018-01-01T00:00:00Z', purchasables: [ purchsable ] };
+  const data = {
+    id: 1,
+    state: 'todo',
+    number: 1,
+    created_at: '2018-01-01T00:00:00Z',
+    updated_at: '2018-01-01T00:00:00Z',
+    purchasables: [ purchsable ]
+  };
 
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj("HttpClient", {
+    httpClientSpy = jasmine.createSpyObj('HttpClient', {
       get: of({ success: true, data: { list: [data] }}),
       delete: of(null),
       patch: of({ success: true, data }),

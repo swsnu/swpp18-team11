@@ -115,7 +115,9 @@
       "check-decl",
       "check-operator",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-module",
+      "check-preblock"
     ],
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,

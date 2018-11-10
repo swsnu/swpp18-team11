@@ -66,8 +66,8 @@ describe('ManageOrderDisplayComponent', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector("ul.done-ticket > li").textContent.trim()).toEqual("9");
-      expect(fixture.nativeElement.querySelector("ul.doing-ticket > li").textContent.trim()).toEqual("99");
+      expect(fixture.nativeElement.querySelector('ul.done-ticket > li').textContent.trim()).toEqual('9');
+      expect(fixture.nativeElement.querySelector('ul.doing-ticket > li').textContent.trim()).toEqual('99');
     });
   }));
 });

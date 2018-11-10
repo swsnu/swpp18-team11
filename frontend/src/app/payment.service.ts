@@ -14,7 +14,7 @@ export class PaymentService {
   ) { }
 
   toPaymentPage(): void {
-    this.router.navigate(['/payment'])
+    this.router.navigate(['/payment']);
   }
 
   notifyPaymentFinished(mycart: Purchasable[]): Promise<any> {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyCartService } from "../my-cart.service";
+import { MyCartService } from '../my-cart.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,23 +8,23 @@ import { MyCartService } from "../my-cart.service";
 })
 export class FooterComponent implements OnInit {
 
-  myCartCount: number
+  myCartCount: number;
   constructor(
     private myCartService: MyCartService
   ) { }
 
   ngOnInit() {
-    this.setMyCartCount()
+    this.setMyCartCount();
   }
 
-  emptyMyCart(): void{
-    if(confirm('장바구니를 비우시겠습니까?')){
-      this.myCartService.emptyMyCart()
-      this.setMyCartCount()
+  emptyMyCart(): void {
+    if (confirm('장바구니를 비우시겠습니까?')) {
+      this.myCartService.emptyMyCart();
+      this.setMyCartCount();
     }
   }
   // TODO: Make async version of myCartService!
-  setMyCartCount():void {
-    this.myCartCount = this.myCartService.getMyCartCount()
+  setMyCartCount(): void {
+    this.myCartCount = this.myCartService.getMyCartCount();
   }
 }

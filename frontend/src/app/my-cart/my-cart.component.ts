@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { MyCartService } from "../my-cart.service";
-import { Purchasable } from "../purchasable";
-import { Option } from "../option";
+import { MyCartService } from '../my-cart.service';
+import { Purchasable } from '../purchasable';
+import { Option } from '../option';
 
 @Component({
   selector: 'app-my-cart',
@@ -13,12 +13,12 @@ import { Option } from "../option";
 })
 export class MyCartComponent implements OnInit {
 
-  myCart: Purchasable[]
-  totalPrice: number
-  selectedTab: number = 0
-  selectedIndex: number // index of purchasable in my cart
-  expandOption: boolean = false;
-  //cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
+  myCart: Purchasable[];
+  totalPrice: number;
+  selectedTab = 0;
+  selectedIndex: number; // index of purchasable in my cart
+  expandOption = false;
+  // cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
 
   constructor(
     private myCartService: MyCartService,
@@ -27,35 +27,35 @@ export class MyCartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.myCartService.isEmpty()){
-      this.sendToOrderPage()
+    if (this.myCartService.isEmpty()) {
+      this.sendToOrderPage();
     }
-    this.getMyCart()
-    this.updateTotalPrice()
-    this.selectedIndex = 0 // initialize
+    this.getMyCart();
+    this.updateTotalPrice();
+    this.selectedIndex = 0; // initialize
   }
 
   updateMyCart(cartChanged: Purchasable[]): void {
-    this.myCart = cartChanged
-    this.updateTotalPrice()
+    this.myCart = cartChanged;
+    this.updateTotalPrice();
   }
 
   getMyCart(): void {
-    this.myCart = this.myCartService.getMyCart()
+    this.myCart = this.myCartService.getMyCart();
   }
   updateTotalPrice() {
-    this.totalPrice = this.myCartService.getTotalPrice()
+    this.totalPrice = this.myCartService.getTotalPrice();
   }
 
   /** Functions used in my-cart.component.html **/
   switchTab(): void {
     // switch selectedTab index between 0 and 1
-    this.selectedTab = (this.selectedTab + 1) % 2
+    this.selectedTab = (this.selectedTab + 1) % 2;
   }
 
   selectIndex(index: number): void {
     // update selectedPurchasable to pass data to select-option component.
-    this.selectedIndex = index
+    this.selectedIndex = index;
   }
 
   hasOptions(purchasable: Purchasable): boolean {
@@ -73,72 +73,74 @@ export class MyCartComponent implements OnInit {
     if (!purchasable.options) {
       return false;
     } else {
-      for (let option of purchasable.options) {
-        if (option.quantity > 0)
+      for (const option of purchasable.options) {
+        if (option.quantity > 0) {
           return true;
+        }
       }
       return false;  // has no options, or all option's quantity is 0
     }
   }
-  changeOptionPageStatus(opened: boolean):void {
-    this.expandOption = opened
+  changeOptionPageStatus(opened: boolean): void {
+    this.expandOption = opened;
   }
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
   }
   // some dirty codes to deal with purchasable instances of myCart
-  increment(index: number): void{
-    let changedCart = this.myCart
-    if(changedCart[index].quantity < 100) {
-      changedCart[index].quantity += +1
-      changedCart[index] = this.updatePurchasablePrice(changedCart[index])
-      this.myCartService.updateMyCart(this.myCart)
-      this.updateTotalPrice()
+  increment(index: number): void {
+    const changedCart = this.myCart;
+    if (changedCart[index].quantity < 100) {
+      changedCart[index].quantity += +1;
+      changedCart[index] = this.updatePurchasablePrice(changedCart[index]);
+      this.myCartService.updateMyCart(this.myCart);
+      this.updateTotalPrice();
     }
   }
-  decrement(index: number): void{
-    let changedCart = this.myCart
-    if(changedCart[index].quantity > 1){
-      changedCart[index].quantity += -1
-      changedCart[index] = this.updatePurchasablePrice(changedCart[index])
-      this.myCartService.updateMyCart(this.myCart)
-      this.updateTotalPrice()
+  decrement(index: number): void {
+    const changedCart = this.myCart;
+    if (changedCart[index].quantity > 1) {
+      changedCart[index].quantity += -1;
+      changedCart[index] = this.updatePurchasablePrice(changedCart[index]);
+      this.myCartService.updateMyCart(this.myCart);
+      this.updateTotalPrice();
     }
   }
 
   updateOptionChange(changedOptions: Option[]): void {
-    this.myCart[this.selectedIndex].options = changedOptions
+    this.myCart[this.selectedIndex].options = changedOptions;
     this.myCart[this.selectedIndex] =
-      this.updatePurchasablePrice(this.myCart[this.selectedIndex])
-    this.myCartService.updateMyCart(this.myCart)
-    this.updateTotalPrice()
+      this.updatePurchasablePrice(this.myCart[this.selectedIndex]);
+    this.myCartService.updateMyCart(this.myCart);
+    this.updateTotalPrice();
   }
 
   removePurchasable(index: number): void {
-    this.myCartService.removePurchasable(index)
-    this.getMyCart()
-    if(this.myCartService.isEmpty())
-      this.sendToOrderPage()
+    this.myCartService.removePurchasable(index);
+    this.getMyCart();
+    if (this.myCartService.isEmpty()) {
+      this.sendToOrderPage();
+    }
   }
 
   emptyCart(): void {
-    this.myCartService.emptyMyCart()
-    this.myCart = []
-    this.sendToOrderPage()
+    this.myCartService.emptyMyCart();
+    this.myCart = [];
+    this.sendToOrderPage();
   }
   back(): void {
     this.location.back();
   }
   sendToOrderPage(): void {
-    this.router.navigate(['/order'])
+    this.router.navigate(['/order']);
   }
 
-  updatePurchasablePrice(item: Purchasable): Purchasable{
-    let option_total = 0
-    for (let option of item.options){
-      option_total += option.total_price
+  updatePurchasablePrice(item: Purchasable): Purchasable {
+    let option_total = 0;
+    for (const option of item.options) {
+      option_total += option.total_price;
     }
-    item.total_price = item.quantity * (item.base_price + option_total)
-    return item
+    item.total_price = item.quantity * (item.base_price + option_total);
+    return item;
   }
 }

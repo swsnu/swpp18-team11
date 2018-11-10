@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Category } from "./category";
-import { Purchasable } from "./purchasable";
-import { BackendResponse } from "./specify-order/backend-response";
+import { Category } from './category';
+import { Purchasable } from './purchasable';
+import { BackendResponse } from './specify-order/backend-response';
 
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuDataService {
 
-  purchasable$: Observable<Purchasable>
-  private purchasableUrl = '/kiorder/api/v1/purchasable'
+  purchasable$: Observable<Purchasable>;
+  private purchasableUrl = '/kiorder/api/v1/purchasable';
 
   constructor(
     private http: HttpClient
@@ -28,9 +28,9 @@ export class MenuDataService {
   public getCategories(): Observable<Category[]> {
     return this.http.get(this.purchasableUrl)
       .pipe(map((response: any) => {
-        let categories: Category[] = <Category[]>response.data.list
-        return categories
-      }))
+        const categories: Category[] = <Category[]>response.data.list;
+        return categories;
+      }));
   }
 
   getProductInfo(productId): Promise<BackendResponse> {

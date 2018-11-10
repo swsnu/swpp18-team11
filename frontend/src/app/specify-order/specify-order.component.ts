@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
-import { MenuDataService } from "../menu-data.service";
+import { MenuDataService } from '../menu-data.service';
 import { MyCartService } from '../my-cart.service';
 
 import { Purchasable } from '../purchasable';
@@ -28,7 +28,7 @@ export class SpecifyOrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProductInfo()
+    this.getProductInfo();
   }
   getProductInfo(): void {
     const id: string = this.location.path().substring(7);
@@ -37,15 +37,15 @@ export class SpecifyOrderComponent implements OnInit {
         this.product = new Purchasable(purchasable.data);
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
-        this.initializeOption()
+        this.initializeOption();
         this.updateTotalPrice();
       })
       .catch(error => alert('존재하지 않는 메뉴 id입니다'));
   }
 
   initializeOption(): void {
-    if(!this.hasChosenOption()){
-      //initialize options
+    if (!this.hasChosenOption()) {
+      // initialize options
       for (const option of this.product.options) {
         option.base_price = Math.floor(option.base_price);
         option.quantity = 0;
@@ -63,18 +63,19 @@ export class SpecifyOrderComponent implements OnInit {
     }
   }
   hasChosenOption(): boolean {
-    if(!this.product.options)
-      return false
-    else{
-      for(let option of this.product.options) {
-        if (option.quantity > 0)
-          return true
+    if (!this.product.options) {
+      return false;
+    } else {
+      for (const option of this.product.options) {
+        if (option.quantity > 0) {
+          return true;
+        }
       }
-      return false  // has no options, or all option's quantity is 0
+      return false;  // has no options, or all option's quantity is 0
     }
   }
-  changeOptionPageStatus(opened: boolean):void {
-    this.expandOption = opened
+  changeOptionPageStatus(opened: boolean): void {
+    this.expandOption = opened;
   }
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
@@ -106,11 +107,11 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   addToCart(): void {
-    this.myCartService.addMyCart(this.product)
-    this.location.back()
+    this.myCartService.addMyCart(this.product);
+    this.location.back();
   }
   buyNow(): void {
     this.myCartService.addMyCart(this.product);
-    this.myCartService.toMyCartPage()
+    this.myCartService.toMyCartPage();
   }
 }

@@ -1,6 +1,6 @@
-import { Menu } from "./menu";
+import { Menu } from './menu';
 
 export interface Category {
-  name: string
-  purchasables: Menu[]
+  name: string;
+  purchasables: Menu[];
 }

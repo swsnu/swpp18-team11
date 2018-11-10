@@ -1,4 +1,4 @@
-import { Purchasable } from "../purchasable";
+import { Purchasable } from '../purchasable';
 
 export interface BackendResponse {
   success: boolean;

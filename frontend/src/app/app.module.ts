@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,14 +15,14 @@ import { ManageOrderDisplayComponent } from './manage-order-display/manage-order
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 /* Angular Material stuffs */
-import {MatToolbarModule} from '@angular/material/toolbar'
-import {MatIconModule} from "@angular/material";
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatDividerModule} from "@angular/material/divider";
-import {MatListModule} from '@angular/material/list';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatButtonModule} from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({

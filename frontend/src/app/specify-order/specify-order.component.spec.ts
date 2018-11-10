@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpecifyOrderComponent } from './specify-order.component';
-import {SelectOptionComponent} from '../select-option/select-option.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {Routes} from '@angular/router';
-import {SelectFoodComponent} from '../select-food/select-food.component';
-import {MyCartComponent} from '../my-cart/my-cart.component';
-import {PaymentComponent} from '../payment/payment.component';
-import {HttpClient} from '@angular/common/http';
-import {of} from 'rxjs';
-import {Purchasable} from '../purchasable';
-import {Option} from '../option';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { SelectOptionComponent } from '../select-option/select-option.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Routes } from '@angular/router';
+import { SelectFoodComponent } from '../select-food/select-food.component';
+import { MyCartComponent } from '../my-cart/my-cart.component';
+import { PaymentComponent } from '../payment/payment.component';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { Purchasable } from '../purchasable';
+import { Option } from '../option';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('SpecifyOrderComponent', () => {
   let component: SpecifyOrderComponent;
@@ -72,7 +72,7 @@ describe('SpecifyOrderComponent', () => {
   it('should check if there are chosen options', () => {
     expect(component.hasChosenOption()).toBe(false);
     const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
-    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0}
+    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
     component.product.options = [option1, option2];
     expect(component.hasChosenOption()).toBe(false);
     component.product.options[0].quantity = 1;
@@ -81,7 +81,7 @@ describe('SpecifyOrderComponent', () => {
 
   it('should initialize options', () => {
     const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
-    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0}
+    const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
     component.product.options = [option1, option2];
     component.initializeOption();
     expect(component.product.options[0].quantity).toBe(0);
@@ -89,7 +89,7 @@ describe('SpecifyOrderComponent', () => {
     expect(component.product.options[1].quantity).toBe(0);
     expect(component.product.options[1].total_price).toBe(0);
   });
-  
+
   it('should expand options', () => {
     expect(component.expandOption).toBe(false);
     component.openOptionSelectPage();

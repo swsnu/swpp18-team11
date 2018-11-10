@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  storeTitle: string
+  storeTitle: string;
 
   constructor() { }
 
   ngOnInit() {
-    this.storeTitle = 'KingBurger'
+    this.storeTitle = 'KingBurger';
   }
 
 
