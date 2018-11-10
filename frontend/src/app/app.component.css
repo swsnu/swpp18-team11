@@ -1,5 +1,5 @@
 .main {
-  margin-top: 56px;
+  margin-top: 64px;
   margin-bottom: 50px;
   margin-left: 0;
   margin-right: 0;
@@ -7,7 +7,6 @@
 .header {
   margin: 0;
   width: 100%;
-  height: 56px;
   position: fixed;
   top: 0;
 }

@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { AgmCoreModule } from '@agm/core';
 /* Components */
 import { AppComponent } from './app.component';
 import { SelectFoodComponent } from './select-food/select-food.component';
@@ -23,6 +25,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
+import { SelectStoreComponent } from './select-store/select-store.component';
+import { SelectStoreFranchiseComponent } from './select-store-franchise/select-store-franchise.component';
+import { SelectStoreMapComponent } from './select-store-map/select-store-map.component';
 
 
 @NgModule({
@@ -37,20 +47,31 @@ import { MatButtonModule } from '@angular/material/button';
     ManageOrderDisplayComponent,
     HeaderComponent,
     FooterComponent,
+    SelectStoreComponent,
+    SelectStoreFranchiseComponent,
+    SelectStoreMapComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDu0iA5-XMLZAnXz23unMayd6V6lPYygwk',
+    }),
     MatToolbarModule,
     MatIconModule,
+    MatInputModule,
     MatTabsModule,
     MatDividerModule,
     MatListModule,
     MatBadgeModule,
     MatButtonModule,
     MatExpansionModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
