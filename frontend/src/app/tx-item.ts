@@ -1,4 +1,4 @@
-import {Purchasable} from './purchasable';
+import { Purchasable } from './purchasable';
 
 class TxItemOption {
   optionName: string;
@@ -48,7 +48,7 @@ class TxItem {
     this.price = args.price;
     this.options = args.options.map(option => this.loadTxItemOption(option));
     this.createdAt = args.createdAt;
-    this.state = args.state
+    this.state = args.state;
     this.totalPrice = +args.totalPrice;
     for (const option of this.options) {
       this.totalPrice += +option.totalPrice;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {TxItem} from '../tx-item';
-import {UserService} from '../user.service';
-import {Observable} from 'rxjs';
+import { TxItem } from '../tx-item';
+import { UserService } from '../user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-my-order',

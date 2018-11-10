@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {TxItem} from './tx-item';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { TxItem } from './tx-item';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,12 @@ import {TxItem} from './tx-item';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+  isLoggedIn(): boolean {
+    // TODO
+    return true;
+  }
   getUserId(): string {
+    // TODO
     return '2';
   }
   getMyTx(): Observable<TxItem[]> {
