@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
-import { MyCartService } from "../my-cart.service";
+import { MyCartService } from '../my-cart.service';
 import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
@@ -32,8 +32,8 @@ export class PaymentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getMyCart()
-    this.totalPrice = this.myCartService.getTotalPrice()
+    this.getMyCart();
+    this.totalPrice = this.myCartService.getTotalPrice();
   }
 
   getMyCart(): void {
@@ -41,13 +41,13 @@ export class PaymentComponent implements OnInit {
   }
 
   cleanUp(): void {
-    this.myCartService.emptyMyCart()
+    this.myCartService.emptyMyCart();
     this.status.confirmedBuyList = false;
     this.status.paymentMethodChosen = false;
     this.status.paymentMethod = '';
   }
 
-  calcel(): void{
+  calcel(): void {
     this.location.back();
   }
 
@@ -81,7 +81,7 @@ export class PaymentComponent implements OnInit {
     this.status.paymentMethod = method;
   }
   finishPayment(): void {
-    this.paymentService.notifyPaymentFinished();
+    this.paymentService.notifyPaymentFinished(this.myCart);
     this.cleanUp();
     this.router.navigate(['/order']);
   }

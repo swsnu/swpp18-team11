@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { SelectFoodComponent } from "./select-food/select-food.component";
+import { SelectFoodComponent } from './select-food/select-food.component';
 import { SpecifyOrderComponent } from './specify-order/specify-order.component';
 import { MyCartComponent } from './my-cart/my-cart.component';
 import { PaymentComponent } from './payment/payment.component';

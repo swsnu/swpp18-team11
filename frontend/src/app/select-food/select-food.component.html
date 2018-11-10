@@ -1,25 +1,23 @@
-<div>
-  <ul>
-    <li *ngFor="let category of categories$ | async">
-      <button (click)="selectCategory(category)">
-        {{category.name}}
-      </button>
-    </li>
-  </ul>
-</div>
-<hr class = "one">
-<div *ngIf="selectedCategory">
-  <ul>
-    <li *ngFor="let menu of selectedCategory.purchasables">
-      <div>
-        <img src="{{menu.thumbnail}}"
-             routerLink="/order/{{menu.id}}">
-        <br>{{menu.name}}
-        <br>{{menu.base_price}}
-      </div>
-    </li>
-  </ul>
-</div>
-<hr class = "one">
-<button routerLink="/mycart">My Cart [{{myCartCount}}]</button>
-<button (click)="emptyCart()">Empty Cart</button>
+<mat-tab-group (selectedTabChange)="categorySelected($event)"
+               [@.disabled]="true"> <!--disable tab slide animation-->
+  <mat-tab *ngFor="let category of categories$ | async"
+            label = "{{category.name}}"
+            class = "category-tab">
+
+    <mat-list class="menus" *ngIf="selectedCategory">
+      <mat-list-item *ngFor="let menu of selectedCategory.purchasables"
+                     routerLink="/order/{{menu.id}}">
+        <span>
+          <img class="thumbnail"
+               src="{{menu.thumbnail}}">
+        </span>
+        <span>
+          <h3 class="menuName">{{menu.name}}</h3>
+          {{menu.base_price}}
+        </span>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-tab>
+</mat-tab-group>
+

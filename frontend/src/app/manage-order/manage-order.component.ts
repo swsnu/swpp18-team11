@@ -13,21 +13,23 @@ import { TicketChange } from '../ticket-change';
   styleUrls: ['./manage-order.component.css']
 })
 export class ManageOrderComponent implements OnInit {
-  public tickets$: Observable<Ticket[]>
-  public doneTickets$: Observable<Ticket[]>
-  public notDoneTickets$: Observable<Ticket[]>
+  public tickets$: Observable<Ticket[]>;
+  public doneTickets$: Observable<Ticket[]>;
+  public notDoneTickets$: Observable<Ticket[]>;
 
     constructor(private manageOrderStateService: ManageOrderStateService, private manageOrderService: ManageOrderService) { }
 
   ngOnInit() {
-    this.tickets$ = this.manageOrderStateService.tickets$
-    this.doneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')))
-    this.notDoneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state !== 'done')))
+    this.tickets$ = this.manageOrderStateService.tickets$;
+    this.doneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')));
+    this.notDoneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state !== 'done')));
   }
 
   handleNotDoneClick(ticket: Ticket) {
-    this.manageOrderService.patchState(ticket, ticket.state === 'todo' ? 'doing' : 'todo').toPromise().then(() => this.manageOrderStateService.forceRefresh());
-    
+    this.manageOrderService.patchState(ticket, ticket.state === 'todo' ? 'doing' : 'todo')
+      .toPromise()
+      .then(() => this.manageOrderStateService.forceRefresh());
+
   }
 
   handleDoneClick(ticket: Ticket) {

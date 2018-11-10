@@ -1,13 +1,13 @@
 manage-order-display works!
 <h1> Done </h1>
-<ul>
+<ul class='done-ticket'>
   <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
     {{ ticket.number }}
   </li>
 </ul>
 
 <h1> Doing </h1>
-<ul>
+<ul class='doing-ticket'>
   <li *ngFor='let ticket of doingTickets$ | async'>
     {{ ticket.number }}
   </li>

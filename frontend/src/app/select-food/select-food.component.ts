@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs";
-import { MenuDataService } from "../menu-data.service";
+import { Observable } from 'rxjs';
+import { MenuDataService } from '../menu-data.service';
 
-import { Category } from "../category";
-import { MyCartService } from "../my-cart.service";
+import { Category } from '../category';
+import { MyCartService } from '../my-cart.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-food',
@@ -12,9 +13,9 @@ import { MyCartService } from "../my-cart.service";
 })
 export class SelectFoodComponent implements OnInit {
 
-  categories$: Observable<Category[]>
-  selectedCategory: Category
-  myCartCount: number = 0
+  categories$: Observable<Category[]>;
+  selectedCategory: Category;
+  myCartCount = 0;
 
   constructor(
     private menuDataService: MenuDataService,
@@ -22,24 +23,27 @@ export class SelectFoodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getCategories()
-    this.getMyCartCount()
+    this.getCategories();
+    this.getMyCartCount();
+  }
+
+  categorySelected($event): void {
+    this.categories$.subscribe(categories => {
+      this.selectedCategory = categories[$event.index];
+      });
   }
 
   getCategories(): void {
-    this.categories$ = this.menuDataService.getCategories()
+    this.categories$ = this.menuDataService.getCategories();
   }
 
   getMyCartCount(): void {
-    this.myCartCount = this.myCartService.getMyCartCount()
-  }
-  selectCategory(selected: Category): void {
-    this.selectedCategory = selected
+    this.myCartCount = this.myCartService.getMyCartCount();
   }
 
-  emptyCart(){
-    this.myCartService.emptyMyCart()
-    this.getMyCartCount()
+  emptyCart() {
+    this.myCartService.emptyMyCart();
+    this.getMyCartCount();
   }
 
 }

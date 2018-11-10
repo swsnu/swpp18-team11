@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { MenuDataService } from '../menu-data.service';
 import { MyCartService } from '../my-cart.service';
 
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
-import { BackendResponse } from './backend-response';
 
 @Component({
   selector: 'app-specify-order',
@@ -16,7 +16,6 @@ import { BackendResponse } from './backend-response';
 })
 export class SpecifyOrderComponent implements OnInit {
   expandOption = false;
-
   product: Purchasable;
   selectedOptions: Option[] = [];
 
@@ -24,31 +23,29 @@ export class SpecifyOrderComponent implements OnInit {
     private http: HttpClient,
     private location: Location,
     private router: Router,
+    private menuDataService: MenuDataService,
     private myCartService: MyCartService,
   ) { }
 
   ngOnInit() {
-    this.getProductInfo()
+    this.getProductInfo();
+  }
+  getProductInfo(): void {
+    const id: string = this.location.path().substring(7);
+    this.menuDataService.getProductInfo(id)
       .then(purchasable => {
-        this.product = purchasable.data;
+        this.product = new Purchasable(purchasable.data);
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
-        this.initializeOption()
+        this.initializeOption();
         this.updateTotalPrice();
       })
       .catch(error => alert('존재하지 않는 메뉴 id입니다'));
   }
-  getProductInfo(): Promise<BackendResponse> {
-    const id: string = this.location.path().substring(7);
-    const url = '/kiorder/api/v1/purchasable/' + id;
-    return this.http.get<BackendResponse>(url)
-      .pipe()
-      .toPromise();
-  }
 
   initializeOption(): void {
-    if(!this.hasChosenOption()){
-      //initialize options
+    if (!this.hasChosenOption()) {
+      // initialize options
       for (const option of this.product.options) {
         option.base_price = Math.floor(option.base_price);
         option.quantity = 0;
@@ -56,18 +53,30 @@ export class SpecifyOrderComponent implements OnInit {
       }
     }
   }
-  hasChosenOption(): boolean {
-    if(!this.product.options)
-      return false
-    else{
-      for(let option of this.product.options) {
-        if (option.quantity > 0)
-          return true
-      }
-      return false  // has no options, or all option's quantity is 0
+  hasOptions(): boolean {
+    if (!this.product.options) {    // check if no options at all
+      return false;
+    } else if (this.product.options.length == 0) {
+      return false;
+    } else {
+      return true;
     }
   }
-
+  hasChosenOption(): boolean {
+    if (!this.product.options) {
+      return false;
+    } else {
+      for (const option of this.product.options) {
+        if (option.quantity > 0) {
+          return true;
+        }
+      }
+      return false;  // has no options, or all option's quantity is 0
+    }
+  }
+  changeOptionPageStatus(opened: boolean): void {
+    this.expandOption = opened;
+  }
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
   }
@@ -98,11 +107,11 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   addToCart(): void {
-    this.myCartService.addMyCart(this.product)
-    this.location.back()
+    this.myCartService.addMyCart(this.product);
+    this.location.back();
   }
   buyNow(): void {
     this.myCartService.addMyCart(this.product);
-    this.myCartService.toMyCartPage()
+    this.myCartService.toMyCartPage();
   }
 }

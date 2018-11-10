@@ -1,0 +1,9 @@
+#title {
+  vertical-align: middle;
+  margin-left: 25px;
+  margin-right: auto;
+}
+.mat-toolbar-row {
+  height: 56px;
+  margin: 0;
+}

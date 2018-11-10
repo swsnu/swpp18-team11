@@ -1,6 +1,6 @@
-import { Menu } from "./menu";
+import { Menu } from './menu';
 
-export class Category {
-  name: string
-  purchasables: Menu[]
+export interface Category {
+  name: string;
+  purchasables: Menu[];
 }

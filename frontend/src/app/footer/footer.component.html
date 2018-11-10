@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon class="deleteCartIcon"
+              (click)="emptyMyCart()">
+              remove_shopping_cart</mat-icon>
+
+    <mat-icon class="myCartIcon"
+              routerLink="/mycart"
+              matBadge="{{myCartCount}}" matBadgeColor="warn">
+      shopping_cart</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>

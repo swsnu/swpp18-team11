@@ -14,30 +14,30 @@ import { TtsService } from '../tts.service';
   styleUrls: ['./manage-order-display.component.css']
 })
 export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
-  public doneTickets$: Observable<Ticket[]>
-  public doingTickets$: Observable<Ticket[]>
-  public ticketChanges$: Observable<TicketChange>
+  public doneTickets$: Observable<Ticket[]>;
+  public doingTickets$: Observable<Ticket[]>;
+  public ticketChanges$: Observable<TicketChange>;
 
   public doneSubscription: Subscription;
 
-  constructor(private manageOrderStateService: ManageOrderStateService, private ttsService : TtsService) { }
+  constructor(private manageOrderStateService: ManageOrderStateService, private ttsService: TtsService) { }
 
   ngOnInit() {
     const tickets$ = this.manageOrderStateService.tickets$;
-    this.doingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'doing')))
-    this.doneTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')))
-    this.ticketChanges$ = this.manageOrderStateService.ticketChanges$
+    this.doingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'doing')));
+    this.doneTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')));
+    this.ticketChanges$ = this.manageOrderStateService.ticketChanges$;
 
     this.ticketChanges$.subscribe(ticketChange => {
       const ticket = ticketChange.ticket;
       if (ticket.state === 'done') {
-        this.ttsService.playTTS(ticket)
+        this.ttsService.playTTS(ticket);
       }
-    })
+    });
   }
 
   ngOnDestroy() {
-    this.doneSubscription.unsubscribe()
+    this.doneSubscription.unsubscribe();
 
   }
 

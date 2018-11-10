@@ -1,7 +1,7 @@
 manage-order works!
 <div>
   <h1>Done Tickets</h1>
-  <ul>
+  <ul class='done-ticket'>
     <li *ngFor="let ticket of doneTickets$ | async" (click)="handleDoneClick(ticket)">
       {{ ticket.number }}
       <ul>
@@ -21,7 +21,7 @@ manage-order works!
 
 <div>
   <h1>Todo/Doing Tickets</h1>
-  <ul>
+  <ul class='todo-doing-ticket'>
     <li *ngFor="let ticket of notDoneTickets$ | async" [style.background]='ticket.state === "doing"? "lightblue": ""'>
       {{ ticket.number }}
       <ul>
