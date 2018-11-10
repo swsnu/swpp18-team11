@@ -9,6 +9,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
 import { SelectStoreComponent } from './select-store/select-store.component';
+import { MyOrderComponent } from './my-order/my-order.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/order', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'order/:menu_id', component: SpecifyOrderComponent },
   { path: 'mycart', component: MyCartComponent },
   { path: 'payment', component: PaymentComponent },
+  { path: 'my-order', component: MyOrderComponent },
   { path: 'manage/order', component: ManageOrderComponent },
   { path: 'manage/display', component: ManageOrderDisplayComponent },
 ];

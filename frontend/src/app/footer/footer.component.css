@@ -4,10 +4,16 @@ mat-toolbar-row {
   padding: 0;
 }
 
-.deleteCartIcon {
+.myOrderIcon {
   margin: 0 auto;
   position: absolute;
   left: 15%;
+}
+
+.deleteCartIcon {
+  margin: 0 auto;
+  position: absolute;
+  left: 45%;
 }
 
 .myCartIcon {

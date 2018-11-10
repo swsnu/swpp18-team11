@@ -34,7 +34,7 @@ export class SpecifyOrderComponent implements OnInit {
     const id: string = this.location.path().substring(7);
     this.menuDataService.getProductInfo(id)
       .then(purchasable => {
-        this.product = new Purchasable(purchasable.data);
+        this.product = new Purchasable(purchasable);
         this.product.base_price = Math.floor(this.product.base_price);
         this.product.quantity = 1;
         this.initializeOption();
@@ -56,7 +56,7 @@ export class SpecifyOrderComponent implements OnInit {
   hasOptions(): boolean {
     if (!this.product.options) {    // check if no options at all
       return false;
-    } else if (this.product.options.length == 0) {
+    } else if (this.product.options.length === 0) {
       return false;
     } else {
       return true;

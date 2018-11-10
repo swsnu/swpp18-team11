@@ -1,7 +1,7 @@
 import pytest
 
 from datetime import datetime
-from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket
+from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket, User
 from django.contrib.gis.geos import Point
 
 @pytest.fixture
@@ -68,9 +68,16 @@ def purchasable_option_2():
     return x
 
 @pytest.fixture
-def tx_1(store_1, now):
+def user_1():
+    x = User(username='swppswpp', password='pw')
+    x.save()
+    return x
+
+@pytest.fixture
+def tx_1(store_1, user_1, now):
     tx = Tx(
         utxid="TXUID_1",
+        user=user_1,
         store=store_1,
         purchase_type="test",
         purchase_data="{}",
