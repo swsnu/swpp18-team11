@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectFoodComponent } from './select-food.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { DEFAULT_IMPORTS, DEFAULT_DUMB_IMPORTS } from '../testing';
 import { MenuDataService } from '../menu-data.service';
 import { MyCartService } from '../my-cart.service';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ describe('SelectFoodComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [ SelectFoodComponent ],
-      imports: [ RouterTestingModule ],
+      imports: [...DEFAULT_IMPORTS, ...DEFAULT_DUMB_IMPORTS],
       providers: [
         { provide: MyCartService, useValue: myCartServiceSpy },
         { provide: MenuDataService, useValue: menuDataServiceSpy }

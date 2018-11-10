@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ManageOrderComponent } from './manage-order.component';
 import { ManageOrderService } from '../manage-order.service';
 import { ManageOrderStateService } from '../manage-order-state.service';
+import { DEFAULT_IMPORTS } from '../testing';
 
 import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
@@ -50,7 +51,7 @@ describe('ManageOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [...DEFAULT_IMPORTS],
       providers: [
         { provide: ManageOrderService, useValue: manageOrderService },
         { provide: ManageOrderStateService, useValue: manageOrderStateService },

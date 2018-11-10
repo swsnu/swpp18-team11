@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectOptionComponent } from './select-option.component';
 import { SpecifyOrderComponent } from '../specify-order/specify-order.component';
+import { DEFAULT_IMPORTS } from '../testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('SelectOptionComponent', () => {
@@ -17,7 +18,8 @@ describe('SelectOptionComponent', () => {
         SpecifyOrderComponent,
       ],
       imports: [
-        NgbModule
+        ...DEFAULT_IMPORTS,
+        NgbModule,
       ]
     })
     .compileComponents();

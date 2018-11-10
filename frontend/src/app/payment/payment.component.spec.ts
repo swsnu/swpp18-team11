@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentComponent } from './payment.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DEFAULT_IMPORTS } from '../testing';
 import { Routes } from '@angular/router';
 import { SelectFoodComponent } from '../select-food/select-food.component';
 import { SpecifyOrderComponent } from '../specify-order/specify-order.component';
@@ -60,8 +60,8 @@ describe('PaymentComponent', () => {
         SelectOptionComponent,
       ],
       imports: [
+        ...DEFAULT_IMPORTS,
         RouterTestingModule.withRoutes(routes),
-        HttpClientTestingModule,
         NgbModule
       ],
       providers: [

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MyCartComponent } from './my-cart.component';
+import { DEFAULT_IMPORTS } from '../testing';
 
 import { Router } from '@angular/router';
 import { APP_BASE_HREF, Location } from '@angular/common';
@@ -37,8 +38,8 @@ describe('MyCartComponent', () => {
         SelectOptionComponent
       ],
       imports: [
-    //    RouterTestingModule,
         NgbModule,
+        ...DEFAULT_IMPORTS
       ],
       providers: [
         { provide: Router, useValue: routerSpy},
