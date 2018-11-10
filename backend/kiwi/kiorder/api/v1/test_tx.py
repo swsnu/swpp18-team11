@@ -5,7 +5,7 @@ from kiorder.models import Purchasable, PurchasableOption, User, Tx, TxItem
 from kiorder.services.tx import TxService, OrderSpec, PurchaseMethod
 from kiorder.services.ticket import TicketService
 from datetime import date
-from django.core import serializers
+from .purchasable import Purchasable
 
 from .base import BaseResource
 
@@ -19,8 +19,18 @@ class BaseTx(BaseResource):
 
 class TestTx(BaseTx):
     def get(self, request, user_id):
-        tx = [tx_item for tx_item in TxItem.objects.all() if tx_item.tx.user.id == user_id]
-        return self.success(tx)
+        def represent_purchasable(purch):
+            p = Purchasable()
+            return p.represent_purchasable(purch)
+
+        tx_items = [{'purchasable': represent_purchasable(tx_item.purchasable),
+                     'purchasable_name': tx_item.purchasable_name,
+                     'purchasable_base_price': tx_item.purchasable_base_price,
+                     'qty': tx_item.qty,
+                     'price': tx_item.price,
+                     'total_price': tx_item.price}
+                    for tx_item in TxItem.objects.all() if tx_item.tx.user.id == user_id]
+        return self.success(tx_items)
 
     @transaction.atomic
     def post(self, request):
