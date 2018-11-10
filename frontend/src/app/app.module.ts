@@ -11,6 +11,7 @@ import { MyCartComponent } from './my-cart/my-cart.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
+import { MyOrderComponent } from './my-order/my-order.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ManageOrderDisplayComponent } from './manage-order-display/manage-order
     SelectFoodComponent,
     ManageOrderComponent,
     ManageOrderDisplayComponent,
+    MyOrderComponent,
   ],
   imports: [
     BrowserModule,
