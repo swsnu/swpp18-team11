@@ -11,6 +11,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 
 export const DEFAULT_IMPORTS = [
   BrowserModule,
@@ -24,6 +29,12 @@ export const DEFAULT_IMPORTS = [
   MatBadgeModule,
   MatButtonModule,
   MatExpansionModule,
+  MatAutocompleteModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  ReactiveFormsModule,
+  FormsModule,
+  AgmCoreModule,
 ];
 
 export const DEFAULT_DUMB_IMPORTS = [

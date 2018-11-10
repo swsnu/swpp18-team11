@@ -1,0 +1,11 @@
+<form class="franchise-form">
+  <mat-form-field class="full-width franchise-field">
+    <input type="search" matInput placeholder="Franchise Name" matInput aria-label="Franchise Name" [matAutocomplete]="auto" [formControl]="franchiseCtrl">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleSelect($event)">
+      <mat-option *ngFor="let franchiseOption of franchiseOptions" [value]='franchiseOption.franchise.name'>
+        <span *ngFor="let word of franchiseOption.words" [class.strong]="word.strong">{{ word.name }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
