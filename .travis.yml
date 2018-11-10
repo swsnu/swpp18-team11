@@ -1,10 +1,12 @@
 matrix:
   include:
     - language: node_js
+      notifications:
+        slack: swppblender2018:soN9EST68mFickJ8zWLpaFQL
       node_js:
         - "8"
       dist: trusty
-      sudo: false
+      sudo: true
       cache:
         directories:
           - frontend/node_modules
@@ -23,6 +25,8 @@ matrix:
         - yarn test --karma-config src/karma-ci.conf.js --code-coverage
 
     - language: python
+      notifications:
+        slack: swppblender2018:soN9EST68mFickJ8zWLpaFQL
       python:
         - 3.7
       before_install: 
