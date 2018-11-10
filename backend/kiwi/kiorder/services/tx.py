@@ -203,6 +203,7 @@ class TxService:
             total_price=purchasable_option_spec.total_price,
         )
         tx_item_option.save()
+        print(tx_item.id)
         return tx_item_option
 
 
