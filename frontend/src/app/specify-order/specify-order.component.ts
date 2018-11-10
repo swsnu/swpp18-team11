@@ -56,7 +56,7 @@ export class SpecifyOrderComponent implements OnInit {
   hasOptions(): boolean {
     if (!this.product.options) {    // check if no options at all
       return false;
-    } else if (this.product.options.length == 0) {
+    } else if (this.product.options.length === 0) {
       return false;
     } else {
       return true;
