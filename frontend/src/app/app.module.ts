@@ -37,12 +37,9 @@ import { MatButtonModule } from '@angular/material/button';
     SelectFoodComponent,
     ManageOrderComponent,
     ManageOrderDisplayComponent,
-<<<<<<< HEAD
+    MyOrderComponent,
     HeaderComponent,
     FooterComponent,
-=======
-    MyOrderComponent,
->>>>>>> feature/9-my-order
   ],
   imports: [
     BrowserModule,
