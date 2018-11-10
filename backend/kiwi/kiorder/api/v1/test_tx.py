@@ -34,8 +34,8 @@ class TestTx(BaseTx):
                          'qty': option.qty,
                          'total_price': option.total_price
                      } for option in TxItemOption.objects.all() if option.tx_item.id == tx_item.id],
-                     'created_at': tx_item.tx_log.created_at,
-                     'state': tx_item.tx_log.state}
+                     'created_at': tx_item.tx.created_at,
+                     'state': tx_item.tx.ticket.get().state}
                     for tx_item in TxItem.objects.all() if tx_item.tx.user.id == user_id]
 
         return self.success(tx_items)
