@@ -37,7 +37,7 @@ class TestTx(BaseTx):
                      'created_at': tx_item.tx_log.created_at,
                      'state': tx_item.tx_log.state}
                     for tx_item in TxItem.objects.all() if tx_item.tx.user.id == user_id]
-        
+
         return self.success(tx_items)
 
     @transaction.atomic
