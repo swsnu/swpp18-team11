@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectStoreFranchiseComponent } from './select-store-franchise.component';
+import { DEFAULT_IMPORTS } from '../testing';
 
 describe('SelectStoreFranchiseComponent', () => {
   let component: SelectStoreFranchiseComponent;
@@ -8,6 +9,7 @@ describe('SelectStoreFranchiseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [...DEFAULT_IMPORTS],
       declarations: [ SelectStoreFranchiseComponent ]
     })
     .compileComponents();

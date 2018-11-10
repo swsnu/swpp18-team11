@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { SelectStoreComponent } from './select-store.component';
+import { DEFAULT_IMPORTS } from '../testing';
 
 describe('SelectStoreComponent', () => {
   let component: SelectStoreComponent;
@@ -8,7 +10,9 @@ describe('SelectStoreComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectStoreComponent ]
+      imports: [...DEFAULT_IMPORTS],
+      declarations: [ SelectStoreComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

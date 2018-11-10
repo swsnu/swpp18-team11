@@ -21,8 +21,8 @@ interface Marker {
 export class SelectStoreMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() franchiseId: any;
 
-  completed: boolean
-  height: number = 500;
+  completed: boolean;
+  height = 500;
 
   initialLatLng: LatLng = null;
   latLng: LatLng = null;
@@ -67,11 +67,11 @@ export class SelectStoreMapComponent implements OnInit, OnChanges, OnDestroy {
   handleBoundsChange(latLngBounds: LatLngBounds) {
     // 1 deg latitude corresponds to about 110.574 km
     this.radius = Math.abs(latLngBounds.getNorthEast().lng() - latLngBounds.getSouthWest().lng()) * 110.574;
-    this.markUpdateRequired$.next();   
+    this.markUpdateRequired$.next();
   }
 
   updateMarkers() {
-    if (this.franchiseId == null || !this.radius) { 
+    if (this.franchiseId == null || !this.radius) {
       return;
     }
 
