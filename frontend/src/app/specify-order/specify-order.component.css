@@ -1,0 +1,45 @@
+.thumbnail {
+  width: auto;
+  height: 200px;
+  max-height: 400px;
+}
+.product-info {
+  text-align: center;
+  padding-top: 5px;
+}
+#mainMenu {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-left: 30px;
+  padding-right: 20px;
+}
+
+.button-group {
+  text-align: center;
+  margin: 20px;
+  margin-top: 40px;
+  margin-botton: 30px;
+}
+.navigate-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+mat-expansion-panel {
+  margin: 20px;
+  margin-top: 30px;
+}
+.mat-expansion-panel-body {
+  padding: 0;
+  padding-bottom: 5px;
+}
+.option-panel-title {
+  justify-content: space-between;
+}
+.option-confirm {
+  padding: 0;
+}
+#totalPrice {
+  text-align: right;
+  margin-right: 20px;
+}

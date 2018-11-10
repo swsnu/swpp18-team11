@@ -1,0 +1,25 @@
+.cartList .mat-list-item {
+  height: 70px;
+}
+.purchasable {
+  display: flex;
+  flex-direction: row;
+}
+.mycart-list .mat-list-item {
+  height: auto;
+}
+#totalPrice {
+  text-align: right;
+  margin-right: 100px; /*does it works well?*/
+}
+.button-group {
+  text-align: center;
+  margin: 20px;
+  margin-top: 40px;
+  margin-botton: 30px;
+}
+.navigate-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/*TODO: FIX main page content covers header while scrolling-down*/

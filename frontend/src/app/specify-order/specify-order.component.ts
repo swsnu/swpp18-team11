@@ -16,7 +16,6 @@ import { Option } from '../option';
 })
 export class SpecifyOrderComponent implements OnInit {
   expandOption = false;
-
   product: Purchasable;
   selectedOptions: Option[] = [];
 
@@ -54,6 +53,15 @@ export class SpecifyOrderComponent implements OnInit {
       }
     }
   }
+  hasOptions(): boolean {
+    if (!this.product.options) {    // check if no options at all
+      return false;
+    } else if (this.product.options.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   hasChosenOption(): boolean {
     if(!this.product.options)
       return false
@@ -65,7 +73,9 @@ export class SpecifyOrderComponent implements OnInit {
       return false  // has no options, or all option's quantity is 0
     }
   }
-
+  changeOptionPageStatus(opened: boolean):void {
+    this.expandOption = opened
+  }
   openOptionSelectPage(): void {
     this.expandOption = !this.expandOption;
   }

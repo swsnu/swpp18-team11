@@ -23,7 +23,7 @@ describe('PaymentComponent', () => {
     thumbnail: '',
     base_price: 1000,
     quantity: 1,
-    total_price: 1000
+    total_price: 1000,
     options: [
       new Option({
         id: 1,

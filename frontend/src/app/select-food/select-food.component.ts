@@ -4,6 +4,7 @@ import { MenuDataService } from "../menu-data.service";
 
 import { Category } from "../category";
 import { MyCartService } from "../my-cart.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-select-food',
@@ -26,15 +27,18 @@ export class SelectFoodComponent implements OnInit {
     this.getMyCartCount()
   }
 
+  categorySelected($event): void {
+    this.categories$.subscribe(categories =>{
+      this.selectedCategory = categories[$event.index]
+      })
+  }
+
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories()
   }
 
   getMyCartCount(): void {
     this.myCartCount = this.myCartService.getMyCartCount()
-  }
-  selectCategory(selected: Category): void {
-    this.selectedCategory = selected
   }
 
   emptyCart(){
