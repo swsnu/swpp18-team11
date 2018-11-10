@@ -55,9 +55,8 @@ describe('MenuDataService', () => {
     };
 
     menuDataService.getProductInfo(testMenu.id)
-      .then(backendResponse => {
-        expect(backendResponse.success).toEqual(true);
-        expect(backendResponse.data).toEqual(testMenu, 'data contents equal');
+      .then(purchasable => {
+        expect(purchasable).toEqual(testMenu, 'data contents equal');
      });
     const req = httpTestingController.expectOne(menuUrl);
     expect(req.request.method).toEqual('GET');

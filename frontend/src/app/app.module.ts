@@ -12,6 +12,8 @@ import { MyCartComponent } from './my-cart/my-cart.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
+import { MyOrderComponent } from './my-order/my-order.component';
+
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 /* Angular Material stuffs */
@@ -35,6 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
     SelectFoodComponent,
     ManageOrderComponent,
     ManageOrderDisplayComponent,
+    MyOrderComponent,
     HeaderComponent,
     FooterComponent,
   ],
