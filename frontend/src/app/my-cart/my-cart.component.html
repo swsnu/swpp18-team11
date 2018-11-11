@@ -4,13 +4,10 @@
       <div class="purchasable-detail">
         <img src="{{purchasable.thumbnail}}"
              width="50" height="50">
-        {{purchasable.name}}
+        <label>{{purchasable.name}}</label>
         <mat-expansion-panel *ngIf="hasOptions(purchasable)"
-                             [expanded]="expandOption"
-                             [hideToggle]="true"
-                             (opened)="changeOptionPageStatus(true)"
-                             (closed)="changeOptionPageStatus(false)">
-          <mat-expansion-panel-header>
+                             [hideToggle]="true">
+          <mat-expansion-panel-header class="option-panel-header">
             <mat-panel-title class="option-panel-title">
               옵션 수정
               <mat-icon>add_circle_outline</mat-icon>
@@ -18,19 +15,21 @@
           </mat-expansion-panel-header>
           <app-select-option [options]="purchasable.options"
                              (optionChanged)="updateOptionChange($event)"></app-select-option>
-          <mat-action-row class="option-confirm">
-            <button mat-icon-button
-                    (click)="openOptionSelectPage()">
-              <mat-icon>checked_circle_outline</mat-icon>
-            </button>
-          </mat-action-row>
         </mat-expansion-panel>
-        <button (click)="decrement(idx)">-</button>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="quantity-control-buttons">
+        <button  mat-button
+                 class="quantity-button"
+                 (click)="decrement(idx)">-</button>
         {{purchasable.quantity}}개
-        <button (click)="increment(idx)">+</button>
+        <button  mat-button
+                 class="quantity-button"
+                 (click)="increment(idx)">+</button>
+      </div>
+      <div>
         {{purchasable.total_price}}원
         <button (click)="removePurchasable(idx)">X</button>
-        <mat-divider></mat-divider>
       </div>
     </mat-list-item>    <!--End of my cart list-->
   </mat-list>

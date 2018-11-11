@@ -17,7 +17,6 @@ export class MyCartComponent implements OnInit {
   totalPrice: number;
   selectedTab = 0;
   selectedIndex: number; // index of purchasable in my cart
-  expandOption = false;
   // cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
 
   constructor(
@@ -80,12 +79,6 @@ export class MyCartComponent implements OnInit {
       }
       return false;  // has no options, or all option's quantity is 0
     }
-  }
-  changeOptionPageStatus(opened: boolean): void {
-    this.expandOption = opened;
-  }
-  openOptionSelectPage(): void {
-    this.expandOption = !this.expandOption;
   }
   // some dirty codes to deal with purchasable instances of myCart
   increment(index: number): void {

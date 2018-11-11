@@ -23,6 +23,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatBadgeModule,
     MatButtonModule,
     MatExpansionModule,
+    MatCardModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -43,3 +43,6 @@ mat-expansion-panel {
   text-align: right;
   margin-right: 20px;
 }
+.confirm-option-button {
+  margin-right: 30px;
+}

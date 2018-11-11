@@ -1,16 +1,17 @@
-.cartList .mat-list-item {
-  height: 70px;
-}
 .purchasable {
   display: flex;
   flex-direction: row;
 }
 .mycart-list .mat-list-item {
   height: auto;
+  margin-top: 10px;
 }
 #totalPrice {
   text-align: right;
   margin-right: 100px; /*does it works well?*/
+}
+.option-panel-title {
+  justify-content: space-between;
 }
 .button-group {
   text-align: center;
@@ -22,4 +23,13 @@
   margin-left: 10px;
   margin-right: 10px;
 }
-/*TODO: FIX main page content covers header while scrolling-down*/
+.quantity-control-buttons {
+  flex: auto;
+  min-width: 110px;
+}
+.quantity-button {
+  min-width: 10px;
+}
+.purchasable-detail{
+  font-size: medium;
+}
