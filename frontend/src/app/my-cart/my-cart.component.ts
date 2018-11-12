@@ -61,7 +61,7 @@ export class MyCartComponent implements OnInit {
     // check if no options at all
     if (!purchasable.options) {
       return false;
-    } else if (purchasable.options.length == 0) {
+    } else if (purchasable.options.length === 0) {
       return false;
     } else {
       return true;

@@ -1,0 +1,20 @@
+<h2> 내 주문목록 </h2>
+<ul *ngFor="let txItem of (txItems$ | async)">
+  <li>
+    <img width="50" height="50" src={{txItem.purchasable.thumbnail}}/> <br/>
+    {{txItem.purchasableName}} x {{txItem.qty}} <br/>
+    옵션:
+    <span *ngIf="txItem.options.length > 0; else noOption">
+      <br/>
+      <ul *ngFor="let option of txItem.options">
+        <li>
+          {{option.optionName}} x {{option.qty}}
+        </li>
+      </ul>
+    </span>
+    <ng-template #noOption> 없음 <br/></ng-template>
+    총 가격: {{txItem.totalPrice}} <br/>
+    주문상태: {{txItem.state}} <br/>
+    결제일시: {{txItem.createdAt}} <br/>
+  </li>
+</ul>
