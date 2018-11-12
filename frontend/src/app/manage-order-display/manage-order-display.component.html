@@ -1,14 +1,51 @@
-manage-order-display works!
-<h1> Done </h1>
-<ul class='done-ticket'>
-  <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
-    {{ ticket.number }}
-  </li>
-</ul>
+<!--mat-grid-list class="container"
+               cols="2">
+  <mat-grid-tile class="done-title">
+    <h1> Done </h1>
+  </mat-grid-tile>
+  <mat-grid-tile class="todo-doing-title">
+    <h1> Doing </h1>
+  </mat-grid-tile>
+  <mat-grid-tile class="done-ticket-display">
+    <ul class='done-ticket'>
+      <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
+        {{ ticket.number }}
+      </li>
+    </ul>
+  </mat-grid-tile>
+  <mat-grid-tile class="todo-doing-ticket-display">
+    <ul class='todo-doing-ticket'>
+      <li *ngFor='let ticket of todoDoingTickets$ | async'>
+        {{ ticket.number }}
+      </li>
+    </ul>
+  </mat-grid-tile>
+</mat-grid-list-->
 
-<h1> Doing </h1>
-<ul class='doing-ticket'>
-  <li *ngFor='let ticket of doingTickets$ | async'>
-    {{ ticket.number }}
-  </li>
-</ul>
+
+<div class="container">
+  <div class="title"
+       id="done-title">
+    <h1> Done </h1>
+  </div>
+  <div class="title"
+       id="todo-doing-title">
+    <h1> Doing </h1>
+  </div>
+  <div class="ticket-display"
+       id="done-ticket-display">
+    <ul class='done-ticket'>
+      <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
+        {{ ticket.number }}
+      </li>
+    </ul>
+  </div>
+  <div class="ticket-display"
+       id="todo-doing-ticket-display">
+    <ul class='todo-doing-ticket'>
+      <li *ngFor='let ticket of todoDoingTickets$ | async'>
+        {{ ticket.number }}
+      </li>
+    </ul>
+  </div>
+</div>
