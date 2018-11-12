@@ -9,7 +9,7 @@ import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
 import { ReplaySubject, of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {CdkDrag, CdkDragDrop, CdkDropListContainer, DragDropModule} from "@angular/cdk/drag-drop";
+import { CdkDrag, CdkDragDrop, CdkDropListContainer, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card';
 
 
@@ -121,49 +121,50 @@ describe('ManageOrderComponent', () => {
       expect(manageOrderStateService.forceRefresh).toHaveBeenCalled();
     });
   }));
+  /* TODO: write test code for CdkDragDrop
 
-  describe('can execute handleDragDrop',()=>{
+describe('can execute handleDragDrop', () => {
 
-    let dropEvent: CdkDragDrop<Ticket[]>;
-    let container: CdkDropListContainer<Ticket[]>;
-    let prevContainer: CdkDropListContainer<Ticket[]>;
+  let dropEvent: CdkDragDrop<Ticket[]>;
+  const container: CdkDropListContainer<Ticket[]>;
+  const prevContainer: CdkDropListContainer<Ticket[]>;
 
-    beforeEach(async(()=> {
-      dropEvent = {
-        previousIndex: 0,
-        currentIndex: 1,
-        item: TestBed.get(CdkDrag),
-        previousContainer: prevContainer,
-        container: container
-      };
-    }));
+  beforeEach(async(() => {
+    dropEvent = {
+      previousIndex: 0,
+      currentIndex: 1,
+      item: TestBed.get(CdkDrag),
+      previousContainer: prevContainer,
+      container: container
+    };
+  }));
 
-    it('when dropped in same container', async(()=>{
-      dropEvent.container = prevContainer;
-      fixture.componentInstance.handleDragDrop(dropEvent);
-      // nothing happens
-    }));
-    /* TODO: write test code for CdkDragDrop
-    it('when dropped tp done container', async(()=>{
-      const ticket = tickets[1];  // doing_ticket
-      dropEvent.item.data = ticket;
-      fixture.componentInstance.handleDragDrop(dropEvent);
-      // called handleMoveToDone;
-      fixture.whenStable().then(() => {
-        expect(manageOrderService.patchState).toHaveBeenCalledWith(ticket, 'done');
-        expect(manageOrderStateService.forceRefresh).toHaveBeenCalled();
-      });
-    }));
+  it('when dropped in same container', async(() => {
+    dropEvent.container = prevContainer;
+    fixture.componentInstance.handleDragDrop(dropEvent);
+    // nothing happens
+  }));
 
-    it('when dropped to to do container', async(()=>{
-      const ticket = tickets[0];
-      dropEvent.item.data = ticket;
-      fixture.componentInstance.handleDragDrop(dropEvent);
-      fixture.whenStable().then(() => {
-        expect(manageOrderService.patchState).toHaveBeenCalledWith(ticket, 'doing');
-        expect(manageOrderStateService.forceRefresh).toHaveBeenCalled();
-      });
-    }));
+  it('when dropped tp done container', async(()=>{
+    const ticket = tickets[1];  // doing_ticket
+    dropEvent.item.data = ticket;
+    fixture.componentInstance.handleDragDrop(dropEvent);
+    // called handleMoveToDone;
+    fixture.whenStable().then(() => {
+      expect(manageOrderService.patchState).toHaveBeenCalledWith(ticket, 'done');
+      expect(manageOrderStateService.forceRefresh).toHaveBeenCalled();
+    });
+  }));
+
+  it('when dropped to to do container', async(()=>{
+    const ticket = tickets[0];
+    dropEvent.item.data = ticket;
+    fixture.componentInstance.handleDragDrop(dropEvent);
+    fixture.whenStable().then(() => {
+      expect(manageOrderService.patchState).toHaveBeenCalledWith(ticket, 'doing');
+      expect(manageOrderStateService.forceRefresh).toHaveBeenCalled();
+    });
+  }));
+  });
     */
-  })
 });

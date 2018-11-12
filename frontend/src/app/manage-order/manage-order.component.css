@@ -4,9 +4,9 @@
   align-items: flex-start;
 }
 .done-ticket-container{
-  overflow-x: scroll;
   display: flex;
   margin-left: 10px;
+  overflow-x: scroll;
 }
 .done-ticket-card {
   min-width: 200px;
@@ -15,16 +15,15 @@
   overflow-y: scroll;
 }
 .todo-doing-ticket-container {
-  overflow-x: scroll;
   display: flex;
   margin-left: 10px;
+  overflow-x: scroll;
 }
 .todo-doing-ticket-card {
   min-width: 200px;
   height: 350px;
   margin-right: 8px;
   overflow-y: scroll;
-  text-align: left;
 }
 ul {
   list-style-type: none;

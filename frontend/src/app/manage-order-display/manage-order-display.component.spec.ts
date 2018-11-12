@@ -40,12 +40,20 @@ describe('ManageOrderDisplayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('can show done and doing tickets', async(() => {
+  it('can show to-do, doing and done tickets', async(() => {
     const tickets = [
       new Ticket({
         id: 1,
         state: 'done',
         number: 9,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        purchasables: [],
+      }),
+      new Ticket({
+        id: 2,
+        state: 'todo',
+        number: 19,
         createdAt: new Date(),
         updatedAt: new Date(),
         purchasables: [],
@@ -67,7 +75,8 @@ describe('ManageOrderDisplayComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('ul.done-ticket > li').textContent.trim()).toEqual('9');
-      expect(fixture.nativeElement.querySelector('ul.doing-ticket > li').textContent.trim()).toEqual('99');
+      expect(fixture.nativeElement.querySelectorAll('ul.todo-doing-ticket > li')[0].textContent.trim()).toEqual('19');
+      expect(fixture.nativeElement.querySelectorAll('ul.todo-doing-ticket > li')[1].textContent.trim()).toEqual('99');
     });
   }));
 });

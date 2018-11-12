@@ -68,18 +68,6 @@ export class MyCartComponent implements OnInit {
     }
   }
 
-  hasChosenOption(purchasable: Purchasable): boolean {
-    if (!purchasable.options) {
-      return false;
-    } else {
-      for (const option of purchasable.options) {
-        if (option.quantity > 0) {
-          return true;
-        }
-      }
-      return false;  // has no options, or all option's quantity is 0
-    }
-  }
   // some dirty codes to deal with purchasable instances of myCart
   increment(index: number): void {
     const changedCart = this.myCart;

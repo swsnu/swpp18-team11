@@ -6,7 +6,7 @@ import { ManageOrderStateService } from '../manage-order-state.service';
 
 import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
-import {CdkDragDrop} from "@angular/cdk/drag-drop";
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-manage-order',
@@ -25,7 +25,7 @@ export class ManageOrderComponent implements OnInit {
     this.tickets$ = this.manageOrderStateService.tickets$;
     this.doneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')));
     this.notDoneTickets$ = this.tickets$.pipe(map(tickets => tickets.filter(x => x.state !== 'done')));
-    this.notDoneTicketsCount$ = this.notDoneTickets$.pipe(map(tickets => tickets.length))
+    this.notDoneTicketsCount$ = this.notDoneTickets$.pipe(map(tickets => tickets.length));
   }
 
   handleNotDoneClick(ticket: Ticket) {
@@ -55,9 +55,9 @@ export class ManageOrderComponent implements OnInit {
   handleDragDrop(event: CdkDragDrop<Ticket[]>) {
     if (event.previousContainer === event.container) {
     } else if (event.item.data.state === 'done') {
-      this.handleMoveToDoing(event.item.data)
-    } else { //event.ite.data.state === 'tod o' or 'done'
-      this.handleMoveToDone(event.item.data)
+      this.handleMoveToDoing(event.item.data);
+    } else { // event.ite.data.state === 'tod o' or 'done'
+      this.handleMoveToDone(event.item.data);
     }
   }
 }

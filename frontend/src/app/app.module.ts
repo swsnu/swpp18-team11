@@ -24,6 +24,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
@@ -54,6 +55,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatExpansionModule,
     MatCardModule,
+    MatGridListModule,
     DragDropModule,
   ],
   providers: [],

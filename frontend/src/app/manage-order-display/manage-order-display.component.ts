@@ -15,7 +15,7 @@ import { TtsService } from '../tts.service';
 })
 export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
   public doneTickets$: Observable<Ticket[]>;
-  public doingTickets$: Observable<Ticket[]>;
+  public todoDoingTickets$: Observable<Ticket[]>;
   public ticketChanges$: Observable<TicketChange>;
 
   public doneSubscription: Subscription;
@@ -24,7 +24,7 @@ export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     const tickets$ = this.manageOrderStateService.tickets$;
-    this.doingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'doing')));
+    this.todoDoingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state !== 'done')));
     this.doneTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')));
     this.ticketChanges$ = this.manageOrderStateService.ticketChanges$;
 
@@ -37,8 +37,8 @@ export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    this.doneSubscription.unsubscribe();
-
+    if (this.doneSubscription) {
+      this.doneSubscription.unsubscribe();
+    }
   }
-
 }

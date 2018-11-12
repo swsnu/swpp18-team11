@@ -113,6 +113,7 @@ describe('MyCartComponent', () => {
     const optionUndefinedPurchasable = new Purchasable({
       id: 2, name: 'noOption', total_price: 10
     });
+    optionUndefinedPurchasable.options = undefined;
     expect(component.hasOptions(optionUndefinedPurchasable)).toEqual(false);
     // option empty array
     expect(component.hasOptions(testPurchasable)).toEqual(false);

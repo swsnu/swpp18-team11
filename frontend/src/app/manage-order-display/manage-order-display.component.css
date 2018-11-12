@@ -1,3 +1,35 @@
+.container {
+  height: 100vh;
+  min-height: 100vh;
+}
+.title {
+  width: 50%;
+  height: 20%;
+  float: left;
+  background: black;
+  color: yellow;
+  box-sizing: border-box;
+  border-bottom: 5px solid white;
+  font-size: x-large;
+  text-align: center;
+}
+.ticket-display {
+  width: 50%;
+  height: 80%;
+  float: left;
+  background: black;
+  color: yellow;
+  box-sizing: border-box;
+  font-size: xx-large;
+  padding-left: 40px;
+}
+#done-title {
+  border-right: 5px solid white;
+}
+#done-ticket-display {
+  border-right: 5px solid white;
+}
+
 .blink_me {
   animation: blinker 0.8s linear;
   animation-iteration-count: 4;
