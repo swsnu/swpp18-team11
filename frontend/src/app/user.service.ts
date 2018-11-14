@@ -16,7 +16,7 @@ export class UserService {
   }
   getUserId(): string {
     // TODO
-    return '2';
+    return '4';
   }
   getMyTx(): Observable<TxItem[]> {
     const userId = this.getUserId();

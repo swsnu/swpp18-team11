@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ManageOrderStateService } from '../manage-order-state.service';
 import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
@@ -11,9 +11,11 @@ import { TtsService } from '../tts.service';
 @Component({
   selector: 'app-manage-order-display',
   templateUrl: './manage-order-display.component.html',
-  styleUrls: ['./manage-order-display.component.css']
+  styleUrls: ['./manage-order-display.component.css'],
 })
 export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
+
+
   public doneTickets$: Observable<Ticket[]>;
   public todoDoingTickets$: Observable<Ticket[]>;
   public ticketChanges$: Observable<TicketChange>;

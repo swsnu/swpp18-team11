@@ -21,7 +21,15 @@
   color: yellow;
   box-sizing: border-box;
   font-size: xx-large;
-  padding-left: 40px;
+  padding: 20px 40px;
+}
+.ticket-display ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 0.5em;
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
 }
 #done-title {
   border-right: 5px solid white;
