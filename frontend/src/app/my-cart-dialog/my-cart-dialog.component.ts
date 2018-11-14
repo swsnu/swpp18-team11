@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import { Purchasable } from "../purchasable";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Purchasable } from '../purchasable';
 
 @Component({
   selector: 'app-my-cart-dialog',
