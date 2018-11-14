@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
+import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
 import { SelectOptionComponent } from '../select-option/select-option.component';
 
 describe('MyCartComponent', () => {
@@ -35,7 +36,8 @@ describe('MyCartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MyCartComponent,
-        SelectOptionComponent
+        MyCartDialogComponent,
+        SelectOptionComponent,
       ],
       imports: [
         NgbModule,
@@ -102,12 +104,6 @@ describe('MyCartComponent', () => {
     expect(component.myCart).toEqual(myCartServiceSpy.getMyCart());
   });
 
-  it('selectIndex should set selectedIndex', () => {
-    component.selectedIndex = 1;
-    component.selectIndex(2);
-    expect(component.selectedIndex).toEqual(2);
-  });
-
   it('hasOptions should check Purchasable options', () => {
     // option undefined
     const optionUndefinedPurchasable = new Purchasable({
@@ -160,8 +156,7 @@ describe('MyCartComponent', () => {
 
   it('updateOptionChange should update purchasable options', () => {
     const newOptions: Option[] = [new Option({total_price: 100})];
-    component.selectedIndex = 0;
-    component.updateOptionChange(newOptions);
+    component.updateOptionChange(newOptions, 0);
     // updatePurchasablePrice called
     expect(component.myCart[0].total_price).toEqual(110);
     // myCartService.updateMyCart called
