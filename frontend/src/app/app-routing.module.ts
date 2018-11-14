@@ -12,7 +12,7 @@ import { SelectStoreComponent } from './select-store/select-store.component';
 import { MyOrderComponent } from './my-order/my-order.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/order', pathMatch: 'full' },
+  { path: '', redirectTo: '/store', pathMatch: 'full' },
   { path: 'store', component: SelectStoreComponent },
   { path: 'order', component: SelectFoodComponent },
   { path: 'order/:menu_id', component: SpecifyOrderComponent },

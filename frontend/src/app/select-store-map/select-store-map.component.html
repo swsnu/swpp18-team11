@@ -1,7 +1,7 @@
 <agm-map *ngIf="initialLatLng" [zoom]='14' [style.height]='height + "px"' [latitude]='initialLatLng.lat' [longitude]='initialLatLng.lng' (centerChange)="handleCenterChange($event)" (boundsChange)="handleBoundsChange($event)">
   <agm-marker *ngFor="let marker of markers$ | async" [latitude]="marker.lat" [longitude]="marker.lng">
     <agm-info-window>
-      <div>
+      <div routerLink="/order">
         <strong>{{ marker.name }}</strong>
       </div>
     </agm-info-window>

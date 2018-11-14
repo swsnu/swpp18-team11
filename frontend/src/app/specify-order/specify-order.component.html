@@ -11,10 +11,6 @@
       <button mat-button (click)="increment()">+</button>
     </label>
   </div>
-  <!--div *ngIf="hasOptions()">
-    <app-select-option [options]="product.options"
-                       (optionChanged)="updateOptionChange($event)"></app-select-option>
-  </div-->
   <mat-expansion-panel *ngIf="hasOptions()"
     [expanded]="expandOption"
     [hideToggle]="true"
