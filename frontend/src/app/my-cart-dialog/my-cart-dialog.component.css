@@ -1,0 +1,14 @@
+h3 {
+  marign-top: 0;
+  margin-botton: 15px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-left: 10px;
+  padding-right: 15px;
+}
+.mat-list .mat-list-item .mat-list-item-content {
+  padding: 0 5px;
+}

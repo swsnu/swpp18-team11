@@ -20,6 +20,8 @@ import { SelectStoreFranchiseComponent } from './select-store-franchise/select-s
 import { SelectStoreMapComponent } from './select-store-map/select-store-map.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MyCartDialogComponent } from './my-cart-dialog/my-cart-dialog.component';
+
 /* Angular Material stuffs */
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
@@ -35,7 +37,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatDialogModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -53,6 +55,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SelectStoreComponent,
     SelectStoreFranchiseComponent,
     SelectStoreMapComponent,
+    MyCartDialogComponent,
+  ],
+  entryComponents: [
+    MyCartDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +84,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DragDropModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
