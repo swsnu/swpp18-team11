@@ -30,7 +30,7 @@ class BaseResource(View):
         try:
             return self.store
         except AttributeError:
-            self.store = store = Store.objects.first()
+            self.store = store = Store.objects.order_by('id').first()
             if not store:
                 self.abort(status_code=404, message="No store")
             return store

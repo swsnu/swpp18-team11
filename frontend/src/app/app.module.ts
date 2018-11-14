@@ -37,7 +37,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDialogModule } from "@angular/material";
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [

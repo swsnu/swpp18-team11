@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
-import { MyCartDialogComponent } from "../my-cart-dialog/my-cart-dialog.component";
-import { MatDialog } from "@angular/material";
+import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-my-cart',
@@ -66,20 +66,20 @@ export class MyCartComponent implements OnInit {
     const purchasable = this.myCart[index];
 
     // clone purchasable option to originalOption
-    let originalOption: Option[] = [];
-    for(let option of purchasable.options) {
+    const originalOption: Option[] = [];
+    for (const option of purchasable.options) {
       originalOption.push(new Option(option));
     }
     const dialogRef = this.optionDialog.open(MyCartDialogComponent,
       {data: purchasable});
-    dialogRef.afterClosed().subscribe(changedOption =>{
-      if(changedOption){
+    dialogRef.afterClosed().subscribe(changedOption => {
+      if (changedOption) {
         this.updateOptionChange(changedOption, index);
       } else {
         // User clicked 'Cancel' or clicked outside of the dialog
         this.updateOptionChange(originalOption, index);
       }
-    })
+    });
   }
 
   // some dirty codes to deal with purchasable instances of myCart

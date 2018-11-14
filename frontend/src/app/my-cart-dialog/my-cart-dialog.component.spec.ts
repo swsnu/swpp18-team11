@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MyCartDialogComponent } from './my-cart-dialog.component';
+import { SelectOptionComponent } from '../select-option/select-option.component';
 
 describe('MyCartDialogComponent', () => {
   let component: MyCartDialogComponent;
@@ -8,7 +8,10 @@ describe('MyCartDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyCartDialogComponent ]
+      declarations: [
+        MyCartDialogComponent,
+        SelectOptionComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -17,9 +20,5 @@ describe('MyCartDialogComponent', () => {
     fixture = TestBed.createComponent(MyCartDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });
