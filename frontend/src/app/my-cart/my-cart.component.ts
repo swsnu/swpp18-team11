@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
+import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-my-cart',
@@ -16,13 +17,12 @@ export class MyCartComponent implements OnInit {
   myCart: Purchasable[];
   totalPrice: number;
   selectedTab = 0;
-  selectedIndex: number; // index of purchasable in my cart
-  // cartChanged: EventEmitter<Purchasable[]> = new EventEmitter<Purchasable[]>()
 
   constructor(
     private myCartService: MyCartService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private optionDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -31,7 +31,6 @@ export class MyCartComponent implements OnInit {
     }
     this.getMyCart();
     this.updateTotalPrice();
-    this.selectedIndex = 0; // initialize
   }
 
   updateMyCart(cartChanged: Purchasable[]): void {
@@ -52,11 +51,6 @@ export class MyCartComponent implements OnInit {
     this.selectedTab = (this.selectedTab + 1) % 2;
   }
 
-  selectIndex(index: number): void {
-    // update selectedPurchasable to pass data to select-option component.
-    this.selectedIndex = index;
-  }
-
   hasOptions(purchasable: Purchasable): boolean {
     // check if no options at all
     if (!purchasable.options) {
@@ -66,6 +60,26 @@ export class MyCartComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  openOptionDialog(index: number): void {
+    const purchasable = this.myCart[index];
+
+    // clone purchasable option to originalOption
+    const originalOption: Option[] = [];
+    for (const option of purchasable.options) {
+      originalOption.push(new Option(option));
+    }
+    const dialogRef = this.optionDialog.open(MyCartDialogComponent,
+      {data: purchasable});
+    dialogRef.afterClosed().subscribe(changedOption => {
+      if (changedOption) {
+        this.updateOptionChange(changedOption, index);
+      } else {
+        // User clicked 'Cancel' or clicked outside of the dialog
+        this.updateOptionChange(originalOption, index);
+      }
+    });
   }
 
   // some dirty codes to deal with purchasable instances of myCart
@@ -88,10 +102,10 @@ export class MyCartComponent implements OnInit {
     }
   }
 
-  updateOptionChange(changedOptions: Option[]): void {
-    this.myCart[this.selectedIndex].options = changedOptions;
-    this.myCart[this.selectedIndex] =
-      this.updatePurchasablePrice(this.myCart[this.selectedIndex]);
+  updateOptionChange(changedOptions: Option[], index: number): void {
+    this.myCart[index].options = changedOptions;
+    this.myCart[index] =
+      this.updatePurchasablePrice(this.myCart[index]);
     this.myCartService.updateMyCart(this.myCart);
     this.updateTotalPrice();
   }
