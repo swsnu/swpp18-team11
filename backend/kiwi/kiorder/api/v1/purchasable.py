@@ -12,6 +12,13 @@ class Purchasable(BaseResource):
             "max_capacity": option.max_capacity,
         }
 
+    def represent_badge(self, badge):
+        return {
+            "id": badge.id,
+            "name": badge.name,
+            "icon": badge.icon and badge.icon.url or None
+        }
+
     def represent_purchasable(self, purch):
         return {
             "id": purch.id,
@@ -21,6 +28,10 @@ class Purchasable(BaseResource):
             "options": [
                 self.represent_option(option)
                 for option in purch.purchasable_options.all()
+            ],
+            "badges": [
+                self.represent_badge(badge)
+                for badge in purch.badges.all()
             ]
         }
 

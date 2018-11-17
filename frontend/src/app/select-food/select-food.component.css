@@ -16,3 +16,15 @@
   padding-top:0;
   position: fixed;
 }
+.menuName {
+  font-weight: bold;
+  font-size: 25px;
+}
+.badge-icon {
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+}
+.badge-name {
+  font-size: 15px
+}

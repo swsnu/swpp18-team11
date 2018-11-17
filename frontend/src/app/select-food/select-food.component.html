@@ -12,7 +12,15 @@
                src="{{menu.thumbnail}}">
         </span>
         <span>
-          <h3 class="menuName">{{menu.name}}</h3>
+          <div>
+            <span class="menuName">
+              {{menu.name}}
+            </span>
+            <span *ngFor="let badge of menu.badges">
+              <img class="badge-icon" src="{{badge.icon}}"/>
+              <span class="badge-name">{{badge.name}}</span>
+            </span>
+          </div>
           {{menu.base_price}}
         </span>
         <mat-divider></mat-divider>
