@@ -33,6 +33,10 @@ export class SelectFoodComponent implements OnInit {
       });
   }
 
+  mathFloor(num: number): number {
+    return Math.floor(num);
+  }
+
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories();
   }

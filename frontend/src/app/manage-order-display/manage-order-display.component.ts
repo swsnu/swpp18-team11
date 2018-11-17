@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ManageOrderStateService } from '../manage-order-state.service';
 import { Ticket } from '../ticket';
-import { TicketChange } from '../ticket-change';
+import { TicketArrived, TicketChange, TicketModified } from '../ticket-change';
 
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
 
     this.ticketChanges$.subscribe(ticketChange => {
       const ticket = ticketChange.ticket;
-      if (ticket.state === 'done') {
+      if (ticket.state === 'done' && (ticketChange instanceof TicketArrived || ticketChange instanceof TicketModified)) {
         this.ttsService.playTTS(ticket);
       }
     });
