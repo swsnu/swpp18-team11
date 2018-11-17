@@ -1,8 +1,12 @@
 <div *ngIf="!locationUrl.startsWith('/manage'); else manager_content">
   <app-header class="header"></app-header>
-  <div class="main"><router-outlet></router-outlet></div>
+  <div class="main">
+    <router-outlet></router-outlet>
+    <span class="timeout-warning"> {{idleWarning}} </span>
+  </div>
   <app-footer class="footer"></app-footer>
 </div>
 <ng-template #manager_content>
   <router-outlet></router-outlet>
+  <div></div>
 </ng-template>
