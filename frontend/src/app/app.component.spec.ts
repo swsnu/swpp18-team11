@@ -17,9 +17,10 @@ fdescribe('AppComponent', () => {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents();
   }));
-  it('should create the app', async(() => {
+  it('should create the app', (done) => {
     const fixture = TestBed.createComponent(AppComponent);
+    done();
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
+  });
 });
