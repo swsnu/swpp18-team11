@@ -3,8 +3,13 @@ from .views import hello_world, order_tts
 from . import api
 
 urlpatterns = [
+    path('api/v1/user/me', api.v1.user.MySelf.as_view()),
+    path('api/v1/user/sign_up', api.v1.user.SignUp.as_view()),
+    path('api/v1/user/sign_in', api.v1.user.SignIn.as_view()),
+    path('api/v1/user/current_store', api.v1.user.CurrentStore.as_view()),
     path('api/v1/franchise', api.v1.franchise.Franchise.as_view()),
     path('api/v1/franchise/<int:franchise_id>/store', api.v1.store.StoreOfFranchise.as_view()),
+    path('api/v1/store/<int:id>', api.v1.store.StoreDetail.as_view()),
     path('api/v1/purchasable', api.v1.purchasable.Purchasable.as_view()),
     path('api/v1/purchasable/<int:id>', api.v1.purchasable.Purchasable.as_view()),
     path('api/v1/test_tx', api.v1.test_tx.TestTx.as_view()),

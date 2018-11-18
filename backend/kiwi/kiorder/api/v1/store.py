@@ -38,3 +38,12 @@ class StoreOfFranchise(BaseStore):
         )
         return self.success([self.represent_store(store) for store in stores])
 
+
+class StoreDetail(BaseStore):
+    def get(self, request, *, id):
+        try:
+            store = Store.objects.get(id=id)
+            return self.success(self.represent_store(store))
+        except Store.DoesNotExist:
+            return self.error(message=f"Store {id} not found", status_code=404)
+
