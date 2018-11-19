@@ -1,7 +1,7 @@
 import pytest
 
 from datetime import datetime
-from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket, User
+from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket, User, MyCart, MyCartItem
 from django.contrib.gis.geos import Point
 
 @pytest.fixture
@@ -102,4 +102,26 @@ def ticket_1(tx_1, store_1):
     )
     ticket.save()
     return ticket
+
+
+
+@pytest.fixture
+def my_cart_1(store_1, user_1):
+    my_cart = MyCart(
+        store = store_1,
+        user = user_1
+    )
+    my_cart.save()
+    return my_cart
+
+
+@pytest.fixture
+def my_cart_item_1(my_cart_1, purchasable_1):
+    my_cart_item = MyCartItem(
+        my_cart = my_cart_1,
+        purchasable = purchasable_1,
+        qty = 2
+    )
+    my_cart_item.save()
+    return my_cart_item
 
