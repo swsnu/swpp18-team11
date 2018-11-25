@@ -1,5 +1,6 @@
 import { Menu } from './menu';
 import { Option } from './option';
+import { Badge } from './badge';
 
 export class Purchasable implements Menu {
   id: number;
@@ -9,6 +10,7 @@ export class Purchasable implements Menu {
   quantity = 1;
   total_price: number;
   options: Option[];
+  badges: Badge[];
 
   constructor(args: Partial<Purchasable>) {
     Object.assign(this, args);

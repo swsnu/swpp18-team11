@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule } from '@agm/core';
+import { NgIdleModule } from '@ng-idle/core';
+import { UserIdleModule } from 'angular-user-idle';
 /* Components */
 import { AppComponent } from './app.component';
 import { SelectFoodComponent } from './select-food/select-food.component';
@@ -85,6 +87,7 @@ import { MatDialogModule } from '@angular/material';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    NgIdleModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
