@@ -10,6 +10,9 @@ gtts = "*"
 pillow = "*"
 django-map-widgets = "*"
 uwsgi = "*"
+"psycopg2" = "*"
+"boto3" = "*"
+django-storages = "*"
 
 [dev-packages]
 pytest = "*"

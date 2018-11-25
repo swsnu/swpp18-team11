@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'sortedm2m',
     'mapwidgets',
+    'storages',
     'kiorder',
 ]
 
@@ -73,19 +74,51 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kiwi.wsgi.application'
 
+DEPLOYMENT_STAGE = os.environ.get('DEPLOYMENT_STAGE', 'development')
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'TEST': {'NAME': ':memory:'}
+if DEPLOYMENT_STAGE == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'TEST': {'NAME': ':memory:'}
+        }
     }
-}
-SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+    SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+elif DEPLOYMENT_STAGE in ('staging', 'production'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': 'kiwi',
+            'USER': os.environ['DB_USER'],
+            'PASSWORD': os.environ['DB_PASSWORD'],
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', ''),
+            'TEST': {
+                'NAME': 'kiwi_test',
+            },
+        }
+    }
 
+if DEPLOYMENT_STAGE == 'development':
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_URL = '/media/'
+else:
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') or 'swpp-blender-dev'
+    AWS_S3_CUSTOM_DOMAIN = f's3.ap-northeast-2.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}'
+
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+    DEFAULT_FILE_STORAGE = 'kiwi.storage_backends.PublicMediaStorage'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 
 # Password validation
@@ -129,7 +162,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 AUTH_USER_MODEL = "kiorder.User"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
 
