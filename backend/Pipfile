@@ -9,6 +9,7 @@ gtts = "*"
 "django-sortedm2m" = "*"
 pillow = "*"
 django-map-widgets = "*"
+uwsgi = "*"
 
 [dev-packages]
 pytest = "*"
