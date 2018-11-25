@@ -91,19 +91,21 @@ describe('MyCartComponent', () => {
     expect(component.totalPrice).toEqual(myCartServiceSpy.getTotalPrice());
   });
 
+  /*
   it('updateMyCart should set myCart and updateTotalPrice', () => {
     const testMyCartAnother = [testPurchasable];
     component.updateMyCart(testMyCartAnother);
     expect(component.myCart).toEqual(testMyCartAnother);
     expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
   });
+  */
 
   it('getMyCart should change myCart value', () => {
     component.getMyCart();
     expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
     expect(component.myCart).toEqual(myCartServiceSpy.getMyCart());
   });
-
+  /*
   it('hasOptions should check Purchasable options', () => {
     // option undefined
     const optionUndefinedPurchasable = new Purchasable({
@@ -162,7 +164,7 @@ describe('MyCartComponent', () => {
     // myCartService.updateMyCart called
     expect(myCartServiceSpy.updateMyCart).toHaveBeenCalled();
   });
-
+  */
   it('removePurchasable should remove purchasable from myCart', () => {
     component.removePurchasable(0);
     expect(myCartServiceSpy.removePurchasable).toHaveBeenCalledWith(0);

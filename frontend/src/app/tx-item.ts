@@ -64,4 +64,4 @@ class TxItem {
   }
 }
 
-export { TxItem };
+export { TxItem, TxItemOption };
