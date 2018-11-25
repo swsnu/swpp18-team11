@@ -22,10 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*x_7=yo7llx1+&y-@$utf0#0!(y&of&-53$=n=3afh3q!kb1du'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -89,10 +86,19 @@ if DEPLOYMENT_STAGE == 'development':
     }
     SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
 elif DEPLOYMENT_STAGE in ('staging', 'production'):
+    from urllib.parse import urlparse
+    # Heroku setting
+    if 'DATABASE_URL' in os.environ:
+        url = urlparse(os.environ['DATABASE_URL'])
+        left, _, right = url.netloc.partition('@')
+        os.environ['DB_USER'], _, os.environ['DB_PASSWORD'] = left.partition(':')
+        os.environ['DB_HOST'], _, os.environ['DB_PORT'] = right.partition(':')
+        os.environ['DB_NAME'] = url.path.lstrip('/')
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'kiwi',
+            'NAME': os.environ.get('DB_NAME', 'kiwi'),
             'USER': os.environ['DB_USER'],
             'PASSWORD': os.environ['DB_PASSWORD'],
             'HOST': os.environ.get('DB_HOST', 'localhost'),
@@ -102,6 +108,9 @@ elif DEPLOYMENT_STAGE in ('staging', 'production'):
             },
         }
     }
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = DEPLOYMENT_STAGE != 'production'
 
 if DEPLOYMENT_STAGE == 'development':
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
