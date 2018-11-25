@@ -1,4 +1,5 @@
 import { Option } from './option';
+import { Badge } from './badge';
 
 export interface Menu {
   id: number;
@@ -6,4 +7,5 @@ export interface Menu {
   thumbnail: string;
   base_price: number;
   options: Option[];
+  badges: Badge[];
 }
