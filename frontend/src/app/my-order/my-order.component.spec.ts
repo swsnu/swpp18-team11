@@ -7,7 +7,7 @@ import { TxItem, TxItemOption } from '../tx-item';
 import { Purchasable } from '../purchasable';
 import { of } from 'rxjs';
 
-fdescribe('MyOrderComponent', () => {
+describe('MyOrderComponent', () => {
   let component: MyOrderComponent;
   let fixture: ComponentFixture<MyOrderComponent>;
   let userService: UserService;
@@ -35,7 +35,7 @@ fdescribe('MyOrderComponent', () => {
   });
   it('should render tx list', (done) => {
     const optionStub = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 2, total_price: 200};
-    const purchasableStub: Purchasable = {
+    const purchasableStub: Purchasable = new Purchasable({
       id: 1,
       name: 'p',
       thumbnail: 'x',
@@ -44,7 +44,7 @@ fdescribe('MyOrderComponent', () => {
       quantity: 5,
       options: [optionStub],
       badges: [],
-    };
+    } as any);
     const txOptionStub: TxItemOption[] = [new TxItemOption({
       optionName: optionStub.name,
       basePrice: optionStub.base_price,
@@ -62,6 +62,7 @@ fdescribe('MyOrderComponent', () => {
       createdAt: '20181118',
       state: 'todo'
     };
+    userService = TestBed.get(UserService);
     spyOn(userService, 'getMyTx').and.callFake(() => of([txStub]));
 
     component.ngOnInit();

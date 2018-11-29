@@ -8,7 +8,7 @@
           <label>{{purchasable.name}}</label>
           <button mat-icon-button
                   class="option-dialog-button"
-                  *ngIf="hasOptions(purchasable)"
+                  *ngIf="purchasable.hasOptions(purchasable)"
                   (click)="openOptionDialog(idx)">
             <mat-icon>add_box</mat-icon>
           </button>
@@ -17,11 +17,11 @@
       <div class="quantity-control-buttons">
         <button  mat-button
                  class="quantity-button"
-                 (click)="decrement(idx)">-</button>
+                 (click)="purchasable.decrement(); updateTotalPrice()">-</button>
         {{purchasable.quantity}}개
         <button  mat-button
                  class="quantity-button"
-                 (click)="increment(idx)">+</button>
+                 (click)="purchasable.increment(); updateTotalPrice()">+</button>
       </div>
       <div class="purchasable-total-price">
         {{purchasable.total_price}}원

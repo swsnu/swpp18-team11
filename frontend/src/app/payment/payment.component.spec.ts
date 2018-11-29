@@ -24,16 +24,14 @@ describe('PaymentComponent', () => {
     base_price: 1000,
     quantity: 1,
     total_price: 1000,
-    options: [
-      new Option({
+    options: [{
         id: 1,
         name: 'ASDF',
         base_price: 50,
         max_capacity: 2,
         quantity: 2,
         total_price: 100,
-      })
-    ]
+      } as any]
   }) ];
   const myCartServiceSpy = jasmine.createSpyObj('MyCarttService', ['getMyCart', 'getTotalPrice', 'emptyMyCart']);
   myCartServiceSpy.getMyCart.and.callFake(() => myCart);
