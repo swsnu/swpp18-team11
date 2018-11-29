@@ -1,11 +1,12 @@
 import datetime
-
+from kiorder.api.errors import Abort
 from .ticket import TicketService
 from ..models import Purchasable, PurchasableOption, Store, TxLog, Tx, TxItem, TxItemOption, TxCredit, User
 from decimal import Decimal
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import List, Type, Dict, Optional, ContextManager, Union
+
 
 @dataclass
 class PurchasableOptionSpec:
@@ -111,6 +112,32 @@ class TxService:
             self._itemify_purchasable_spec(spec, tx_log)
 
         return OrderTx(utxid=utxid, _tx_log=tx_log)
+
+    def parse_order_spec_line(self, fmt: str, store) -> OrderSpec:
+        "parse order spec format: e.g 1-1#1-2#3-4 2-1"
+        order_spec = OrderSpec(store=store)
+        try:
+            for line in fmt.split():
+                parts = line.split("#")
+                purchasable_id, purchasable_qty = parts[0].split("-")
+                purchasable_id = int(purchasable_id)
+                purchasable_qty = int(purchasable_qty)
+                if purchasable_qty <= 0:
+                    raise ValueError("Qty cannot be negative")
+                purchasable = Purchasable.objects.get(id=purchasable_id)
+                opt_spec = order_spec.add_purchasable(purchasable, purchasable_qty)
+
+                for option_line in parts[1:]:
+                    opt_id, opt_qty = option_line.split("-")
+                    opt_id = int(opt_id)
+                    opt_qty = int(opt_qty)
+                    if opt_qty <= 0:
+                        raise ValueError("Option Qty cannot be negative")
+                    opt = PurchasableOption.objects.get(id=opt_id)
+                    opt_spec.add_option(opt, opt_qty)
+        except ValueError:
+            raise Abort("BADREQ-001", "Bad request", 400)
+        return order_spec
 
     def load(self, utxid: str) -> OrderTx:
         tx = Tx.objects.filter(utxid=utxid).first()
