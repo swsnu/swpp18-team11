@@ -4,14 +4,13 @@ import { SelectOptionComponent } from './select-option.component';
 import { SpecifyOrderComponent } from '../specify-order/specify-order.component';
 import { DEFAULT_IMPORTS } from '../testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Option } from '../option';
 
 describe('SelectOptionComponent', () => {
   let component: SelectOptionComponent;
   let fixture: ComponentFixture<SelectOptionComponent>;
   const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
   const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
-  const options = [new Option(option1, undefined), new Option(option2, undefined)];
+  const options = [option1, option2];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -35,5 +34,21 @@ describe('SelectOptionComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get option by id', () => {
+    expect(component.getOptionByID(1)).toBe(option1);
+    expect(component.getOptionByID(2)).toBe(option2);
+  });
+
+  it('should increment/decrement', () => {
+    component.decrement(1);
+    expect(component.getOptionByID(1).total_price).toBe(0);
+    component.increment(1);
+    expect(component.getOptionByID(1).total_price).toBe(100);
+    for (let i = 0; i < 10; i++) {
+      component.increment(1);
+    }
+    expect(component.getOptionByID(1).total_price).toBe(1000);
   });
 });

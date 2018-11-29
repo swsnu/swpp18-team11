@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
 import { Option } from '../option';
-import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
 import { SelectOptionComponent } from '../select-option/select-option.component';
 
 describe('MyCartComponent', () => {
@@ -36,8 +35,7 @@ describe('MyCartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MyCartComponent,
-        MyCartDialogComponent,
-        SelectOptionComponent,
+        SelectOptionComponent
       ],
       imports: [
         NgbModule,
@@ -91,27 +89,30 @@ describe('MyCartComponent', () => {
     expect(component.totalPrice).toEqual(myCartServiceSpy.getTotalPrice());
   });
 
-  /*
   it('updateMyCart should set myCart and updateTotalPrice', () => {
     const testMyCartAnother = [testPurchasable];
     component.updateMyCart(testMyCartAnother);
     expect(component.myCart).toEqual(testMyCartAnother);
     expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
   });
-  */
 
   it('getMyCart should change myCart value', () => {
     component.getMyCart();
     expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
     expect(component.myCart).toEqual(myCartServiceSpy.getMyCart());
   });
-  /*
+
+  it('selectIndex should set selectedIndex', () => {
+    component.selectedIndex = 1;
+    component.selectIndex(2);
+    expect(component.selectedIndex).toEqual(2);
+  });
+
   it('hasOptions should check Purchasable options', () => {
     // option undefined
     const optionUndefinedPurchasable = new Purchasable({
       id: 2, name: 'noOption', total_price: 10
     });
-    optionUndefinedPurchasable.options = undefined;
     expect(component.hasOptions(optionUndefinedPurchasable)).toEqual(false);
     // option empty array
     expect(component.hasOptions(testPurchasable)).toEqual(false);
@@ -158,13 +159,14 @@ describe('MyCartComponent', () => {
 
   it('updateOptionChange should update purchasable options', () => {
     const newOptions: Option[] = [new Option({total_price: 100})];
-    component.updateOptionChange(newOptions, 0);
+    component.selectedIndex = 0;
+    component.updateOptionChange(newOptions);
     // updatePurchasablePrice called
     expect(component.myCart[0].total_price).toEqual(110);
     // myCartService.updateMyCart called
     expect(myCartServiceSpy.updateMyCart).toHaveBeenCalled();
   });
-  */
+
   it('removePurchasable should remove purchasable from myCart', () => {
     component.removePurchasable(0);
     expect(myCartServiceSpy.removePurchasable).toHaveBeenCalledWith(0);

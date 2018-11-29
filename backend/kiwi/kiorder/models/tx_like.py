@@ -2,7 +2,6 @@ from django.db import models
 
 from .mixins import UserOwnable
 from .store import Store
-from .user import User
 
 class TxLike(UserOwnable):
     class Meta:
@@ -12,7 +11,7 @@ class TxLike(UserOwnable):
 
     reversed = models.BooleanField(default=False)
     store = models.ForeignKey(Store, null=True, on_delete=models.SET_NULL)
-    user = models.ForeignKey(User, default=None, on_delete=models.DO_NOTHING)
+
 
     purchase_type = models.CharField(max_length=255, null=True)
     purchase_data = models.TextField()

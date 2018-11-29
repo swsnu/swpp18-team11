@@ -65,51 +65,51 @@ describe('SpecifyOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.purchasable).toBeDefined();
-    expect(component.purchasable.base_price).toBe(1000);
+    expect(component.product).toBeDefined();
+    expect(component.product.base_price).toBe(1000);
   });
-  /*
+
   it('should check if there are chosen options', () => {
     expect(component.hasChosenOption()).toBe(false);
     const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
     const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
-    component.purchasable.options = [option1, option2];
+    component.product.options = [option1, option2];
     expect(component.hasChosenOption()).toBe(false);
-    component.purchasable.options[0].quantity = 1;
+    component.product.options[0].quantity = 1;
     expect(component.hasChosenOption()).toBe(true);
   });
 
   it('should initialize options', () => {
     const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
     const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
-    component.purchasable.options = [option1, option2];
+    component.product.options = [option1, option2];
     component.initializeOption();
-    expect(component.purchasable.options[0].quantity).toBe(0);
-    expect(component.purchasable.options[0].total_price).toBe(0);
-    expect(component.purchasable.options[1].quantity).toBe(0);
-    expect(component.purchasable.options[1].total_price).toBe(0);
+    expect(component.product.options[0].quantity).toBe(0);
+    expect(component.product.options[0].total_price).toBe(0);
+    expect(component.product.options[1].quantity).toBe(0);
+    expect(component.product.options[1].total_price).toBe(0);
   });
-  */
+
   it('should expand options', () => {
     expect(component.expandOption).toBe(false);
     component.openOptionSelectPage();
     expect(component.expandOption).toBe(true);
   });
-  /*
+
   it('should increment/decrement quantity', () => {
-    expect(component.purchasable.quantity).toBe(1);
-    expect(component.purchasable.total_price).toBe(1000);
+    expect(component.product.quantity).toBe(1);
+    expect(component.product.total_price).toBe(1000);
     component.decrement();
-    expect(component.purchasable.quantity).toBe(1);
-    expect(component.purchasable.total_price).toBe(1000, 'should not decrement');
+    expect(component.product.quantity).toBe(1);
+    expect(component.product.total_price).toBe(1000, 'should not decrement');
     component.increment();
-    expect(component.purchasable.quantity).toBe(2);
-    expect(component.purchasable.total_price).toBe(2000);
+    expect(component.product.quantity).toBe(2);
+    expect(component.product.total_price).toBe(2000);
     for (let i = 0; i < 100; i++) {
       component.increment();
     }
-    expect(component.purchasable.quantity).toBe(100);
-    expect(component.purchasable.total_price).toBe(1000 * 100);
+    expect(component.product.quantity).toBe(100);
+    expect(component.product.total_price).toBe(1000 * 100);
   });
 
   it('should update options', () => {
@@ -123,7 +123,6 @@ describe('SpecifyOrderComponent', () => {
     }];
 
     component.updateOptionChange(options);
-    expect(component.purchasable.total_price).toBe(1100);
+    expect(component.product.total_price).toBe(1100);
   });
-  */
 });

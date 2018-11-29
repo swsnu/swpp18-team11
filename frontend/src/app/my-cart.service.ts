@@ -64,6 +64,7 @@ export class MyCartService {
 
   /** MyCart GET operations **/
   getMyCart(): Purchasable[] {
+    console.log(this.loadStorage());
     return this.loadStorage();
   }
 
