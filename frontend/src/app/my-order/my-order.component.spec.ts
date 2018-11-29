@@ -2,6 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyOrderComponent } from './my-order.component';
 import { DEFAULT_IMPORTS } from '../testing';
+import { UserService } from '../user.service';
+import { TxItem, TxItemOption } from '../tx-item';
+import { Purchasable } from '../purchasable';
+import { of } from 'rxjs';
 
 import { UserService } from '../user.service';
 import { TxItem, TxItemOption } from '../tx-item';
@@ -17,10 +21,12 @@ describe('MyOrderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MyOrderComponent ],
       imports: [
-        ...DEFAULT_IMPORTS
-      ]
+        ...DEFAULT_IMPORTS,
+      ],
+      providers: [UserService]
     })
     .compileComponents();
+    userService = TestBed.get(UserService);
   }));
 
   beforeEach(() => {

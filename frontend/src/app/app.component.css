@@ -15,4 +15,7 @@
   position: fixed;
   bottom: 0;
 }
+.timeout-warning {
+  color: #7f7f7f;
+}
 
