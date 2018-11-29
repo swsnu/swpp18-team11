@@ -16,3 +16,4 @@ export class Purchasable implements Menu {
   total_price = 0;
 }
 
+
