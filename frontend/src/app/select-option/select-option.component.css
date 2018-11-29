@@ -1,6 +1,5 @@
 .quantity-control-buttons {
   flex: auto;
-  min-width: 110px;
 }
 .quantity-button {
   min-width: 10px;

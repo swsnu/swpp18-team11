@@ -1,7 +1,7 @@
 import datetime
 
 from .ticket import TicketService
-from ..models import Purchasable, PurchasableOption, Store, TxLog, Tx, TxItem, TxItemOption, TxCredit, User
+from ..models import Purchasable, PurchasableOption, Store, TxLog, Tx, TxItem, TxItemOption, TxCredit
 from decimal import Decimal
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -95,12 +95,10 @@ class TxService:
 
     def prepare_order(self, *,
                       utxid: str,
-                      user: User,
                       order_spec: OrderSpec,
                       part_ref: str = "") -> OrderTx:
         tx_log = TxLog(
             utxid=utxid,
-            user=user,
             store=order_spec.store,
             total_price=order_spec.total_price,
             extra_props="{}",
@@ -203,7 +201,6 @@ class TxService:
             total_price=purchasable_option_spec.total_price,
         )
         tx_item_option.save()
-        print(tx_item.id)
         return tx_item_option
 
 
