@@ -30,8 +30,7 @@ def test_create_new_tx(Store, client):
         response = client.post('/kiorder/api/v1/test_tx', {"order_spec": order_spec_line})
         assert response.status_code == 200
 
-        Purchasable.objects.get.assert_has_calls([call(id=1), call(id=2)])
-        PurchasableOption.objects.get.assert_has_calls([call(id=1), call(id=3)])
+        TxService().parse_order_spec_line.assert_called()
         TxService().prepare_order.assert_called()
         TxService().start_order.assert_called()
 

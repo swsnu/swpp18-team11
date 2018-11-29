@@ -1,7 +1,7 @@
 import pytest
 
 from datetime import datetime
-from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket, User, MyCart, MyCartItem
+from kiorder.models import Purchasable, PurchasableOption, Store, Franchise, Tx, Ticket, User, MyCart, MyCartItem, MyCartItemOption
 from django.contrib.gis.geos import Point
 
 @pytest.fixture
@@ -24,7 +24,6 @@ def store_1(franchise_1):
     )
     x.save()
     return x
-
 
 @pytest.fixture
 def purchasable_1():
@@ -90,7 +89,6 @@ def tx_1(store_1, user_1, now):
     tx.save()
     return tx
 
-
 @pytest.fixture
 def ticket_1(tx_1, store_1):
     ticket = Ticket(
@@ -103,8 +101,6 @@ def ticket_1(tx_1, store_1):
     ticket.save()
     return ticket
 
-
-
 @pytest.fixture
 def my_cart_1(store_1, user_1):
     my_cart = MyCart(
@@ -114,9 +110,27 @@ def my_cart_1(store_1, user_1):
     my_cart.save()
     return my_cart
 
+@pytest.fixture
+def my_cart_2(store_1, user_1):
+    my_cart = MyCart(
+        store = store_1,
+        user = user_1
+    )
+    my_cart.save()
+    return my_cart
 
 @pytest.fixture
 def my_cart_item_1(my_cart_1, purchasable_1):
+    my_cart_item = MyCartItem(
+        my_cart = my_cart_1,
+        purchasable = purchasable_1,
+        qty = 1
+    )
+    my_cart_item.save()
+    return my_cart_item
+
+@pytest.fixture
+def my_cart_item_2(my_cart_1, purchasable_1):
     my_cart_item = MyCartItem(
         my_cart = my_cart_1,
         purchasable = purchasable_1,
@@ -124,4 +138,14 @@ def my_cart_item_1(my_cart_1, purchasable_1):
     )
     my_cart_item.save()
     return my_cart_item
+
+@pytest.fixture
+def my_cart_item_option_1(my_cart_item_1, purchasable_option_1):
+    my_cart_item_option = MyCartItemOption(
+        my_cart_item = my_cart_item_1,
+        purchasable_option = purchasable_option_1,
+        qty = 1
+    )
+    my_cart_item_option.save()
+    return my_cart_item_option
 
