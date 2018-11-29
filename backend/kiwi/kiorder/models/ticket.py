@@ -26,7 +26,7 @@ class Ticket(UserOwnable):
     removed = models.BooleanField(default=False)
 
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
-    tx = models.ForeignKey(Tx, on_delete=models.CASCADE)
+    tx = models.ForeignKey(Tx, on_delete=models.CASCADE, related_name='ticket')
 
     denorm_data = models.TextField()
 

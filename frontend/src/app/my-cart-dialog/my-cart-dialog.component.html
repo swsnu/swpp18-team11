@@ -1,0 +1,12 @@
+<h3>{{purchasable.name}} 옵션 설정</h3>
+<app-select-option [options]="purchasable.options"></app-select-option>
+<div class="button-group">
+  <button mat-icon-button
+          (click)="cancelClicked()">
+    <mat-icon>close</mat-icon>
+  </button>
+    <button mat-icon-button
+            (click)="confirmClicked()">
+      <mat-icon>check</mat-icon>
+    </button>
+</div>

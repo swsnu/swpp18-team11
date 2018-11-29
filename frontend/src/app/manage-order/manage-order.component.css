@@ -1,0 +1,38 @@
+.mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.done-ticket-container{
+  display: flex;
+  margin-left: 10px;
+  overflow-x: scroll;
+  padding-top: 30px;
+}
+.done-ticket-card {
+  min-width: 200px;
+  height: 170px;
+  margin-right: 8px;
+  overflow-y: scroll;
+}
+.todo-doing-ticket-container {
+  display: flex;
+  margin-left: 10px;
+  overflow-x: scroll;
+  padding-top: 30px;
+}
+.todo-doing-ticket-card {
+  min-width: 200px;
+  height: 350px;
+  margin-right: 8px;
+  overflow-y: scroll;
+}
+ul {
+  list-style-type: none;
+}
+.purchasable-name {
+  font-size: large;
+}
+.option-name {
+  font-size: medium;
+}

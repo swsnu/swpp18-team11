@@ -1,25 +1,54 @@
-.cartList .mat-list-item {
-  height: 70px;
-}
-.purchasable {
-  display: flex;
-  flex-direction: row;
+.mycart-list {
+  margin-left: 5px;
+  margin-right: 13px;
+  padding-top: 0;
 }
 .mycart-list .mat-list-item {
   height: auto;
+  margin-top: 10px;
 }
-#totalPrice {
-  text-align: right;
-  margin-right: 100px; /*does it works well?*/
+.purchasable-detail-wrapper {
+  display: table;
 }
-.button-group {
-  text-align: center;
-  margin: 20px;
-  margin-top: 40px;
-  margin-botton: 30px;
+.purchasable-detail {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: medium;
 }
 .navigate-button {
   margin-left: 10px;
   margin-right: 10px;
 }
-/*TODO: FIX main page content covers header while scrolling-down*/
+.option-dialog-button {
+  position: absolute;
+  right: 45%;
+}
+.quantity-control-buttons {
+  flex: auto;
+  min-width: 110px;
+  position: absolute;
+  right: 20%;
+}
+.quantity-button {
+  min-width: 10px;
+}
+.purchasable-total-price {
+  position: absolute;
+  right: 8%;
+}
+.remove-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#totalPrice {
+  text-align: right;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+.button-group {
+  text-align: center;
+  margin: 20px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}

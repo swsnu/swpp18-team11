@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ManageOrderService } from './manage-order.service';
-import { timer, Observable, from, Subject, merge } from 'rxjs';
-import { map, publish, refCount, tap, concatMap, pairwise, share } from 'rxjs/operators';
+import { timer, Observable, from, Subject, merge, ReplaySubject } from 'rxjs';
+import { map, publish, refCount, tap, concatMap, pairwise, share, filter } from 'rxjs/operators';
 import { Ticket } from './ticket';
 import { TicketChange, TicketArrived, TicketModified, TicketRemoved } from './ticket-change';
 
@@ -16,18 +16,27 @@ import sortBy from 'lodash/sortBy';
 export class ManageOrderStateService {
   private updateTrigger$: Subject<any> = new Subject();
   private timer$: Observable<any> = timer(0, 1000);
-  private ticker$: Observable<any> = merge(this.timer$, this.updateTrigger$).pipe(publish(), refCount());
+  private ticker$: Observable<any> = merge(this.timer$, this.updateTrigger$).pipe(share());
   public tickets$: Observable<Ticket[]>;
   public ticketChanges$: Observable<TicketChange>;
 
+  private lastTickets: Ticket[];
+
   constructor(private manageOrderService: ManageOrderService) {
-    this.tickets$ = this.ticker$.pipe(
+    this.tickets$ = new ReplaySubject(1);
+    this.ticker$.pipe(
       concatMap(_ => this.manageOrderService.list()),
-      share(),
-    );
+      filter(tickets => {
+        const result = !this.lastTickets || this.diff(this.lastTickets, tickets).length > 0;
+        this.lastTickets = tickets;
+        return result;
+      })
+    ).subscribe(this.tickets$ as ReplaySubject<Ticket[]>);
+
+
     this.ticketChanges$ = this.tickets$.pipe(
       pairwise(),
-      concatMap(([oldTickets, newTickets]) => this.diff(oldTickets, newTickets)),
+      concatMap(([oldTickets, newTickets]) => from(this.diff(oldTickets, newTickets))),
       share(),
     );
   }
@@ -36,7 +45,7 @@ export class ManageOrderStateService {
     this.updateTrigger$.next(null);
   }
 
-  private diff(oldTickets: Ticket[], newTickets: Ticket[]): Observable<TicketChange> {
+  private diff(oldTickets: Ticket[], newTickets: Ticket[]): TicketChange[] {
     const oldById = {}, newById = {};
     oldTickets.forEach(x => oldById[x.id] = x);
     newTickets.forEach(x => newById[x.id] = x);
@@ -55,6 +64,6 @@ export class ManageOrderStateService {
 
     // sort by the event time when they occurred
     sortBy(result, ['occurredAt']);
-    return from(result);
+    return result;
   }
 }
