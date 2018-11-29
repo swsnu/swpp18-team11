@@ -7,11 +7,6 @@ import { TxItem, TxItemOption } from '../tx-item';
 import { Purchasable } from '../purchasable';
 import { of } from 'rxjs';
 
-import { UserService } from '../user.service';
-import { TxItem, TxItemOption } from '../tx-item';
-import { Purchasable } from '../purchasable';
-import { of } from 'rxjs';
-
 describe('MyOrderComponent', () => {
   let component: MyOrderComponent;
   let fixture: ComponentFixture<MyOrderComponent>;
