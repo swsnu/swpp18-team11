@@ -45,6 +45,7 @@ describe('PaymentComponent', () => {
     ['getMyCart', 'getTotalPrice', 'emptyMyCart']);
   myCartServiceSpy.getMyCart.and.callFake(() => myCart$);
   myCartServiceSpy.getTotalPrice.and.callFake(() => of(1000).toPromise());
+
   myCartServiceSpy.emptyMyCart.and.callFake(() => {
     myCart = [];
   });

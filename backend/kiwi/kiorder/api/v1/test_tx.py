@@ -50,7 +50,7 @@ class TestTx(BaseTx):
                 and request.session['user-id'] is None:
             user_id = str(request.session['user-id'])
         else:
-            user_id = '4'
+            user_id = '2'
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:

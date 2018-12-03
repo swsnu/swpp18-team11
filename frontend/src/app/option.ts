@@ -23,6 +23,7 @@ export class Option {
     if (this.purchasable) {
       this.purchasable.updateTotalPrice();
     }
+
   }
   decrement(): void {
     if (this.quantity > 0) {
