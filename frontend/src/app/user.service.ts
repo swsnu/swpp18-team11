@@ -1,22 +1,83 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TxItem } from './tx-item';
+import { Router } from '@angular/router';
+
+class User {
+  id: string;
+  username: string;
+  constructor(id: string, username: string) {
+    this.id = id;
+    this.username = username;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
-  constructor(private http: HttpClient) { }
-  isLoggedIn(): boolean {
-    // TODO
-    return true;
+  signUp(username: string, password: string): Promise<any> {
+    const url = '/kiorder/api/v1/user/sign_up';
+    const body = new FormData();
+    body.append('username', username);
+    body.append('password', password);
+    return this.http.post(url, body)
+      .pipe()
+      .toPromise()
+      .then(response => {
+        if (response['success']) {
+          this.setCurrentUser(new User(response['data']['user_id'], username));
+          alert('회원가입 되었습니다');
+          this.router.navigateByUrl('/order');
+        }})
+      .catch(e => alert(e['error']['message']));
+  }
+  signIn(username: string, password: string): Promise<any> {
+    const url = '/kiorder/api/v1/user/sign_in';
+    const body = new FormData();
+    body.append('username', username);
+    body.append('password', password);
+    return this.http.post(url, body)
+      .pipe()
+      .toPromise()
+      .then(response => {
+        if (response['success']) {
+          this.setCurrentUser(new User(response['data']['user_id'], username));
+          this.router.navigateByUrl('/order');
+        }})
+      .catch(e => alert(e['error']['message']));
+  }
+  signOut(): Promise<any> {
+    const url = '/kiorder/api/v1/user/sign_out';
+    return this.http.get(url)
+      .pipe()
+      .toPromise()
+      .then(response => {
+        this.router.navigateByUrl('/order');
+      })
+      .catch(e => alert(e['error']['message']));
+  }
+  setCurrentUser(user: User) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+  isLoggedIn() {
+    const url = '/kiorder/api/v1/user/me';
+    return this.http.get(url)
+      .pipe()
+      .toPromise()
+      .then(response => true)
+      .catch(e => false);
   }
   getUserId(): string {
-    // TODO
-    return '2';
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) as User;
+    return currentUser.id;
   }
   getMyTx(): Observable<TxItem[]> {
     const userId = this.getUserId();

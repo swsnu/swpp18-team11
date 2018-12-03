@@ -35,6 +35,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SelectStoreComponent } from './select-store/select-store.component';
 import { SelectStoreFranchiseComponent } from './select-store-franchise/select-store-franchise.component';
 import { SelectStoreMapComponent } from './select-store-map/select-store-map.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { SelectStoreMapComponent } from './select-store-map/select-store-map.com
     SelectStoreComponent,
     SelectStoreFranchiseComponent,
     SelectStoreMapComponent,
+    SignUpComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,

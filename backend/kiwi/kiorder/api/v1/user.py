@@ -7,11 +7,16 @@ from .base import BaseResource
 
 class BaseUser(BaseResource):
     def represent_user(self, user: User):
-        most_preferred_store = user.preferred_stores.all()[0]
+        try:
+            most_preferred_store = user.preferred_stores.all()[0]
+        except IndexError:
+            most_preferred_store = None
+
         return {
+            "user_id": user.id,
             "user_type": user.user_type,
             "current_store_id": user.current_store_id,
-            "most_preferred_store_id": most_preferred_store and most_preferred_store.id,
+            "most_preferred_store_id": most_preferred_store and most_preferred_store.id
         }
 
 
@@ -30,16 +35,15 @@ class SignUp(BaseUser):
             self.abort(code="SIGNUP-002", message="Username cannot be blank")
         elif User.objects.filter(username=username).exists():
             self.abort(code="SIGNUP-002", message="Username already taken")
-        elif password.stirp() == '':
+        elif password.strip() == '':
             self.abort(code="SIGNUP-003", message="Password cannot be blank")
 
         try:
-            User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(username=username, password=password)
         except Exception:
             self.abort(code="SIGNUP-001", message="Failed to sign up. Try again.")
 
-        return self.success(self.represent_user(usr))
-
+        return self.success(self.represent_user(user))
 
 
 class SignIn(BaseUser):

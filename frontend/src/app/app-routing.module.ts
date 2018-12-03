@@ -10,6 +10,8 @@ import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ManageOrderDisplayComponent } from './manage-order-display/manage-order-display.component';
 import { SelectStoreComponent } from './select-store/select-store.component';
 import { MyOrderComponent } from './my-order/my-order.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/order', pathMatch: 'full' },
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'my-order', component: MyOrderComponent },
   { path: 'manage/order', component: ManageOrderComponent },
   { path: 'manage/display', component: ManageOrderDisplayComponent },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'sign-up', component: SignUpComponent },
 ];
 
 
