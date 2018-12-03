@@ -1,17 +1,9 @@
-import { Purchasable } from "./purchasable";
+import { Purchasable } from './purchasable';
 
-export class MyCartItem extends Purchasable {
+export class MyCartItem {
   constructor(args: MyCartItem) {
-    const purchasableArgs = {
-      id: args.id,
-      name: args.name,
-      thumbnail: args.thumbnail,
-      base_price: args.base_price,
-      options: args.options
-    };
-    super(purchasableArgs);
-    this.myCartItemId = args.myCartItemId;
+    Object.assign(this, args);
   }
-
   myCartItemId: number;
+  purchasable: Purchasable;
 }

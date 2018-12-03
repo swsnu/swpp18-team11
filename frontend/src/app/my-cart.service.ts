@@ -1,82 +1,136 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MyCartItem } from "./my-cart-item";
+import { Router } from '@angular/router';
+
+import { MyCartItem } from './my-cart-item';
 import { Purchasable } from './purchasable';
+import { Option } from './option';
+import { Badge } from './badge';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyCartService {
-
-  private mycartUrl = '/kiorder/api/v1/mycart';
-
   constructor(
     private router: Router,
     private http: HttpClient,
   ) {}
 
+  private myCartUrl = '/kiorder/api/v1/mycart/';
+  private httpOptions = {headers: new HttpHeaders({'Content-Type':  'application/x-www-form-urlencoded'})};
+
   toMyCartPage(): void {
     this.router.navigate(['/mycart']);
   }
-/*
-  private loadStorage(): Purchasable[] {
-    const localCart: string = localStorage.getItem('myCart');
-    if (!localCart) {
-      return [];
-    } else {
-      const data: Object[] = JSON.parse(localCart);
-      const myCart: Purchasable[] = [];
-      for (const purchasable of data) {
-        myCart.push(new Purchasable(purchasable));
-      }
-      return myCart;
+
+  getTotalPrice(): Promise<number> {
+    return this.getMyCart().pipe(map(myCart => {
+      let totalPrice = 0;
+       for (const myCartItem of myCart) {
+         const purchasable = myCartItem.purchasable;
+         totalPrice += purchasable.quantity * (purchasable.base_price
+             + this.getOptionTotalPrice(purchasable.options));
+       }
+      return totalPrice;
+    })).toPromise();
+  }
+
+  private getOptionTotalPrice(options: Option[]): number {
+    let totalPrice = 0;
+    for (const option of options) {
+      totalPrice += option.quantity * option.base_price;
     }
+    return totalPrice;
   }
-
-  private saveStorage(myCart: Purchasable[]): void {
-    localStorage.setItem('myCart', JSON.stringify(myCart));
-  }
-*/
-  /** SelectOrder Component function **/
-  getMyCartCount(): number {
-
-  }
-
-  /** MyCart, Payment Component function **/
-  getTotalPrice(): number {
-
-  }
-
-  isEmpty(): boolean {
-  }
-
-  removePurchasable(myCartItemId: number): void {
-
-  }
-
   /** MyCart GET operations **/
-  getMyCart(): MyCartItem[] {
-
-  }
-
-  getMyCartItem(): MyCartItem{
-
+  getMyCart(): Observable<MyCartItem[]> {
+    return this.http.get(this.myCartUrl)
+      .pipe(map((response: any) => {
+        return response.data.purchasables.map(data => this.loadMyCartItem(data));
+      })
+    );
   }
 
   /** MyCart POST operations **/
-  addMyCartItem(): void {
-
+  addMyCart(purchasable: Purchasable) {
+    const orderSpec = this.convertPurchasableToOrderSpec(purchasable);
+    let formData = new FormData();
+    formData.append('order_spec', orderSpec);
+    return this.http.post(this.myCartUrl, formData).toPromise();
   }
 
   /** MyCart PATCH operations **/
-  patchMyCartItem(): void {
+  patchMyCartQty(myCartItem: MyCartItem, quantity) {
+    const url = this.myCartUrl + myCartItem.myCartItemId;
+    const formData = `qty=${quantity}`;
+    return this.http.patch(url, formData, this.httpOptions).toPromise()
+  }
 
+  patchMyCartOptions(myCartItem: MyCartItem, options: Option[]) {
+    const url = this.myCartUrl + myCartItem.myCartItemId;
+    const optionSpec = this.convertOptionsToOptionSpec(options);
+    const formData = `option_spec=${optionSpec}`;
+    return this.http.patch(url, formData, this.httpOptions).toPromise();
   }
 
   /** MyCart DELETE operations **/
   emptyMyCart(): void {
+    this.http.delete(this.myCartUrl)
+      .toPromise()
+      .then()
+      .catch(err => console.log(err));
+  }
+
+  removeMyCartItem(myCartItem: MyCartItem) {
+    const url = this.myCartUrl + myCartItem.myCartItemId;
+    return this.http.delete(url).toPromise();
+  }
+
+  /** private helper methods **/
+  private loadMyCartItem(opt: any): MyCartItem {
+    return new MyCartItem({
+      myCartItemId: opt.item_id,
+      purchasable: new Purchasable({
+        id: opt.purchasable_id,
+        name: opt.name,
+        thumbnail: opt.thumbnail,
+        base_price: opt.base_price,
+        quantity: opt.qty,
+        total_price: opt.total_price,
+        options: opt.options.map(x => this.loadMyCartItemOption(x)),
+        badges: opt.badges.map(x => this.loadMyCartItemBadge(x))
+      })
+    });
+  }
+  private loadMyCartItemOption(opt: any): Option {
+    return new Option({
+      id: opt.id,
+      name: opt.name,
+      base_price: opt.base_price,
+      max_capacity: opt.max_capacity,
+      quantity: opt.qty
+    });
+  }
+  private loadMyCartItemBadge(opt: any): Badge {
+    return new Badge({
+      id: opt.id,
+      name: opt.id,
+      thumbnail: opt.icon
+    });
+  }
+
+  private convertPurchasableToOrderSpec(purchasable: Purchasable): string {
+    return `${purchasable.id}-${purchasable.quantity}` +
+      purchasable.options.map(option => `#${option.id}-${option.quantity}`).join('');
+  }
+  private convertOptionsToOptionSpec(options: Option[]): string {
+    return options.map(option => {
+      return `${option.id}-${option.quantity}`;
+    }).join(' ');
   }
 
 

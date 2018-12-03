@@ -1,40 +1,41 @@
 <div class="container">
   <mat-list class="mycart-list">
-    <mat-list-item *ngFor="let purchasable of myCart; let idx = index">
+    <mat-list-item *ngFor="let myCartItem of myCart$ | async; let idx = index">
       <div class="purchasable-detail-wrapper">
         <div class="purchasable-detail">
-          <img src="{{purchasable.thumbnail}}"
+          <img src="{{myCartItem.purchasable.thumbnail}}"
                width="50" height="50">
-          <label>{{purchasable.name}}</label>
-          <button mat-icon-button
+          <label>{{myCartItem.purchasable.name}}</label>
+          <button mat-stroked-button
                   class="option-dialog-button"
-                  *ngIf="hasOptions(purchasable)"
-                  (click)="openOptionDialog(idx)">
-            <mat-icon>add_box</mat-icon>
+                  *ngIf="myCartItem.purchasable.hasOptions()"
+                  (click)="openOptionDialog(myCartItem)">
+            옵션
           </button>
         </div>
       </div>
       <div class="quantity-control-buttons">
         <button  mat-button
                  class="quantity-button"
-                 (click)="decrement(idx)">-</button>
-        {{purchasable.quantity}}개
+                 (click)="decrement(myCartItem)"
+                 [disabled]="myCartItem.purchasable.quantity <= 1">-</button>
+        {{myCartItem.purchasable.quantity}}개
         <button  mat-button
                  class="quantity-button"
-                 (click)="increment(idx)">+</button>
+                 (click)="increment(myCartItem)">+</button>
       </div>
       <div class="purchasable-total-price">
-        {{purchasable.total_price}}원
+        {{myCartItem.purchasable.total_price}}원
       </div>
       <button mat-icon-button class="remove-button"
-              (click)="removePurchasable(idx)">
+              (click)="removeMyCartItem(myCartItem)">
         <mat-icon>cancel_presentation</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>    <!--End of my cart list-->
   </mat-list>
 
-  <div id="totalPrice">
+  <div id="totalPrice" *ngIf="totalPrice">
     total {{totalPrice}}원
   </div>
   <div class="button-group">
@@ -45,7 +46,7 @@
       비우기</button>
     <button mat-stroked-button
             class="navigate-button"
-            (click)="back()">
+            (click)="sendToOrderPage()">
       <mat-icon>arrow_back</mat-icon>
       뒤로 가기</button>
     <button mat-raised-button

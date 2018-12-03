@@ -131,7 +131,7 @@ class TxService:
                     opt_id, opt_qty = option_line.split("-")
                     opt_id = int(opt_id)
                     opt_qty = int(opt_qty)
-                    if opt_qty <= 0:
+                    if opt_qty < 0:
                         raise ValueError("Option Qty cannot be negative")
                     opt = PurchasableOption.objects.get(id=opt_id)
                     opt_spec.add_option(opt, opt_qty)

@@ -58,7 +58,7 @@ class TestTx(BaseTx):
 
         store = self.get_current_store()
         order_spec_line = request.POST['order_spec']
-        order_spec = tx_service.parse_order_spec_line(order_spec_line=order_spec_line, store=store)
+        order_spec = tx_service.parse_order_spec_line(fmt=order_spec_line, store=store)
         part_ref = request.POST.get('part_ref', '')
         order_tx = tx_service.prepare_order(
             utxid=utxid,

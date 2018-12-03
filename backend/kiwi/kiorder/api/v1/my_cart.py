@@ -8,6 +8,23 @@ from .base import BaseResource
 
 
 class BaseMyCart(BaseResource):
+    def represent_item_option(self, item_option: MyCartItemOption):
+        option = item_option.purchasable_option
+        return {
+            "id": option.id,
+            "name": option.name,
+            "base_price": option.base_price,
+            "max_capacity": option.max_capacity,
+            "qty": item_option.qty
+        }
+
+    def represent_badge(self, badge):
+        return {
+            "id": badge.id,
+            "name": badge.name,
+            "icon": badge.icon and badge.icon.url or None
+        }
+
     def represent_my_cart(self, my_cart):
         return {
             "id": my_cart.id,
@@ -15,16 +32,19 @@ class BaseMyCart(BaseResource):
                 {
                     "item_id": my_cart_item.id,
                     "purchasable_id": my_cart_item.purchasable_id,
-                     "name": my_cart_item.purchasable.name,
-                     "qty": my_cart_item.qty,
-                     "options": [
-                         {
-                             "id": opt.purchasable_option_id,
-                             "name": opt.purchasable_option.name,
-                             "qty": opt.qty,
-                         }
-                         for opt in my_cart_item.mycartitemoption_set.all()
-                     ]
+                    "name": my_cart_item.purchasable.name,
+                    "thumbnail": my_cart_item.purchasable.image and
+                                 my_cart_item.purchasable.image.url or None,
+                    "base_price": my_cart_item.purchasable.base_price,
+                    "qty": my_cart_item.qty,
+                    "options": [
+                        self.represent_item_option(opt)
+                        for opt in my_cart_item.mycartitemoption_set.all()
+                    ],
+                    "badges": [
+                        self.represent_badge(badge)
+                        for badge in my_cart_item.purchasable.badges.all()
+                    ]
                 }
                 for my_cart_item in my_cart.mycartitem_set.all()
             ]
@@ -35,6 +55,9 @@ class BaseMyCart(BaseResource):
                     "item_id": my_cart_item.id,
                     "purchasable_id": my_cart_item.purchasable_id,
                     "name": my_cart_item.purchasable.name,
+                    "thumbnail": my_cart_item.purchasable.image and
+                                 my_cart_item.purchasable.image.url or None,
+                    "base_price": my_cart_item.purchasable.base_price,
                     "qty": my_cart_item.qty,
                     "options": [
                         {
@@ -82,6 +105,14 @@ class MyCart(BaseMyCart):
         my_cart_service.create_item_by_order_spec(my_cart, order_spec)
         return self.success(self.represent_my_cart(my_cart))
 
+    def delete(self, request):
+        store = self.get_current_store()
+        user = self._get_mock_user(request)
+        my_cart_service = MyCartService()
+        my_cart = my_cart_service.get_my_cart_of(store, user)
+        my_cart_service.empty_my_cart(my_cart)
+        return self.success()
+
 
 class MyCartItemDetail(BaseMyCart):
     def _get_my_cart_item(self, my_cart_item_id):
@@ -106,6 +137,8 @@ class MyCartItemDetail(BaseMyCart):
         qty = data.get("qty", None)
         if qty is not None:
             qty = int(qty)
+        if qty == 5:
+            return self.abort("Not FIVEEEE")
         option_spec_line = data.get("option_spec", None)
         # patch_item method will ignore property given as None
         my_cart_item = my_cart_service.patch_item(my_cart_item, qty=qty, option_spec_line=option_spec_line)

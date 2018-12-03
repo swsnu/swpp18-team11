@@ -51,6 +51,10 @@ class MyCartService:
         self.save_item_option(my_cart_item_option)
         return my_cart_item_option
 
+    def empty_my_cart(self, my_cart: MyCart):
+        for my_cart_item in my_cart.mycartitem_set.all():
+            self.delete_item(my_cart_item)
+
     def patch_item(self, my_cart_item, qty=None, option_spec_line=None):
         # patch qty
         if qty is not None and qty > 0:

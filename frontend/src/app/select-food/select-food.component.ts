@@ -15,7 +15,6 @@ export class SelectFoodComponent implements OnInit {
 
   categories$: Observable<Category[]>;
   selectedCategory: Category;
-  myCartCount = 0;
 
   constructor(
     private menuDataService: MenuDataService,
@@ -24,7 +23,6 @@ export class SelectFoodComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-    this.getMyCartCount();
   }
 
   categorySelected($event): void {
@@ -41,13 +39,8 @@ export class SelectFoodComponent implements OnInit {
     this.categories$ = this.menuDataService.getCategories();
   }
 
-  getMyCartCount(): void {
-    this.myCartCount = this.myCartService.getMyCartCount();
-  }
-
   emptyCart() {
     this.myCartService.emptyMyCart();
-    this.getMyCartCount();
   }
 
 }

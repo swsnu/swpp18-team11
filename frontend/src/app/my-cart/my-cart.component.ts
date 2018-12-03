@@ -1,22 +1,24 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
-import { Option } from '../option';
 import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
 import { MatDialog } from '@angular/material';
+import { MyCartItem } from '../my-cart-item';
+import {Observable, Subscription} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-my-cart',
   templateUrl: './my-cart.component.html',
   styleUrls: ['./my-cart.component.css']
 })
-export class MyCartComponent implements OnInit {
+export class MyCartComponent implements OnInit, OnDestroy {
 
-  myCart: Purchasable[];
+  myCart$: Observable<MyCartItem[]>;
   totalPrice: number;
-  selectedTab = 0;
+  subscription: Subscription;
 
   constructor(
     private myCartService: MyCartService,
@@ -26,116 +28,75 @@ export class MyCartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.myCartService.isEmpty()) {
-      this.sendToOrderPage();
-    }
     this.getMyCart();
-    this.updateTotalPrice();
+    this.getTotalPrice();
+    this.getMyCartCount()
   }
 
-  updateMyCart(cartChanged: Purchasable[]): void {
-    this.myCart = cartChanged;
-    this.updateTotalPrice();
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   getMyCart(): void {
-    this.myCart = this.myCartService.getMyCart();
-  }
-  updateTotalPrice() {
-    this.totalPrice = this.myCartService.getTotalPrice();
+    this.myCart$ = this.myCartService.getMyCart();
   }
 
-  /** Functions used in my-cart.component.html **/
-  switchTab(): void {
-    // switch selectedTab index between 0 and 1
-    this.selectedTab = (this.selectedTab + 1) % 2;
-  }
-
-  hasOptions(purchasable: Purchasable): boolean {
-    // check if no options at all
-    if (!purchasable.options) {
-      return false;
-    } else if (purchasable.options.length === 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  openOptionDialog(index: number): void {
-    const purchasable = this.myCart[index];
-
-    // clone purchasable option to originalOption
-    const originalOption: Option[] = [];
-    for (const option of purchasable.options) {
-      originalOption.push(new Option(option));
-    }
-    const dialogRef = this.optionDialog.open(MyCartDialogComponent,
-      {data: purchasable});
-    dialogRef.afterClosed().subscribe(changedOption => {
-      if (changedOption) {
-        this.updateOptionChange(changedOption, index);
-      } else {
-        // User clicked 'Cancel' or clicked outside of the dialog
-        this.updateOptionChange(originalOption, index);
+  getMyCartCount(): void {
+    this.subscription = this.myCart$.subscribe(myCartItems => {
+      if (myCartItems.length === 0) {
+        alert('장바구니가 비어있습니다.');
+        this.sendToOrderPage();
       }
     });
   }
 
-  // some dirty codes to deal with purchasable instances of myCart
-  increment(index: number): void {
-    const changedCart = this.myCart;
-    if (changedCart[index].quantity < 100) {
-      changedCart[index].quantity += +1;
-      changedCart[index] = this.updatePurchasablePrice(changedCart[index]);
-      this.myCartService.updateMyCart(this.myCart);
-      this.updateTotalPrice();
-    }
-  }
-  decrement(index: number): void {
-    const changedCart = this.myCart;
-    if (changedCart[index].quantity > 1) {
-      changedCart[index].quantity += -1;
-      changedCart[index] = this.updatePurchasablePrice(changedCart[index]);
-      this.myCartService.updateMyCart(this.myCart);
-      this.updateTotalPrice();
-    }
+  getTotalPrice(): void {
+    this.myCartService.getTotalPrice()
+      .then(totalPrice => this.totalPrice = totalPrice)
   }
 
-  updateOptionChange(changedOptions: Option[], index: number): void {
-    this.myCart[index].options = changedOptions;
-    this.myCart[index] =
-      this.updatePurchasablePrice(this.myCart[index]);
-    this.myCartService.updateMyCart(this.myCart);
-    this.updateTotalPrice();
+  increment(myCartItem: MyCartItem): void {
+    const quantity = myCartItem.purchasable.quantity + 1;
+    myCartItem.purchasable.increment();
+    this.myCartService.patchMyCartQty(myCartItem, quantity)
+      .then(()=>this.getTotalPrice())
   }
 
-  removePurchasable(index: number): void {
-    this.myCartService.removePurchasable(index);
-    this.getMyCart();
-    if (this.myCartService.isEmpty()) {
-      this.sendToOrderPage();
-    }
+  decrement(myCartItem: MyCartItem): void {
+    // decrement button disabled when quantity is 1 or less.
+    const quantity = myCartItem.purchasable.quantity - 1;
+    myCartItem.purchasable.decrement();
+    this.myCartService.patchMyCartQty(myCartItem, quantity)
+      .then(()=>this.getTotalPrice());
+  }
+
+  openOptionDialog(myCartItem: MyCartItem): void {
+    const purchasable = myCartItem.purchasable;
+    console.log(purchasable)
+    const dialogRef = this.optionDialog.open(MyCartDialogComponent, {data: purchasable});
+    dialogRef.afterClosed().subscribe(changedOptions => {
+      this.myCartService.patchMyCartOptions(myCartItem, changedOptions)
+        .then(()=>this.getTotalPrice());
+    });
+  }
+
+  removeMyCartItem(myCartItem: MyCartItem): void {
+    this.myCartService.removeMyCartItem(myCartItem)
+      .then(()=> {
+        this.getMyCart();
+        this.getMyCartCount();
+        this.getTotalPrice();
+      });
   }
 
   emptyCart(): void {
     this.myCartService.emptyMyCart();
-    this.myCart = [];
     this.sendToOrderPage();
   }
-  back(): void {
-    this.location.back();
-  }
+
   sendToOrderPage(): void {
     this.router.navigate(['/order']);
-  }
-
-  updatePurchasablePrice(item: Purchasable): Purchasable {
-    let option_total = 0;
-    for (const option of item.options) {
-      option_total += option.total_price;
-    }
-    item.total_price = item.quantity * (item.base_price + option_total);
-    return item;
   }
 }
