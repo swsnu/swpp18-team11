@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MyCartService } from '../my-cart.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,13 +23,15 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.myCartCountSubscription) {
-      this.myCartCountSubscription.unsubscribe;
+      this.myCartCountSubscription.unsubscribe();
     }
   }
 
   emptyMyCart(): void {
     if (confirm('장바구니를 비우시겠습니까?')) {
-      this.myCartService.emptyMyCart();
+      this.myCartService.emptyMyCart().then(() => {
+        this.setMyCartCount();
+      });
     }
   }
 

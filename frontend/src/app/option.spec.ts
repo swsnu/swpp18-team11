@@ -18,14 +18,14 @@ describe('Option', () => {
       base_price: 1000,
       quantity: 1,
       total_price: 1000,
-      options: [{
+      options: [new Option({
         id: 1,
         name: 'ASDF',
         base_price: 50,
         max_capacity: 2,
         quantity: 0,
         total_price: 100,
-      } as any]
+      } as any)]
     });
     options = purchasable.options;
   });

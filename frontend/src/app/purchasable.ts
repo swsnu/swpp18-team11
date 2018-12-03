@@ -15,7 +15,11 @@ export class Purchasable implements Menu {
   constructor(args: Partial<Purchasable>) {
     Object.assign(this, args);
     this.base_price = Math.floor(this.base_price);
-    this.options.map(option => option.assignPurchasable(this));
+    this.options.map(option => {
+      if (option instanceof Option) { // to bypass the optionStub in my-order-component.spec.ts
+        option.assignPurchasable(this);
+      }
+    });
     this.updateTotalPrice();
   }
   increment(): void {

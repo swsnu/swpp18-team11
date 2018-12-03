@@ -54,6 +54,6 @@ export class SpecifyOrderComponent implements OnInit {
   }
   buyNow(): void {
     this.myCartService.addMyCart(this.purchasable)
-      .then(()=>this.myCartService.toMyCartPage());
+      .then(() => this.myCartService.toMyCartPage());
   }
 }

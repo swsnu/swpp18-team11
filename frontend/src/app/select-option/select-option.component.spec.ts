@@ -11,7 +11,7 @@ describe('SelectOptionComponent', () => {
   let fixture: ComponentFixture<SelectOptionComponent>;
   const option1 = {id: 1, name: 'o', base_price: 100, max_capacity: 10, quantity: 0, total_price: 0};
   const option2 = {id: 2, name: 'o', base_price: 200, max_capacity: 10, quantity: 0, total_price: 0};
-  const options = [new Option(option1, undefined), new Option(option2, undefined)];
+  const options = [new Option(option1), new Option(option2)];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [

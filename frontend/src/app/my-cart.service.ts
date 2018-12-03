@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable, ReplaySubject, Subject} from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -39,13 +39,6 @@ export class MyCartService {
     })).toPromise();
   }
 
-  private getOptionTotalPrice(options: Option[]): number {
-    let totalPrice = 0;
-    for (const option of options) {
-      totalPrice += option.quantity * option.base_price;
-    }
-    return totalPrice;
-  }
   /** MyCart GET operations **/
   getMyCart(): Observable<MyCartItem[]> {
     return this.http.get(this.myCartUrl)
@@ -58,7 +51,7 @@ export class MyCartService {
   /** MyCart POST operations **/
   addMyCart(purchasable: Purchasable) {
     const orderSpec = this.convertPurchasableToOrderSpec(purchasable);
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('order_spec', orderSpec);
     return this.http.post(this.myCartUrl, formData).toPromise();
   }
@@ -67,7 +60,7 @@ export class MyCartService {
   patchMyCartQty(myCartItem: MyCartItem, quantity) {
     const url = this.myCartUrl + myCartItem.myCartItemId;
     const formData = `qty=${quantity}`;
-    return this.http.patch(url, formData, this.httpOptions).toPromise()
+    return this.http.patch(url, formData, this.httpOptions).toPromise();
   }
 
   patchMyCartOptions(myCartItem: MyCartItem, options: Option[]) {
@@ -78,11 +71,8 @@ export class MyCartService {
   }
 
   /** MyCart DELETE operations **/
-  emptyMyCart(): void {
-    this.http.delete(this.myCartUrl)
-      .toPromise()
-      .then()
-      .catch(err => console.log(err));
+  emptyMyCart() {
+    return this.http.delete(this.myCartUrl).toPromise();
   }
 
   removeMyCartItem(myCartItem: MyCartItem) {
@@ -133,5 +123,12 @@ export class MyCartService {
     }).join(' ');
   }
 
+  private getOptionTotalPrice(options: Option[]): number {
+    let totalPrice = 0;
+    for (const option of options) {
+      totalPrice += option.quantity * option.base_price;
+    }
+    return totalPrice;
+  }
 
 }

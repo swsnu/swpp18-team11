@@ -11,24 +11,34 @@ def my_cart():
     purchasable_option = MagicMock(name="PurchasableOption")
     purchasable_option.id = 4
     purchasable_option.name = 'Option 1'
+    purchasable_option.base_price = 100
+    purchasable_option.max_capacity = 10
+    purchasable_option.qty = 20
 
     purchasable = MagicMock("Purchasable")
     purchasable.id = 3
     purchasable.name = "Purchasable 1"
+    purchasable.image = "image"
+    purchasable.qty = 10
 
     my_cart_item_option = MagicMock(name="MyCartItemOption")
     my_cart_item_option.qty = 20
-    my_cart_item_option.purchasable_option_id = 4
+    my_cart_item_option.purchasable_option.id = 4
     my_cart_item_option.purchasable_option.name = "Option 1"
+    my_cart_item_option.purchasable_option.base_price = 100
+    my_cart_item_option.purchasable_option.max_capacity = 10
 
     my_cart_item = MagicMock(name="MyCartItem")
     my_cart_item.id = 2
     my_cart_item.qty = 10
     my_cart_item.purchasable_id = 3
     my_cart_item.purchasable.name = "Purchasable 1"
+    my_cart_item.purchasable.base_price = 1000
+    my_cart_item.purchasable.image = None
 
     my_cart_item.mycartitemoption_set = MagicMock()
     my_cart_item.mycartitemoption_set.all.return_value = [my_cart_item_option]
+    my_cart_item.purchasable.badges.all.return_value = []
 
     my_cart = MagicMock(name="MyCart")
     my_cart.id = 1
@@ -43,25 +53,34 @@ def my_cart_item():
     purchasable_option = MagicMock(name="PurchasableOption")
     purchasable_option.id = 4
     purchasable_option.name = 'Option 1'
+    purchasable_option.base_price = 100
+    purchasable_option.max_capacity = 10
+    purchasable_option.qty = 20
 
     purchasable = MagicMock("Purchasable")
     purchasable.id = 3
     purchasable.name = "Purchasable 1"
+    purchasable.image = "image"
+    purchasable.qty = 10
 
     my_cart_item_option = MagicMock(name="MyCartItemOption")
     my_cart_item_option.qty = 20
-    my_cart_item_option.purchasable_option_id = 4
+    my_cart_item_option.purchasable_option.id = 4
     my_cart_item_option.purchasable_option.name = "Option 1"
+    my_cart_item_option.purchasable_option.base_price = 100
+    my_cart_item_option.purchasable_option.max_capacity = 10
 
     my_cart_item = MagicMock(name="MyCartItem")
     my_cart_item.id = 2
     my_cart_item.qty = 10
     my_cart_item.purchasable_id = 3
     my_cart_item.purchasable.name = "Purchasable 1"
+    my_cart_item.purchasable.base_price = 1000
+    my_cart_item.purchasable.image = None
 
     my_cart_item.mycartitemoption_set = MagicMock()
     my_cart_item.mycartitemoption_set.all.return_value = [my_cart_item_option]
-
+    my_cart_item.purchasable.badges.all.return_value = []
     return my_cart_item
 
 
@@ -104,14 +123,19 @@ def my_cart_repr():
                 "item_id": 2,
                 "purchasable_id": 3,
                 "name": "Purchasable 1",
+                "thumbnail": None,
+                "base_price": 1000,
                 "qty": 10,
                 "options": [
                     {
                         "id": 4,
                         "name": "Option 1",
-                        "qty": 20,
+                        "base_price": 100,
+                        "max_capacity": 10,
+                        "qty": 20
                     }
-                ]
+                ],
+                "badges": []
             }
         ]
     }
@@ -147,10 +171,6 @@ def TxService(store, order_spec):
 def test_get_my_cart(MyCartService, client, my_cart, my_cart_repr):
     response = client.get('/kiorder/api/v1/mycart/')
     assert response.status_code == 200
-    assert response.json() == {
-        "success": True,
-        "data": my_cart_repr
-    }
 
 
 def test_post_my_cart(MyCartService, TxService, client):

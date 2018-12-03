@@ -1,6 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 
 import { Purchasable } from './purchasable';
+import { Option } from './option';
 
 describe('Purchasable', () => {
   let purchasable: Purchasable;
@@ -16,14 +17,14 @@ describe('Purchasable', () => {
       base_price: 1000,
       quantity: 1,
       total_price: 1200,
-      options: [{
+      options: [new Option({
         id: 1,
         name: 'ASDF',
         base_price: 50,
         max_capacity: 2,
         quantity: 2,
         total_price: 100,
-      } as any]
+      } as any)]
     });
   });
 

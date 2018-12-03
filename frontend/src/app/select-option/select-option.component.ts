@@ -11,14 +11,4 @@ export class SelectOptionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {} // option already initialized at specify-order component.
-
-  /*
-  cancel(): void {
-    // TODO
-    return;
-  }
-  confirm(): void {
-    // TODO
-    return;
-  }*/
 }

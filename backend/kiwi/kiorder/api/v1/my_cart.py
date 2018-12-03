@@ -60,12 +60,12 @@ class BaseMyCart(BaseResource):
                     "base_price": my_cart_item.purchasable.base_price,
                     "qty": my_cart_item.qty,
                     "options": [
-                        {
-                            "id": opt.purchasable_option_id,
-                            "name": opt.purchasable_option.name,
-                            "qty": opt.qty,
-                        }
+                        self.represent_item_option(opt)
                         for opt in my_cart_item.mycartitemoption_set.all()
+                    ],
+                    "badges": [
+                        self.represent_badge(badge)
+                        for badge in my_cart_item.purchasable.badges.all()
                     ]
                 }
 

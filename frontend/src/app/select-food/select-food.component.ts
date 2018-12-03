@@ -38,9 +38,4 @@ export class SelectFoodComponent implements OnInit {
   getCategories(): void {
     this.categories$ = this.menuDataService.getCategories();
   }
-
-  emptyCart() {
-    this.myCartService.emptyMyCart();
-  }
-
 }

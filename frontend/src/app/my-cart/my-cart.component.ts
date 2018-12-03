@@ -6,7 +6,7 @@ import { Purchasable } from '../purchasable';
 import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
 import { MatDialog } from '@angular/material';
 import { MyCartItem } from '../my-cart-item';
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -30,7 +30,7 @@ export class MyCartComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getMyCart();
     this.getTotalPrice();
-    this.getMyCartCount()
+    this.getMyCartCount();
   }
 
   ngOnDestroy() {
@@ -54,14 +54,14 @@ export class MyCartComponent implements OnInit, OnDestroy {
 
   getTotalPrice(): void {
     this.myCartService.getTotalPrice()
-      .then(totalPrice => this.totalPrice = totalPrice)
+      .then(totalPrice => this.totalPrice = totalPrice);
   }
 
   increment(myCartItem: MyCartItem): void {
     const quantity = myCartItem.purchasable.quantity + 1;
     myCartItem.purchasable.increment();
     this.myCartService.patchMyCartQty(myCartItem, quantity)
-      .then(()=>this.getTotalPrice())
+      .then(() => this.getTotalPrice());
   }
 
   decrement(myCartItem: MyCartItem): void {
@@ -69,22 +69,22 @@ export class MyCartComponent implements OnInit, OnDestroy {
     const quantity = myCartItem.purchasable.quantity - 1;
     myCartItem.purchasable.decrement();
     this.myCartService.patchMyCartQty(myCartItem, quantity)
-      .then(()=>this.getTotalPrice());
+      .then(() => this.getTotalPrice());
   }
 
   openOptionDialog(myCartItem: MyCartItem): void {
     const purchasable = myCartItem.purchasable;
-    console.log(purchasable)
+    console.log(purchasable);
     const dialogRef = this.optionDialog.open(MyCartDialogComponent, {data: purchasable});
     dialogRef.afterClosed().subscribe(changedOptions => {
       this.myCartService.patchMyCartOptions(myCartItem, changedOptions)
-        .then(()=>this.getTotalPrice());
+        .then(() => this.getTotalPrice());
     });
   }
 
   removeMyCartItem(myCartItem: MyCartItem): void {
     this.myCartService.removeMyCartItem(myCartItem)
-      .then(()=> {
+      .then(() => {
         this.getMyCart();
         this.getMyCartCount();
         this.getTotalPrice();
