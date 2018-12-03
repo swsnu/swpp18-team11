@@ -4,6 +4,8 @@ from kiorder.services.store import StoreService
 from kiorder.models import Purchasable as PurchasableModel
 
 class Purchasable(BaseResource):
+    login_required = True
+
     def represent_option(self, option):
         return {
             "id": option.id,

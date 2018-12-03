@@ -14,7 +14,7 @@ TestPurchaseMethod.register_as("test")
 
 
 class BaseTx(BaseResource):
-    pass
+    login_required = True
 
 class TestTx(BaseTx):
     def get(self, request, user_id):

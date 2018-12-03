@@ -1,0 +1,16 @@
+<p>
+  sign-up works! {{username}} {{password}} {{confirmPassword}}
+</p>
+<div>
+  <label> username: </label>
+  <input id="username" [(ngModel)]="username">
+</div>
+<div>
+  <label> password: </label>
+  <input id="password" [(ngModel)]="password">
+</div>
+<div>
+  <label> confirm password: </label>
+  <input label="confirm-password" [(ngModel)]="confirmPassword">
+</div>
+<button (click)="onClickSignUp()"> sign up </button>

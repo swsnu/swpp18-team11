@@ -4,6 +4,8 @@ from kiorder.services.store import StoreService
 from kiorder.models import Franchise, Store
 
 class BaseStore(BaseResource):
+    login_required = True
+    
     def represent_store(self, store: Store):
         return {
             "id": store.id,
@@ -37,4 +39,13 @@ class StoreOfFranchise(BaseStore):
             radius=radius_in_km,
         )
         return self.success([self.represent_store(store) for store in stores])
+
+
+class StoreDetail(BaseStore):
+    def get(self, request, *, id):
+        try:
+            store = Store.objects.get(id=id)
+            return self.success(self.represent_store(store))
+        except Store.DoesNotExist:
+            return self.error(message=f"Store {id} not found", status_code=404)
 
