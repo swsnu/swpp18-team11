@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { Category } from './category';
 import { Purchasable } from './purchasable';
+import { Option } from './option';
+import { Badge } from './badge';
 
 
 const httpOptions = {
@@ -36,9 +38,19 @@ export class MenuDataService {
     const url = '/kiorder/api/v1/purchasable/' + productId;
     return this.http.get(url)
       .pipe(map((response: any) => {
-        const purchasable: Purchasable = response.data;
-        return purchasable;
+        const data = response.data;
+        data.options = data.options.map(opt => this.loadOption(opt));
+        data.badges = data.badges.map(badge => this.loadBadge(badge));
+        return new Purchasable(data);
       }))
       .toPromise();
+  }
+
+  private loadOption(opt: any): Option {
+    return new Option(opt);
+  }
+
+  private loadBadge(badge: any): Badge {
+    return new Badge(badge);
   }
 }

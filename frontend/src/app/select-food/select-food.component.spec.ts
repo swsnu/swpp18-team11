@@ -43,12 +43,10 @@ describe('SelectFoodComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should call getCategories, getMyCartCount', async((() => {
+  it('ngOnInit should call getCategories,', async((() => {
     component.ngOnInit();
     expect(menuDataServiceSpy.getCategories).toHaveBeenCalled();
-    expect(myCartServiceSpy.getMyCartCount).toHaveBeenCalled();
     fixture.whenStable().then(() => {
-      expect(component.myCartCount).toEqual(1);
       expect(component.categories$).toEqual(testCategory$);
     });
   })));
@@ -59,15 +57,8 @@ describe('SelectFoodComponent', () => {
     expect(component.categories$).toEqual(testCategory$);
   });
 
-  it('getMyCartCount should set myCartCount', () => {
-    component.myCartCount = 0; // initial state
-    component.getMyCartCount();
-    expect(component.myCartCount).toEqual(1);
+  it('mathFloor should return flat number', () => {
+    expect(component.mathFloor(10.0001)).toEqual(10);
   });
 
-  it('emptyCart should call myCartService.emptyMyCart', () => {
-    component.emptyCart();
-    expect(myCartServiceSpy.emptyMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.getMyCartCount).toHaveBeenCalled();
-  });
 });

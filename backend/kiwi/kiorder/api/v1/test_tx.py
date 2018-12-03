@@ -56,8 +56,9 @@ class TestTx(BaseTx):
         except User.DoesNotExist:
             pass
 
+        store = self.get_current_store()
         order_spec_line = request.POST['order_spec']
-        order_spec = self.parse_order_spec_line(order_spec_line)
+        order_spec = tx_service.parse_order_spec_line(fmt=order_spec_line, store=store)
         part_ref = request.POST.get('part_ref', '')
         order_tx = tx_service.prepare_order(
             utxid=utxid,
@@ -67,34 +68,6 @@ class TestTx(BaseTx):
         )
         tx_service.start_order(order_tx=order_tx, purchase_method=TestPurchaseMethod())
         return self.success({"utxid": utxid})
-
-    def parse_order_spec_line(self, fmt: str) -> OrderSpec:
-        "parse order spec format: e.g 1-1#1-2#3-4 2-1"
-        order_spec = OrderSpec(store=self.get_current_store())
-        try:
-            for line in fmt.split():
-                parts = line.split("#")
-                purchasable_id, purchasable_qty = parts[0].split("-")
-                purchasable_id = int(purchasable_id)
-                purchasable_qty = int(purchasable_qty)
-                if purchasable_qty <= 0:
-                    raise ValueError("Qty cannot be negative")
-                purchasable = Purchasable.objects.get(id=purchasable_id)
-                opt_spec = order_spec.add_purchasable(purchasable, purchasable_qty)
-
-                for option_line in parts[1:]:
-                    opt_id, opt_qty = option_line.split("-")
-                    opt_id = int(opt_id)
-                    opt_qty = int(opt_qty)
-                    if opt_qty <= 0:
-                        raise ValueError("Option Qty cannot be negative")
-                    opt = PurchasableOption.objects.get(id=opt_id)
-                    opt_spec.add_option(opt, opt_qty)
-        except ValueError:
-            self.abort("BADREQ-001", "Bad request", 400)
-        return order_spec
-
-
 
 class TestTxFinish(BaseTx):
     @transaction.atomic
