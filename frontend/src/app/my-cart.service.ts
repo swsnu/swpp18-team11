@@ -77,7 +77,7 @@ export class MyCartService {
 
   removeMyCartItem(myCartItem: MyCartItem) {
     const url = this.myCartUrl + myCartItem.myCartItemId;
-    return this.http.delete(url).toPromise
+    return this.http.delete(url).toPromise();
   }
 
   /** private helper methods **/
