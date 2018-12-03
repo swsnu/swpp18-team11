@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TxItem } from './tx-item';
 import { Router } from '@angular/router';
@@ -31,13 +31,8 @@ export class UserService {
     return this.http.post(url, body)
       .pipe()
       .toPromise()
-      .then(response => {
-        if (response['success']) {
-          this.setCurrentUser(new User(response['data']['user_id'], username));
-          alert('회원가입 되었습니다');
-          this.router.navigateByUrl('/order');
-        }})
-      .catch(e => alert(e['error']['message']));
+      .then(response => this.handleSignInSuccess(response))
+      .catch(e => this.handleError(e));
   }
   signIn(username: string, password: string): Promise<any> {
     const url = '/kiorder/api/v1/user/sign_in';
@@ -47,12 +42,8 @@ export class UserService {
     return this.http.post(url, body)
       .pipe()
       .toPromise()
-      .then(response => {
-        if (response['success']) {
-          this.setCurrentUser(new User(response['data']['user_id'], username));
-          this.router.navigateByUrl('/order');
-        }})
-      .catch(e => alert(e['error']['message']));
+      .then(response => this.handleSignInSuccess(response))
+      .catch(e => this.handleError(e));
   }
   signOut(): Promise<any> {
     const url = '/kiorder/api/v1/user/sign_out';
@@ -62,7 +53,7 @@ export class UserService {
       .then(response => {
         this.router.navigateByUrl('/order');
       })
-      .catch(e => alert(e['error']['message']));
+      .catch(e => this.handleError(e));
   }
   setCurrentUser(user: User) {
     localStorage.setItem('currentUser', JSON.stringify(user));
@@ -100,5 +91,21 @@ export class UserService {
       createdAt: txItem.created_at,
       state: txItem.state
     });
+  }
+  handleSignInSuccess(response: any) {
+    if (response.success) {
+      alert(response.data.username);
+      this.setCurrentUser(new User(response.data.user_id, response.data.username));
+      this.router.navigateByUrl('/order');
+    }
+  }
+  handleError(e: any) {
+    alert(e.error.message);
+
+    switch (e.error.code) {
+      default:
+        break;
+    }
+    return e;
   }
 }

@@ -14,6 +14,7 @@ class BaseUser(BaseResource):
 
         return {
             "user_id": user.id,
+            "username": user.username,
             "user_type": user.user_type,
             "current_store_id": user.current_store_id,
             "most_preferred_store_id": most_preferred_store and most_preferred_store.id

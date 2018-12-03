@@ -3,6 +3,8 @@ from .base import BaseResource
 from kiorder.services.store import StoreService
 
 class Purchasable(BaseResource):
+    login_required = True
+
     def represent_option(self, option):
         return {
             "id": option.id,
