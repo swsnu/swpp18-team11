@@ -94,7 +94,6 @@ export class UserService {
   }
   handleSignInSuccess(response: any) {
     if (response.success) {
-      alert(response.data.username);
       this.setCurrentUser(new User(response.data.user_id, response.data.username));
       this.router.navigateByUrl('/order');
     }

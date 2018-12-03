@@ -4,6 +4,8 @@ from kiorder.services.store import StoreService
 from kiorder.models import Franchise, Store
 
 class BaseStore(BaseResource):
+    login_required = True
+    
     def represent_store(self, store: Store):
         return {
             "id": store.id,
