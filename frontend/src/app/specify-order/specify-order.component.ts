@@ -32,9 +32,12 @@ export class SpecifyOrderComponent implements OnInit {
     const id: string = this.location.path().substring(7);
     this.menuDataService.getProductInfo(id)
       .then(purchasable => {
-        this.purchasable = new Purchasable(purchasable);
+        this.purchasable = purchasable;
       })
-      .catch(error => alert('존재하지 않는 메뉴 id입니다'));
+      .catch(error => {
+        alert('존재하지 않는 메뉴 id 입니다');
+        this.cancel();
+      });
   }
   changeOptionPageStatus(opened: boolean): void {
     this.expandOption = opened;
@@ -50,7 +53,7 @@ export class SpecifyOrderComponent implements OnInit {
     this.location.back();
   }
   buyNow(): void {
-    this.myCartService.addMyCart(this.purchasable);
-    this.myCartService.toMyCartPage();
+    this.myCartService.addMyCart(this.purchasable)
+      .then(() => this.myCartService.toMyCartPage());
   }
 }

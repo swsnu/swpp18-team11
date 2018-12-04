@@ -5,7 +5,9 @@ import { catchError, map } from 'rxjs/operators';
 
 import { Category } from './category';
 import { Purchasable } from './purchasable';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { Option } from './option';
+import { Badge } from './badge';
 
 
 const httpOptions = {
@@ -40,8 +42,10 @@ export class MenuDataService {
     return this.http.get(url)
       .pipe(catchError(error => this.handleError(error)))
       .pipe(map((response: any) => {
-        const purchasable: Purchasable = response.data;
-        return purchasable;
+        const data = response.data;
+        data.options = data.options.map(opt => this.loadOption(opt));
+        data.badges = data.badges.map(badge => this.loadBadge(badge));
+        return new Purchasable(data);
       }))
       .toPromise();
   }
@@ -60,5 +64,13 @@ export class MenuDataService {
         break;
     }
     return e;
+  }
+
+  private loadOption(opt: any): Option {
+    return new Option(opt);
+  }
+
+  private loadBadge(badge: any): Badge {
+    return new Badge(badge);
   }
 }

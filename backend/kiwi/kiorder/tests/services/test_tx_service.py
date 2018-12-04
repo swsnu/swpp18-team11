@@ -44,6 +44,26 @@ def user():
     return x
 
 @pytest.mark.django_db
+def test_tx_parse_order_spec_line(tx_service, store_1, purchasable_1,
+                                  purchasable_with_options_1, purchasable_option_1):
+    # To see tx_parse_order_spec_line parses order_spec_line properly
+    order_spec_line = f"{purchasable_1.id}-1 {purchasable_with_options_1.id}-2#{purchasable_option_1.id}-3"
+    # Result
+    parsed_order_spec: OrderSpec = tx_service.parse_order_spec_line(order_spec_line, store_1)
+    purchasable_specs = parsed_order_spec.purchasable_specs
+    purchasable_spec_1 = purchasable_specs[0]
+    purchasable_spec_2 = purchasable_specs[1]
+    option_spec = purchasable_spec_2.purchasable_option_specs[0]
+    ## Expectations
+    assert parsed_order_spec.store == store_1
+    assert purchasable_spec_1.purchasable == purchasable_1
+    assert purchasable_spec_1.qty == 1
+    assert purchasable_spec_2.purchasable == purchasable_with_options_1
+    assert purchasable_spec_2.qty == 2
+    assert option_spec.purchasable_option == purchasable_option_1
+    assert option_spec.qty == 3
+
+@pytest.mark.django_db
 def test_tx_order(tx_service, ticket_service, utxid, user, order_spec, purchase_method):
     # Step 1: Prepare order
     order_tx = tx_service.prepare_order(

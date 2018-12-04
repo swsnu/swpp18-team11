@@ -9,22 +9,30 @@ export class Option {
   total_price = 0;
   purchasable: Purchasable;
 
-  constructor(args: Partial<Option>, purchasable) {
+  constructor(args: Partial<Option>) {
     Object.assign(this, args);
     this.base_price = Math.floor(this.base_price);
-    this.purchasable = purchasable;
     this.updateTotalPrice();
   }
-
+  assignPurchasable(purchasable: Purchasable): void {
+    this.purchasable = purchasable;
+  }
   increment(): void {
     this.quantity += 1;
     this.updateTotalPrice();
-    this.purchasable.updateTotalPrice();
+    if (this.purchasable) {
+      this.purchasable.updateTotalPrice();
+    }
+
   }
   decrement(): void {
-    this.quantity -= 1;
+    if (this.quantity > 0) {
+      this.quantity -= 1;
+    }
     this.updateTotalPrice();
-    this.purchasable.updateTotalPrice();
+    if (this.purchasable) {
+      this.purchasable.updateTotalPrice();
+    }
   }
   updateTotalPrice(): void {
     this.total_price = this.quantity * this.base_price;

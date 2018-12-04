@@ -6,128 +6,116 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Purchasable } from './purchasable';
 import { Router } from '@angular/router';
 import { Option } from './option';
+import { MyCartItem } from './my-cart-item';
+import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 describe('MyCartService', () => {
 
   let myCartService: MyCartService;
-  let testPurchasable;
-  let testMyCart: Purchasable[];
+  let testMyCartItem: MyCartItem;
+  let testPurchasable: Purchasable;
+  let testOption: Option;
+  let testMyCart: MyCartItem[];
   let routerSpy;
-  let testStorage = {};
+  let httpClientSpy;
 
   beforeEach(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
-    TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
-      providers: [
-        MyCartService,
-        { provide: Router, useValue: routerSpy }
-      ],
-    })
-      .compileComponents();
-
-    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      return testStorage[key] || null;
-    });
-    spyOn(localStorage, 'setItem').and.callFake((key: string, value: string) => {
-      return testStorage[key] = <string> value;
-    });
-    spyOn(console, 'error');
-
-    myCartService = TestBed.get(MyCartService);
     testPurchasable = new Purchasable({
       id: 1,
       name: 'Hamburger',
       thumbnail: 'jpg',
       base_price: 10,
       options: [],
-      total_price: 10,
-      quantity: 1
+      badges: [],
+      total_price: 20,
+      quantity: 2
     });
-    testMyCart = [testPurchasable];
-    testStorage['myCart'] = JSON.stringify(testMyCart); // initialize local storage
+    testOption = new Option({
+      id: 2,
+      name: 'Cheese',
+      base_price: 5,
+      quantity: 10,
+    });
+    testMyCartItem = {
+      myCartItemId: 1,
+      purchasable: testPurchasable
+    };
+    testMyCart = [testMyCartItem];
   });
 
-  it('getMyCartCount should return myCart count', () => {
-    const count = myCartService.getMyCartCount();
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(count).toEqual(testMyCart.length);
+  beforeEach(() => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', {
+      get: of({ success: true, data: { purchasables: testMyCart }}),
+      delete: of(null),
+      post: of(null),
+      patch: of({ success: true, data: testMyCartItem }),
+    });
+
+    TestBed.configureTestingModule({
+      imports: [ RouterTestingModule ],
+      providers: [
+        MyCartService,
+        { provide: Router, useValue: routerSpy },
+        { provide: HttpClient, useValue: httpClientSpy }
+      ],
+    })
+      .compileComponents();
+
+    spyOn(console, 'error');
+    myCartService = TestBed.get(MyCartService);
   });
+
 
   it('getTotalPrice should return myCart total price', () => {
-    const returnedPrice = myCartService.getTotalPrice();
-    let calculatedPrice = 0;
-    for (const purchasable of testMyCart) {
-      calculatedPrice += purchasable.total_price;
-    }
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(returnedPrice).toEqual(calculatedPrice);
+    myCartService.getTotalPrice().then(
+      totalPrice => {
+        expect(totalPrice).toEqual(20);
+      }
+    );
   });
 
-  it('isEmpty should return myCart.isEmpty', () => {
-    let isEmpty = myCartService.isEmpty();
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(isEmpty).toEqual(false);
-
-    testStorage = {};
-    isEmpty = myCartService.isEmpty();
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(isEmpty).toEqual(true);
+  it('getMyCart should return Observable myCart[]', () => {
+    myCartService.getMyCart().toPromise().then(
+      myCart => {
+        expect(myCart).toEqual(testMyCart);
+      });
   });
 
-  it('removePurchasable should remove item from myCart', () => {
-    myCartService.setMyCart([testPurchasable]);
-    myCartService.removePurchasable(0);
-    expect(myCartService.getMyCart()).toEqual([]);
-  });
-
-  it('removePurchasable should not remove if index is wrong', () => {
-    myCartService.removePurchasable(999);
-    expect(console.error).toHaveBeenCalledWith('Remove index out of bound');
-  });
-
-  it('getMyCart should return loadStorage', () => {
-    const getCart = myCartService.getMyCart();
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(getCart).toEqual(testMyCart);
-  });
-
-  it('getMyCart should return empry array if nothing stored', () => {
-    testStorage = {};
-    const getCart = myCartService.getMyCart();
-    expect(localStorage.getItem).toHaveBeenCalledWith('myCart');
-    expect(getCart).toEqual([]);
-  });
-
-  it('setMyCart should call saveStorage', () => {
-    const testMyCartAnother: Purchasable[] = [
-      testPurchasable, testPurchasable
-    ];
-    myCartService.setMyCart(testMyCartAnother);
-    expect(localStorage.setItem).toHaveBeenCalledWith('myCart',
-                                                      JSON.stringify(testMyCartAnother));
-    expect(myCartService.getMyCart()).toEqual(testMyCartAnother);
-  });
-
-  it('addMyCart should add item into my cart and saveStorge', () => {
-    const testMyCartAdded: Purchasable[] = [
-      testPurchasable, testPurchasable
-    ];
-    myCartService.setMyCart(testMyCart);
-    myCartService.addMyCart(testPurchasable);
-    expect(localStorage.setItem).toHaveBeenCalledWith('myCart',
-      JSON.stringify(testMyCartAdded));
-    expect(myCartService.getMyCart()).toEqual(testMyCartAdded);
-  });
-
-  it('updateMyCart should call setMyCart', () => {
-    myCartService.updateMyCart([]);
-    expect(localStorage.setItem).toHaveBeenCalledWith('myCart', JSON.stringify([]));
-  });
-
-  it('emptyMyCart should empty localStorage', () => {
+  it('emptyMyCartItem should remove entire items', () => {
     myCartService.emptyMyCart();
-    expect(localStorage.setItem).toHaveBeenCalledWith('myCart', JSON.stringify([]));
+    myCartService.getMyCart().toPromise().then(
+      myCart => expect(myCart.length).toEqual(0)
+    );
+  });
+
+  it('removeMyCartItem should remove item from myCart', () => {
+    myCartService.removeMyCartItem(testMyCartItem);
+    myCartService.getMyCart().toPromise().then(
+      myCart => expect(myCart.length).toEqual(0)
+    );
+  });
+
+  it('addMyCart should add an item into my cart', () => {
+    myCartService.addMyCart(testPurchasable);
+    myCartService.getMyCart().toPromise().then(
+      myCart => expect(myCart.length).toEqual(2)
+    );
+  });
+
+  it('patchMyCartQty should change myCartItems qty', () => {
+    myCartService.patchMyCartQty(testMyCartItem, 99).then(
+      (patchedItem: MyCartItem) =>
+        expect(patchedItem.purchasable.quantity).toEqual(99)
+    );
+  });
+
+  it('patchMyCartOption should change myCartItems options', () => {
+    myCartService.patchMyCartOptions(testMyCartItem, [testOption]).then(
+      (patchedItem: MyCartItem) =>
+        expect(patchedItem.purchasable.options).toEqual([testOption])
+    );
   });
 });
+

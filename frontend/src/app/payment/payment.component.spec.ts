@@ -13,35 +13,44 @@ import { Purchasable } from '../purchasable';
 import { Option } from '../option';
 import { MyCartService } from '../my-cart.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
+import { MyCartItem } from '../my-cart-item';
 
 describe('PaymentComponent', () => {
   let component: PaymentComponent;
   let fixture: ComponentFixture<PaymentComponent>;
-  let myCart = [new Purchasable({
-    id: 1,
-    name: 'pur',
-    thumbnail: '',
-    base_price: 1000,
-    quantity: 1,
-    total_price: 1000,
-    options: [
-      new Option({
+  let myCart = [new MyCartItem({
+    myCartItemId: 1,
+    purchasable: new Purchasable({
+      id: 1,
+      name: 'pur',
+      thumbnail: '',
+      base_price: 1000,
+      quantity: 1,
+      total_price: 1000,
+      options: [new Option({
         id: 1,
         name: 'ASDF',
         base_price: 50,
         max_capacity: 2,
         quantity: 2,
         total_price: 100,
-      })
-    ]
-  }) ];
-  const myCartServiceSpy = jasmine.createSpyObj('MyCarttService', ['getMyCart', 'getTotalPrice', 'emptyMyCart']);
-  myCartServiceSpy.getMyCart.and.callFake(() => myCart);
-  myCartServiceSpy.getTotalPrice.and.callFake(() => 1000);
+      } as any),
+      ],
+      badges: []
+    })
+  })];
+  const myCart$ = of(myCart);
+  const myCartServiceSpy = jasmine.createSpyObj('MyCarttService',
+    ['getMyCart', 'getTotalPrice', 'emptyMyCart']);
+  myCartServiceSpy.getMyCart.and.callFake(() => myCart$);
+  myCartServiceSpy.getTotalPrice.and.callFake(() => of(1000).toPromise());
+
   myCartServiceSpy.emptyMyCart.and.callFake(() => {
     myCart = [];
   });
-
+  const paymentServiceSpy = jasmine.createSpyObj('PaymentService',
+    ['convertMyCartToOrderSpec', 'notifyPaymentFinished']);
   const routes: Routes = [
     { path: '', redirectTo: '/order', pathMatch: 'full'},
     { path: 'order', component: SelectFoodComponent },
@@ -65,7 +74,8 @@ describe('PaymentComponent', () => {
         NgbModule
       ],
       providers: [
-        {provide: MyCartService, useValue: myCartServiceSpy}
+        {provide: MyCartService, useValue: myCartServiceSpy},
+        {provide: PaymentService, useValue: paymentServiceSpy}
       ]
     })
     .compileComponents();
@@ -99,6 +109,8 @@ describe('PaymentComponent', () => {
     component.confirm();
     expect(component.status.paymentMethodChosen).toBe(true);
     component.confirm();
+    // expect(paymentServiceSpy.notifyPaymentFinished).toHaveBeenCalled();
+    // expect(paymentServiceSpy.convertMyCartToOrderSpec).toHaveBeenCalled();
     expect(component.status.confirmedBuyList).toBe(false);
     expect(component.status.paymentMethodChosen).toBe(false);
   });

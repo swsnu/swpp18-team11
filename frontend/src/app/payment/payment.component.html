@@ -1,13 +1,13 @@
 <div *ngIf="!status.confirmedBuyList; then step1; else finishedStep1"></div>
 <ng-template #step1>
 <h3> 아래 상품을 결제하시겠습니까? </h3>
-<ul>
-  <div *ngFor="let product of myCart">
-    <li>{{product.name}}({{product.quantity}}개): {{product.total_price}}원</li>
+<ul *ngIf="myCart">
+  <div *ngFor="let myCartItem of myCart">
+    <li>{{myCartItem.purchasable.name}}({{myCartItem.purchasable.quantity}}개): {{myCartItem.purchasable.total_price}}원</li>
   </div>
 </ul>
 
-<h3 align="center">총 {{totalPrice}}원</h3>
+<h3 align="center" *ngIf="totalPrice">총 {{totalPrice}}원</h3>
 </ng-template>
 <ng-template #finishedStep1>
   <div *ngIf="!status.paymentMethodChosen; then step2; else finishedStep2"></div>
@@ -36,6 +36,6 @@
     </div>
   </ng-template>
 </ng-template>
-<button (click)="calcel()">뒤로 가기</button>
+<button (click)="cancel()">뒤로 가기</button>
 <button (click)="cancelPayment()">결제 취소</button>
 <button (click)="confirm()">확인</button>
