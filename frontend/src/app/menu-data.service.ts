@@ -51,12 +51,12 @@ export class MenuDataService {
   }
 
   handleError(e: any) {
-    alert(e.error.message);
+    // alert(e.error.message);
 
     switch (e.error.code) {
-      case 'AUTH-001':
+      /*case 'AUTH-001':
         this.router.navigateByUrl('/sign-in');
-        break;
+        break;*/
       case 'NOSTORE-001':
         this.router.navigateByUrl('/store');
         break;

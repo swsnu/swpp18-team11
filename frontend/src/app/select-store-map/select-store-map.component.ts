@@ -34,7 +34,12 @@ export class SelectStoreMapComponent implements OnInit, OnChanges, OnDestroy {
   markUpdateRequired$: Subject<void> = new Subject<void>();
   markUpdateRequiredSub: Subscription;
 
-  constructor(private router: Router, private storeService: StoreService, private geolocationService: GeolocationService, private userService: UserService) { }
+  constructor(
+    private router: Router,
+    private storeService: StoreService,
+    private geolocationService: GeolocationService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.geolocationService.loadLatLng().then(latLng => this.initialLatLng = this.latLng = latLng)

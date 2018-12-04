@@ -12,17 +12,18 @@ import { SelectStoreComponent } from './select-store/select-store.component';
 import { MyOrderComponent } from './my-order/my-order.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/store', pathMatch: 'full' },
-  { path: 'store', component: SelectStoreComponent },
-  { path: 'order', component: SelectFoodComponent },
-  { path: 'order/:menu_id', component: SpecifyOrderComponent },
-  { path: 'mycart', component: MyCartComponent },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'my-order', component: MyOrderComponent },
-  { path: 'manage/order', component: ManageOrderComponent },
-  { path: 'manage/display', component: ManageOrderDisplayComponent },
+  { path: 'store', component: SelectStoreComponent, canActivate: [AuthGuard] },
+  { path: 'order', component: SelectFoodComponent, canActivate: [AuthGuard] },
+  { path: 'order/:menu_id', component: SpecifyOrderComponent, canActivate: [AuthGuard] },
+  { path: 'mycart', component: MyCartComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+  { path: 'my-order', component: MyOrderComponent, canActivate: [AuthGuard] },
+  { path: 'manage/order', component: ManageOrderComponent, canActivate: [AuthGuard] },
+  { path: 'manage/display', component: ManageOrderDisplayComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
 ];

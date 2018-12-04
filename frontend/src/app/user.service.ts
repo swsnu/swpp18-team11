@@ -52,7 +52,7 @@ export class UserService {
       .pipe()
       .toPromise()
       .then(response => {
-        this.router.navigateByUrl('/order');
+        this.router.navigateByUrl('/sign-in');
       })
       .catch(e => this.handleError(e));
   }
@@ -67,13 +67,15 @@ export class UserService {
       .pipe()
       .toPromise();
   }
-  isLoggedIn() {
+  async isLoggedIn(): boolean {
+    let retval: boolean;
     const url = '/kiorder/api/v1/user/me';
-    return this.http.get(url)
+    await this.http.get(url)
       .pipe()
       .toPromise()
-      .then(response => true)
-      .catch(e => false);
+      .then(response => retval = true)
+      .catch(e => retval = false);
+    return retval;
   }
   getUserId(): string {
     const currentUser = JSON.parse(localStorage.getItem('currentUser')) as User;
