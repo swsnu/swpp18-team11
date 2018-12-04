@@ -5,6 +5,8 @@ from kiorder.services.ticket import TicketService
 from .base import BaseResource
 
 class BaseTicket(BaseResource):
+    login_required = True
+
     def represent_ticket(self, ticket):
         return {
             "id": ticket.id,

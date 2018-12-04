@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TxItem } from './tx-item';
 import { Router } from '@angular/router';
+import { Store } from './store';
 
 class User {
   id: string;
@@ -57,6 +58,14 @@ export class UserService {
   }
   setCurrentUser(user: User) {
     localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+  setCurrentStore(store: Store) {
+    const url = '/kiorder/api/v1/user/current_store';
+    const body = new FormData();
+    body.append('store_id', store.id.toString());
+    return this.http.post(url, body)
+      .pipe()
+      .toPromise();
   }
   isLoggedIn() {
     const url = '/kiorder/api/v1/user/me';
