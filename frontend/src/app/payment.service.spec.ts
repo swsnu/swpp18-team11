@@ -23,6 +23,7 @@ import {
   MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
+import { MyCartItem } from './my-cart-item';
 
 describe('PaymentService', () => {
   let service: PaymentService;
@@ -71,23 +72,26 @@ describe('PaymentService', () => {
 
   it('should convert mycart to order_spec', () => {
     const options: Partial<Option>[] = [{id: 1, quantity: 3}];
-    const mycart: Partial<Purchasable>[] = [{
-      id: 1,
-      quantity: 1,
-      options: options as Option[]
-    }];
-    const order_spec = service.convertMyCartToOrderSpec(mycart as Purchasable[]);
+    const mycart: Partial<MyCartItem>[] = [{
+        purchasable: new Purchasable({
+          id: 1,
+          quantity: 1,
+          options: options as Option[]
+        })}];
+    const order_spec = service.convertMyCartToOrderSpec(mycart as MyCartItem[]);
     expect(order_spec).toEqual('1-1#1-3');
   });
 
   it('should send tx info to backend', async(() => {
     const options: Partial<Option>[] = [{id: 1, quantity: 3}];
-    const mycart: Partial<Purchasable>[] = [{
-      id: 1,
-      quantity: 1,
-      options: options as Option[]
+    const mycart: Partial<MyCartItem>[] = [{
+      purchasable: new Purchasable({
+        id: 1,
+        quantity: 1,
+        options: options as Option[]
+        }),
     }];
-    service.notifyPaymentFinished(mycart as Purchasable[])
+    service.notifyPaymentFinished(mycart as MyCartItem[])
       .then(res => {
         expect(res['success']).toBe(true);
         expect(res['data']['utxid']).toBe('1');
