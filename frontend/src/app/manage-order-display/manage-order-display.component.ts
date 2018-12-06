@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ManageOrderStateService } from '../manage-order-state.service';
 import { Ticket } from '../ticket';
 import { TicketChange } from '../ticket-change';
@@ -11,11 +11,13 @@ import { TtsService } from '../tts.service';
 @Component({
   selector: 'app-manage-order-display',
   templateUrl: './manage-order-display.component.html',
-  styleUrls: ['./manage-order-display.component.css']
+  styleUrls: ['./manage-order-display.component.css'],
 })
 export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
+
+
   public doneTickets$: Observable<Ticket[]>;
-  public doingTickets$: Observable<Ticket[]>;
+  public todoDoingTickets$: Observable<Ticket[]>;
   public ticketChanges$: Observable<TicketChange>;
 
   public doneSubscription: Subscription;
@@ -24,7 +26,7 @@ export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     const tickets$ = this.manageOrderStateService.tickets$;
-    this.doingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'doing')));
+    this.todoDoingTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state !== 'done')));
     this.doneTickets$ = tickets$.pipe(map(tickets => tickets.filter(x => x.state === 'done')));
     this.ticketChanges$ = this.manageOrderStateService.ticketChanges$;
 
@@ -37,8 +39,8 @@ export class ManageOrderDisplayComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    this.doneSubscription.unsubscribe();
-
+    if (this.doneSubscription) {
+      this.doneSubscription.unsubscribe();
+    }
   }
-
 }

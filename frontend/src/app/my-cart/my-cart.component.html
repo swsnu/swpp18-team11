@@ -1,37 +1,36 @@
 <div class="container">
   <mat-list class="mycart-list">
     <mat-list-item *ngFor="let purchasable of myCart; let idx = index">
-      <div class="purchasable-detail">
-        <img src="{{purchasable.thumbnail}}"
-             width="50" height="50">
-        {{purchasable.name}}
-        <mat-expansion-panel *ngIf="hasOptions(purchasable)"
-                             [expanded]="expandOption"
-                             [hideToggle]="true"
-                             (opened)="changeOptionPageStatus(true)"
-                             (closed)="changeOptionPageStatus(false)">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="option-panel-title">
-              옵션 수정
-              <mat-icon>add_circle_outline</mat-icon>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-select-option [options]="purchasable.options"
-                             (optionChanged)="updateOptionChange($event)"></app-select-option>
-          <mat-action-row class="option-confirm">
-            <button mat-icon-button
-                    (click)="openOptionSelectPage()">
-              <mat-icon>checked_circle_outline</mat-icon>
-            </button>
-          </mat-action-row>
-        </mat-expansion-panel>
-        <button (click)="decrement(idx)">-</button>
-        {{purchasable.quantity}}개
-        <button (click)="increment(idx)">+</button>
-        {{purchasable.total_price}}원
-        <button (click)="removePurchasable(idx)">X</button>
-        <mat-divider></mat-divider>
+      <div class="purchasable-detail-wrapper">
+        <div class="purchasable-detail">
+          <img src="{{purchasable.thumbnail}}"
+               width="50" height="50">
+          <label>{{purchasable.name}}</label>
+          <button mat-icon-button
+                  class="option-dialog-button"
+                  *ngIf="purchasable.hasOptions(purchasable)"
+                  (click)="openOptionDialog(idx)">
+            <mat-icon>add_box</mat-icon>
+          </button>
+        </div>
       </div>
+      <div class="quantity-control-buttons">
+        <button  mat-button
+                 class="quantity-button"
+                 (click)="purchasable.decrement(); updateTotalPrice()">-</button>
+        {{purchasable.quantity}}개
+        <button  mat-button
+                 class="quantity-button"
+                 (click)="purchasable.increment(); updateTotalPrice()">+</button>
+      </div>
+      <div class="purchasable-total-price">
+        {{purchasable.total_price}}원
+      </div>
+      <button mat-icon-button class="remove-button"
+              (click)="removePurchasable(idx)">
+        <mat-icon>cancel_presentation</mat-icon>
+      </button>
+      <mat-divider></mat-divider>
     </mat-list-item>    <!--End of my cart list-->
   </mat-list>
 
@@ -42,7 +41,7 @@
     <button mat-stroked-button
             class="navigate-button"
             (click)="emptyCart()">
-      <mat-icon>remove_shopping_cart</mat-icon>
+      <mat-icon>cancel_presentation</mat-icon>
       비우기</button>
     <button mat-stroked-button
             class="navigate-button"
@@ -58,16 +57,3 @@
   </div>
 </div>
 
-
-<!--mat-list *ngIf="hasOptions(purchasable)">
-  <mat-list-item *ngFor="let option of purchasable.options">
-            <span *ngIf="option.quantity != 0">
-              {{option.name}} x{{option.quantity}}</span>
-    <button (click)="selectIndex(idx)"
-            (click)="switchTab()">옵션 설정</button>
-  </mat-list-item>
-</mat-list-->
-<!--
-  <app-select-option [options]="myCart[selectedIndex].options"
-                     (optionChanged)="updateOptionChange($event)"></app-select-option>
--->

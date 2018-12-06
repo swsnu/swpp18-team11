@@ -1,40 +1,62 @@
-manage-order works!
-<div>
-  <h1>Done Tickets</h1>
-  <ul class='done-ticket'>
-    <li *ngFor="let ticket of doneTickets$ | async" (click)="handleDoneClick(ticket)">
-      {{ ticket.number }}
+<h2>&nbsp;&nbsp;Done Tickets</h2>
+<div class="done-ticket-container"
+     cdkDropList
+     #doneList = "cdkDropList"
+     [cdkDropListConnectedTo]="[todoList]"
+     (cdkDropListDropped)="handleDragDrop($event)">
+  <mat-card *ngFor="let ticket of doneTickets$ | async"  cdkDrag [cdkDragData]="ticket"
+            class='done-ticket-card'
+            (click)="handleDoneClick(ticket)">
+    <mat-card-header>
+      <mat-card-title>{{ ticket.number }}</mat-card-title>
+      <div>
+        <button mat-icon-button (click)="handleDoneClick(ticket)">
+          <mat-icon>record_voice_over</mat-icon>
+        </button>
+        <button mat-icon-button (click)="handleDelete(ticket)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
       <ul>
         <li *ngFor="let purchasable of ticket.purchasables">
-          {{ purchasable.name }}({{ purchasable.qty }})
-          <ul>
-            <li *ngFor="let option of purchasable.options">{{ option.name }}({{ option.qty }})</li>
-          </ul>
+          <div class="purchasable-name">
+            {{ purchasable.name }}({{ purchasable.qty }})
+          </div>
         </li>
       </ul>
-      <button (click)="handleDoneClick(ticket)">Refresh</button>
-      <button (click)="handleMoveToDoing(ticket)">is Doing</button>
-      <button (click)="handleDelete(ticket)">Delete</button>
-    </li>
-  </ul>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<div>
-  <h1>Todo/Doing Tickets</h1>
-  <ul class='todo-doing-ticket'>
-    <li *ngFor="let ticket of notDoneTickets$ | async" [style.background]='ticket.state === "doing"? "lightblue": ""'>
-      {{ ticket.number }}
-      <ul>
-        <li *ngFor="let purchasable of ticket.purchasables">
+<h2>&nbsp;&nbsp;Todo/Doing Tickets</h2>
+<div class="todo-doing-ticket-container"
+     cdkDropList
+     #todoList="cdkDropList"
+     [cdkDropListConnectedTo]="[doneList]"
+     (cdkDropListDropped)="handleDragDrop($event)">
+
+  <mat-card *ngFor="let ticket of notDoneTickets$ | async" cdkDrag [cdkDragData]="ticket"
+            class="todo-doing-ticket-card"
+            (click)="handleNotDoneClick(ticket)"
+            [style.background]='ticket.state === "doing"? "lightblue": ""'>
+  <mat-card-header>
+    <mat-card-title>{{ ticket.number }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ul>
+      <li class="purchasable-list"
+                     *ngFor="let purchasable of ticket.purchasables">
+        <div class="purchasable-name">
           {{ purchasable.name }}({{ purchasable.qty }})
-          <ul>
-            <li *ngFor="let option of purchasable.options">{{ option.name }}({{ option.qty }})</li>
-          </ul>
-        </li>
-      </ul>
-      <button (click)="handleNotDoneClick(ticket)">Toggle</button>
-      <button (click)="handleMoveToDone(ticket)">Done</button>
-    </li>
-  </ul>
+          <div *ngFor="let option of purchasable.options"
+               class="option-name">
+            - {{ option.name }}({{ option.qty }})
+          </div>
+        </div>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>
 </div>
-
