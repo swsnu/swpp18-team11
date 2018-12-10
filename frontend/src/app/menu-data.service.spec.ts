@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { MenuDataService } from './menu-data.service';
 import { Category } from './category';
 import { Menu } from './menu';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MenuDataService', () => {
 
@@ -14,7 +15,8 @@ describe('MenuDataService', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ],
       providers: [MenuDataService]
     });

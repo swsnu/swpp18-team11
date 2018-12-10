@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectStoreMapComponent } from './select-store-map.component';
+import { SignInComponent } from './sign-in.component';
 import { DEFAULT_IMPORTS } from '../testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('SelectStoreMapComponent', () => {
-  let component: SelectStoreMapComponent;
-  let fixture: ComponentFixture<SelectStoreMapComponent>;
+describe('SignInComponent', () => {
+  let component: SignInComponent;
+  let fixture: ComponentFixture<SignInComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [ SignInComponent ],
       imports: [
         ...DEFAULT_IMPORTS,
         RouterTestingModule
-      ],
-      declarations: [ SelectStoreMapComponent ]
+      ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectStoreMapComponent);
+    fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
