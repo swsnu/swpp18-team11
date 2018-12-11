@@ -17,10 +17,11 @@ class BaseTx(BaseResource):
     login_required = True
 
 class TestTx(BaseTx):
-    def get(self, request, user_id):
+    def get(self, request):
         def represent_purchasable(purch):
             p = PurchasableView()
             return p.represent_purchasable(purch)
+
 
         tx_items = [{'purchasable': represent_purchasable(tx_item.purchasable),
                      'purchasable_name': tx_item.purchasable.name,
@@ -36,7 +37,7 @@ class TestTx(BaseTx):
                      } for option in TxItemOption.objects.all() if option.tx_item.id == tx_item.id],
                      'created_at': tx_item.tx.created_at,
                      'state': tx_item.tx.ticket.get().state}
-                    for tx_item in TxItem.objects.all() if tx_item.tx.user.id == user_id]
+                    for tx_item in TxItem.objects.all() if tx_item.tx.user.id == request.user.id]
 
         return self.success(tx_items)
 
@@ -45,16 +46,6 @@ class TestTx(BaseTx):
         tx_service = TxService()
         today = date.today()
         utxid = f"{today.strftime('%Y%m%d')}_{uuid4()}"
-        user = None
-        if 'user-id' in request.session.keys() \
-                and request.session['user-id'] is None:
-            user_id = str(request.session['user-id'])
-        else:
-            user_id = '2'
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            pass
 
         store = self.get_current_store()
         order_spec_line = request.POST['order_spec']
@@ -62,7 +53,7 @@ class TestTx(BaseTx):
         part_ref = request.POST.get('part_ref', '')
         order_tx = tx_service.prepare_order(
             utxid=utxid,
-            user=user,
+            user=request.user,
             order_spec=order_spec,
             part_ref=part_ref
         )
