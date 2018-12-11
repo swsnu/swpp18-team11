@@ -14,7 +14,6 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
     if (this.userService.isLoggedIn()) {
-      alert(this.userService.getCurrentUser())
       return true;
     } else {
       alert('로그인이 필요한 페이지입니다');
