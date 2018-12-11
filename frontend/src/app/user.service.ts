@@ -9,9 +9,11 @@ import { Store } from './store';
 class User {
   id: string;
   username: string;
-  constructor(id: string, username: string) {
+  userType: string;
+  constructor(id: string, username: string, userType: string) {
     this.id = id;
     this.username = username;
+    this.userType = userType;
   }
 }
 
@@ -52,12 +54,16 @@ export class UserService {
       .pipe()
       .toPromise()
       .then(response => {
+        this.setCurrentUser(null);
         this.router.navigateByUrl('/sign-in');
       })
       .catch(e => this.handleError(e));
   }
   setCurrentUser(user: User) {
     localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+  getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem('currentUser')) as User;
   }
   setCurrentStore(store: Store) {
     const url = '/kiorder/api/v1/user/current_store';
@@ -67,18 +73,14 @@ export class UserService {
       .pipe()
       .toPromise();
   }
-  async isLoggedIn(): boolean {
-    let retval: boolean;
-    const url = '/kiorder/api/v1/user/me';
-    await this.http.get(url)
-      .pipe()
-      .toPromise()
-      .then(response => retval = true)
-      .catch(e => retval = false);
-    return retval;
+  isLoggedIn(): boolean {
+    return this.getCurrentUser() !== null;
+  }
+  get userType(): string {
+    return this.getCurrentUser().userType;
   }
   getUserId(): string {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')) as User;
+    const currentUser = this.getCurrentUser();
     return currentUser.id;
   }
   getMyTx(): Observable<TxItem[]> {
@@ -105,7 +107,7 @@ export class UserService {
   }
   handleSignInSuccess(response: any) {
     if (response.success) {
-      this.setCurrentUser(new User(response.data.user_id, response.data.username));
+      this.setCurrentUser(new User(response.data.user_id, response.data.username, response.data.user_type));
       this.router.navigateByUrl('/order');
     }
   }

@@ -10,10 +10,10 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private userService: UserService
   ) {}
-  async canActivate(
+  canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-    if (await this.userService.isLoggedIn()) {
+    if (this.userService.isLoggedIn()) {
       return true;
     } else {
       alert('로그인이 필요한 페이지입니다');
