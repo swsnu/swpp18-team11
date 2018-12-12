@@ -84,8 +84,7 @@ export class UserService {
     return currentUser.id;
   }
   getMyTx(): Observable<TxItem[]> {
-    const userId = this.getUserId();
-    const url = '/kiorder/api/v1/test_tx/' + userId;
+    const url = '/kiorder/api/v1/test_tx';
     return this.http.get(url)
       .pipe(map((res: any) => {
         const txItems = res.data.map(txItem => this.loadTxItem(txItem));
