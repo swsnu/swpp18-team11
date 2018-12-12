@@ -108,7 +108,7 @@ export class UserService {
   handleSignInSuccess(response: any) {
     if (response.success) {
       this.setCurrentUser(new User(response.data.user_id, response.data.username, response.data.user_type));
-      this.router.navigateByUrl('/order');
+      this.router.navigateByUrl('/store');
     }
   }
   handleError(e: any) {

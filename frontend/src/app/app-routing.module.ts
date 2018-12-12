@@ -15,7 +15,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/store', pathMatch: 'full' },
+  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: 'store', component: SelectStoreComponent, canActivate: [AuthGuard] },
   { path: 'order', component: SelectFoodComponent, canActivate: [AuthGuard] },
   { path: 'order/:menu_id', component: SpecifyOrderComponent, canActivate: [AuthGuard] },
@@ -26,6 +26,8 @@ const routes: Routes = [
   { path: 'manage/display', component: ManageOrderDisplayComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
+  // TODO: is this right behavior when user is already signed in and moves to wrong pages?
+  { path: '**', redirectTo: '/sign-in', pathMatch: 'full'},
 ];
 
 
