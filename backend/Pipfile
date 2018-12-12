@@ -10,6 +10,7 @@ gtts = "*"
 pillow = "*"
 django-map-widgets = "*"
 requests = ">=2.20.0"
+django-cors-headers = "*"
 
 [dev-packages]
 pytest = "*"

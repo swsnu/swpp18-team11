@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     'sortedm2m',
     'mapwidgets',
     'kiorder',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,6 +89,32 @@ DATABASES = {
 }
 SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
 
+
+# Whitelist to Cross-Origin Read Blocking(CORB)
+
+CORS_ORIGIN_WHITELIST = ('https://swpp-blender-frontend-staging.herokuapp.com')
+CSRF_TRUSTED_WHITELIST = ('https://swpp-blender-frontend-staging.herokuapp.com')
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+# To allow cookies - sessions are used for 'user identification' right?
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Password validation
