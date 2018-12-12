@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Purchasable } from './purchasable';
 import { Observable } from 'rxjs';
 import { MyCartItem } from './my-cart-item';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import { MyCartItem } from './my-cart-item';
 export class PaymentService {
   constructor(
     private router: Router,
-    private  http: HttpClient
+    private  http: HttpClient,
+    private userService: UserService
   ) { }
 
   toPaymentPage(): void {

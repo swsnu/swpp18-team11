@@ -14,7 +14,6 @@ urlpatterns = [
     path('api/v1/purchasable', api.v1.purchasable.Purchasable.as_view()),
     path('api/v1/purchasable/<int:id>', api.v1.purchasable.Purchasable.as_view()),
     path('api/v1/test_tx', api.v1.test_tx.TestTx.as_view()),
-    path('api/v1/test_tx/<int:user_id>', api.v1.test_tx.TestTx.as_view()),
     path('api/v1/test_tx/<str:utxid>/finish', api.v1.test_tx.TestTxFinish.as_view()),
     path('api/v1/mycart/', api.v1.my_cart.MyCart.as_view()),
     path('api/v1/mycart/<int:my_cart_item_id>', api.v1.my_cart.MyCartItemDetail.as_view()),

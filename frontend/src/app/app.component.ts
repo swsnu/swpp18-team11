@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { MyCartService } from './my-cart.service';
-import {UserService} from './user.service';
+import { UserService } from './user.service';
 
 
 @Component({
