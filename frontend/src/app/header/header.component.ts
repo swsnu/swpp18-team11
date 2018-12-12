@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {UrlService} from "../url.service";
 
 @Component({
   selector: 'app-header',
@@ -11,15 +12,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   locationUrl: string;
   pageTitle: string = "";
   subscription: Subscription;
+  isPageStore: boolean = false;
 
   constructor(
     private router: Router,
+    private urlService: UrlService,
   ) {
     this.locationUrl = this.router.url.substr(1);
     this.subscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.locationUrl = this.router.url.substr(1);
-        this.pageTitle = this.getPageTitle()
+        this.pageTitle = this.urlService.getPageTitle(this.locationUrl)
+        this.isPageStore = this.urlService.isUrlStore(this.locationUrl)
       }
     })
   }
@@ -31,38 +35,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-  }
-
-  private getPageTitle(): string {
-    if (!this.locationUrl) {
-      return ""
-    }
-    if (this.isStoreTitle()) {
-      return "KingBurger"
-    }
-    switch(this.locationUrl) {
-      case "sign-in": return "Sign In";
-      case "sign-up": return "Sign Up";
-      case "store": return "Select Store!";
-      case "my-order": return "My Orders";
-      default: return "Not a valid page"
-    }
-  }
-
-  private isStoreTitle(): boolean {
-    if (!this.locationUrl) {
-      return false;
-    }
-    else if (
-      this.locationUrl.startsWith('order') ||
-      this.locationUrl.startsWith('mycart') ||
-      this.locationUrl.startsWith('payment')
-    ) {
-      return true;
-    }
-    else {
-      return false;
     }
   }
 }

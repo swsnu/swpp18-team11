@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <mat-icon>menu</mat-icon>
     <!--Store Title-->
-    <div *ngIf="isStoreTitle(); else normalTitle">
+    <div *ngIf="isPageStore; else normalTitle">
           <span class="title"
                 routerLink="/order">
       {{pageTitle}}</span>
