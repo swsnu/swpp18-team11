@@ -54,7 +54,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   setMyCartCount(): void {
-    this.myCartCountSubscription = this.myCartService.getMyCart()
-      .subscribe(myCart => this.myCartCount = myCart.length);
+    //this.myCartCountSubscription = this.myCartService.getMyCart()
+    //  .subscribe(myCart => this.myCartCount = myCart.length);
   }
 }
