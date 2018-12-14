@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <mat-icon>menu</mat-icon>
+    <button mat-icon-button (click)="sideNavOpened.emit(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
     <!--Store Title-->
     <div *ngIf="isPageStore; else normalTitle">
           <span class="title"
