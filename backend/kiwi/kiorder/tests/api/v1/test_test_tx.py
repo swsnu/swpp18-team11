@@ -15,7 +15,7 @@ def Store(store):
 
 
 @pytest.mark.django_db(transaction=True)
-def test_create_new_tx(Store, client):
+def test_create_new_tx(user_logged_in, Store, client):
     purchsable = MagicMock(name="Purchsable")
     purchsable_option = MagicMock(name="PurchsableOption")
 
@@ -36,7 +36,7 @@ def test_create_new_tx(Store, client):
 
 
 @pytest.mark.django_db(transaction=True)
-def test_create_finish_tx(Store, client):
+def test_create_finish_tx(user_logged_in, Store, client):
     order_tx = MagicMock(name="OrderTx")
 
     with patch('kiorder.api.v1.test_tx.TxService') as TxService:
@@ -51,11 +51,10 @@ def test_create_finish_tx(Store, client):
 
 
 @pytest.mark.django_db(transaction=True)
-def test_create_finish_tx_not_found(Store, client):
+def test_create_finish_tx_not_found(user_logged_in, Store, client):
     order_tx = MagicMock(name="OrderTx")
     with patch('kiorder.api.v1.test_tx.TxService') as TxService:
         TxService().load.return_value = None
 
         response = client.post('/kiorder/api/v1/test_tx/UTXID/finish')
         assert response.status_code == 404
-

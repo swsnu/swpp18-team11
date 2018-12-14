@@ -22,10 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*x_7=yo7llx1+&y-@$utf0#0!(y&of&-53$=n=3afh3q!kb1du'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'sortedm2m',
     'mapwidgets',
+    'storages',
     'kiorder',
     'corsheaders',
 ]
@@ -76,19 +74,101 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kiwi.wsgi.application'
 
+DEPLOYMENT_STAGE = os.environ.get('DEPLOYMENT_STAGE', 'development')
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'TEST': {'NAME': ':memory:'}
+if DEPLOYMENT_STAGE == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'TEST': {'NAME': ':memory:'}
+        }
     }
-}
-SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+    SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+elif DEPLOYMENT_STAGE in ('staging', 'production'):
+    from urllib.parse import urlparse
+    # Heroku setting
+    if 'DATABASE_URL' in os.environ:
+        url = urlparse(os.environ['DATABASE_URL'])
+        left, _, right = url.netloc.partition('@')
+        os.environ['DB_USER'], _, os.environ['DB_PASSWORD'] = left.partition(':')
+        os.environ['DB_HOST'], _, os.environ['DB_PORT'] = right.partition(':')
+        os.environ['DB_NAME'] = url.path.lstrip('/')
 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': os.environ.get('DB_NAME', 'kiwi'),
+            'USER': os.environ['DB_USER'],
+            'PASSWORD': os.environ['DB_PASSWORD'],
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', ''),
+            'TEST': {
+                'NAME': 'kiwi_test',
+            },
+        }
+    }
+
+    if not ENV['DISABLE_CACHE']:
+        servers = os.environ['MEMCACHEDCLOUD_SERVERS']
+        username = os.environ['MEMCACHEDCLOUD_USERNAME']
+        password = os.environ['MEMCACHEDCLOUD_PASSWORD']
+        # Memcached-backed cache
+        CACHES = {
+          'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+            # TIMEOUT is not the connection timeout! It's the default expiration
+            # timeout that should be applied to keys! Setting it to `None`
+            # disables expiration.
+            'TIMEOUT': None,
+            'LOCATION': servers,
+            'OPTIONS': {
+              'binary': True,
+              'username': username,
+              'password': password,
+              'behaviors': {
+                # Enable faster IO
+                'no_block': True,
+                'tcp_nodelay': True,
+                # Keep connection alive
+                'tcp_keepalive': True,
+                # Timeout settings
+                'connect_timeout': 2000, # ms
+                'send_timeout': 750 * 1000, # us
+                'receive_timeout': 750 * 1000, # us
+                '_poll_timeout': 2000, # ms
+                # Better failover
+                'ketama': True,
+                'remove_failed': 1,
+                'retry_timeout': 2,
+                'dead_timeout': 30,
+              }
+            }
+          }
+        }
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = DEPLOYMENT_STAGE != 'production'
+
+if DEPLOYMENT_STAGE == 'development':
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_URL = '/media/'
+else:
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') or 'swpp-blender-dev'
+    AWS_S3_CUSTOM_DOMAIN = f's3.ap-northeast-2.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}'
+
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+    DEFAULT_FILE_STORAGE = 'kiwi.storage_backends.PublicMediaStorage'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 # Whitelist to Cross-Origin Read Blocking(CORB)
 
@@ -154,10 +234,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 AUTH_USER_MODEL = "kiorder.User"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
-

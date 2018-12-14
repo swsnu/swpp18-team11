@@ -143,8 +143,13 @@ def my_cart_repr():
 
 @pytest.fixture
 def MyCartService(store, my_cart, my_cart_item):
+    objects = MagicMock()
+    objects.get = MagicMock()
+    objects.get.return_value = User()
+
     with patch('kiorder.api.v1.base.Store') as Store, \
-            patch('kiorder.api.v1.my_cart.MyCartService') as MyCartService:
+            patch('kiorder.api.v1.my_cart.MyCartService') as MyCartService, \
+            patch.object(User, 'objects', objects):
         instance = MyCartService.return_value
         instance.get_my_cart_of.return_value = my_cart
         instance.load_item.return_value = my_cart_item
@@ -153,9 +158,6 @@ def MyCartService(store, my_cart, my_cart_item):
         instance.patch_item.return_value = my_cart_item
         instance.save_item.return_value = my_cart_item
         instance.save_item_option.return_value = True
-        User.objects = MagicMock()
-        User.objects.get= MagicMock()
-        User.objects.get.return_value= User()
 
         yield MyCartService
 
@@ -168,20 +170,22 @@ def TxService(store, order_spec):
         yield TxService
 
 
-def test_get_my_cart(MyCartService, client, my_cart, my_cart_repr):
+@pytest.mark.django_db
+def test_get_my_cart(user_logged_in, MyCartService, client, my_cart, my_cart_repr):
     response = client.get('/kiorder/api/v1/mycart/')
     assert response.status_code == 200
 
 
-def test_post_my_cart(MyCartService, TxService, client):
+@pytest.mark.django_db
+def test_post_my_cart(user_logged_in, MyCartService, TxService, client):
     order_spec_line = '1-1#1-2#3-4 2-1'
     response = client.post('/kiorder/api/v1/mycart/', {"order_spec": order_spec_line})
     assert response.status_code == 200
     TxService().parse_order_spec_line.assert_called()
     MyCartService().create_item_by_order_spec.assert_called()
 
-
-def test_delete_my_cart(MyCartService, client, my_cart):
+@pytest.mark.django_db
+def test_delete_my_cart(user_logged_in, MyCartService, client, my_cart):
     response = client.delete('/kiorder/api/v1/mycart/2')
     MyCartService().load_item.assert_called()
     MyCartService().delete_item.assert_called()
@@ -189,7 +193,8 @@ def test_delete_my_cart(MyCartService, client, my_cart):
     assert response.json() == {"success": True, "data": None}
 
 
-def test_patch_my_cart(MyCartService, client, my_cart_item):
+@pytest.mark.django_db
+def test_patch_my_cart(user_logged_in, MyCartService, client, my_cart_item):
     # qty case
     response = client.patch('/kiorder/api/v1/mycart/2', "qty=2")
     assert response.status_code == 200

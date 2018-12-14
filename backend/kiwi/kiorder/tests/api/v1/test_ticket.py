@@ -27,7 +27,7 @@ def ticket(now):
     tx_item.purchasable = purchasable
     tx_item.qty = 99
     tx_item.txitemoption_set = MagicMock()
-    tx_item.txitemoption_set.all.return_value = [tx_item_option] 
+    tx_item.txitemoption_set.all.return_value = [tx_item_option]
     ticket = MagicMock(name="Ticket")
     ticket.id = 1
     ticket.state = "todo"
@@ -68,19 +68,20 @@ def ticket_repr(now):
 
 @pytest.fixture
 def TicketService(store, ticket):
+    objects = MagicMock()
+    objects.get = MagicMock()
+    objects.get.return_value = store
     with patch('kiorder.api.v1.base.Store') as Store, \
-            patch('kiorder.api.v1.ticket.TicketService') as TicketService:
+            patch('kiorder.api.v1.ticket.TicketService') as TicketService, \
+            patch.object(Store, 'objects', objects):
         instance = TicketService.return_value
         instance.active_tickets_in.return_value = [ticket]
         instance.load.return_value = ticket
-        
-        Store.objects = MagicMock()
-        Store.objects.get = MagicMock()
-        Store.objects.get.return_value = store
         yield TicketService
 
 
-def test_get_tickets(TicketService, client, ticket_repr):
+@pytest.mark.django_db
+def test_get_tickets(user_logged_in, TicketService, client, ticket_repr):
     response = client.get('/kiorder/api/v1/ticket')
     assert response.status_code == 200
 
@@ -90,7 +91,8 @@ def test_get_tickets(TicketService, client, ticket_repr):
     }
 
 
-def test_get_specific_ticket(TicketService, client, ticket_repr):
+@pytest.mark.django_db
+def test_get_specific_ticket(user_logged_in, TicketService, client, ticket_repr):
     response = client.get('/kiorder/api/v1/ticket/42')
     assert response.status_code == 200
     assert response.json() == {
@@ -100,7 +102,8 @@ def test_get_specific_ticket(TicketService, client, ticket_repr):
     TicketService().load.assert_called_with(42)
 
 
-def test_delete_ticket(TicketService, client, ticket, ticket_repr):
+@pytest.mark.django_db
+def test_delete_ticket(user_logged_in, TicketService, client, ticket, ticket_repr):
     response = client.delete('/kiorder/api/v1/ticket/42')
     assert response.status_code == 200
     assert response.json() == {'success': True, "data": None}
@@ -108,11 +111,11 @@ def test_delete_ticket(TicketService, client, ticket, ticket_repr):
     TicketService().remove_ticket.assert_called_with(ticket)
 
 
-def test_patch_ticket(TicketService, client, ticket, ticket_repr):
+@pytest.mark.django_db
+def test_patch_ticket(user_logged_in, TicketService, client, ticket, ticket_repr):
     response = client.patch('/kiorder/api/v1/ticket/42', "state=doing")
     assert response.status_code == 200
 
     TicketService().load.assert_called_with(42)
     assert ticket.state == 'doing'
     TicketService().save_ticket.assert_called_with(ticket)
-

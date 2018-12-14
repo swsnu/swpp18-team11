@@ -5,7 +5,7 @@ from kiorder.models import Purchasable, PurchasableOption, PurchasableCategory, 
 
 
 @pytest.mark.django_db
-def test_get_purchsable(client, store):
+def test_get_purchsable(user_logged_in, client, store):
     option = PurchasableOption(
         name="Option 1",
         base_price=1000,
@@ -47,4 +47,3 @@ def test_get_purchsable(client, store):
         response = client.get(f'/kiorder/api/v1/purchasable/99099')
         assert response.status_code == 200
         assert not response.json()['success']
-
