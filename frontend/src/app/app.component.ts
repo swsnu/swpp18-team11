@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
@@ -19,6 +19,7 @@ export class AppComponent implements OnDestroy {
   IDLE_TIMEOUT = 60;
   warningCount = this.IDLE_TIMEOUT > 60 ? 30 : this.IDLE_TIMEOUT / 2;
   sidenavOpened = false;
+  sidenavOpenEvent = new EventEmitter<boolean>();
 
   ngOnDestroy() {
     if (this.subscription) {
@@ -61,6 +62,7 @@ export class AppComponent implements OnDestroy {
 
   openSideNav(): void {
     this.sidenavOpened = true;
+    this.sidenavOpenEvent.emit(true);
   }
 
   closeSideNav(): void {
