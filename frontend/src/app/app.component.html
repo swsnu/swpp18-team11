@@ -1,12 +1,26 @@
-<div *ngIf="!locationUrl.startsWith('/manage'); else manager_content">
-  <app-header class="header"></app-header>
-  <div class="main">
-    <router-outlet></router-outlet>
-    <span class="timeout-warning"> {{idleWarning}} </span>
-  </div>
-  <app-footer class="footer"></app-footer>
-</div>
-<ng-template #manager_content>
-  <router-outlet></router-outlet>
-  <div></div>
-</ng-template>
+<mat-drawer-container class="container">
+  <mat-drawer mode="over"
+              [(opened)]="sidenavOpened">
+    <!--Side bar-->
+    <app-hamburger-menu
+      (sideNavClosed)="closeSideNav()">
+    </app-hamburger-menu>
+  </mat-drawer>
+  <!--Main content-->
+  <mat-drawer-content>
+    <div *ngIf="!locationUrl.startsWith('/manage'); else manager_content">
+      <app-header class="header"
+                  (sideNavOpened)="openSideNav()">
+      </app-header>
+      <div class="main">
+        <router-outlet></router-outlet>
+        <span class="timeout-warning"> {{idleWarning}} </span>
+      </div>
+      <app-footer class="footer"></app-footer>
+    </div>
+    <ng-template #manager_content>
+      <router-outlet></router-outlet>
+      <div></div>
+    </ng-template>
+  </mat-drawer-content>
+</mat-drawer-container>

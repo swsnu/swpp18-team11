@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sideNavClosed.emit(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!--for unsigned user-->
+<div *ngIf="!isLoggedIn(); else userLoggedIn">
+  <span class="message">
+    <mat-icon>perm_identity</mat-icon>
+    Welcome, Stranger!</span>
+  <mat-divider></mat-divider>
+  <mat-nav-list>
+    <a mat-list-item (click)="navigator('/sign-in')">Sign In</a>
+    <a mat-list-item (click)="navigator('/sign-up')">Sign Up</a>
+  </mat-nav-list>
+</div>
+<!--for Signed in user-->
+<ng-template #userLoggedIn>
+  <span class="message">
+    <mat-icon>account_circle</mat-icon>
+    Hello, {{user.username}}!</span>
+  <mat-divider></mat-divider>
+  <mat-nav-list>
+    <a mat-list-item (click)="navigator('/sign-out')">Sign Out</a>
+    <a mat-list-item (click)="navigator('/store')">Store Select</a>
+    <a mat-list-item (click)="navigator('/my-order')">My Orders</a>
+  </mat-nav-list>
+</ng-template>
+

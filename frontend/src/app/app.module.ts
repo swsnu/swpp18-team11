@@ -23,6 +23,9 @@ import { SelectStoreMapComponent } from './select-store-map/select-store-map.com
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MyCartDialogComponent } from './my-cart-dialog/my-cart-dialog.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { HamburgerMenuComponent } from './hamburger-menu/hamburger-menu.component';
 
 /* Angular Material stuffs */
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -40,9 +43,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     MyCartDialogComponent,
     SignUpComponent,
     SignInComponent,
+    HamburgerMenuComponent,
   ],
   entryComponents: [
     MyCartDialogComponent,
@@ -92,6 +95,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatSidenavModule,
     NgIdleModule.forRoot()
   ],
   providers: [],

@@ -18,6 +18,7 @@ export class AppComponent implements OnDestroy {
   idleWarning = '';
   IDLE_TIMEOUT = 60;
   warningCount = this.IDLE_TIMEOUT > 60 ? 30 : this.IDLE_TIMEOUT / 2;
+  sidenavOpened = false;
 
   ngOnDestroy() {
     if (this.subscription) {
@@ -57,4 +58,13 @@ export class AppComponent implements OnDestroy {
       this.idle.watch();
     }
   }
+
+  openSideNav(): void {
+    this.sidenavOpened = true;
+  }
+
+  closeSideNav(): void {
+    this.sidenavOpened = false;
+  }
+
 }
