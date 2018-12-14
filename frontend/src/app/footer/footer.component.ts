@@ -12,8 +12,6 @@ import { UrlService } from '../url.service';
 })
 export class FooterComponent implements OnInit, OnDestroy {
 
-  myCartCount: number;
-  myCartCountSubscription: Subscription;
   urlSubscription: Subscription;
   locationUrl: string;
   isPageStore = false;
@@ -25,7 +23,6 @@ export class FooterComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.setMyCartCount();
     // getting current url (to differ contents of footer)
     this.locationUrl = this.router.url.substr(1);
     this.urlSubscription = this.router.events.subscribe((event) => {
@@ -37,9 +34,6 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.myCartCountSubscription) {
-      this.myCartCountSubscription.unsubscribe();
-    }
     if (this.urlSubscription) {
       this.urlSubscription.unsubscribe();
     }
@@ -47,14 +41,7 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   emptyMyCart(): void {
     if (confirm('장바구니를 비우시겠습니까?')) {
-      this.myCartService.emptyMyCart().then(() => {
-        this.setMyCartCount();
-      });
+      this.myCartService.emptyMyCart();
     }
-  }
-
-  setMyCartCount(): void {
-    // this.myCartCountSubscription = this.myCartService.getMyCart()
-    //  .subscribe(myCart => this.myCartCount = myCart.length);
   }
 }
