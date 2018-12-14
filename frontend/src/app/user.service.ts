@@ -6,7 +6,7 @@ import { TxItem } from './tx-item';
 import { Router } from '@angular/router';
 import { Store } from './store';
 
-class User {
+export class User {
   id: string;
   username: string;
   userType: string;

@@ -4,12 +4,14 @@ import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgIdleModule } from '@ng-idle/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HamburgerMenuComponent } from './hamburger-menu/hamburger-menu.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        HamburgerMenuComponent,
       ],
       imports: [
         HttpClientTestingModule,

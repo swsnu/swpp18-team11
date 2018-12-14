@@ -15,6 +15,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 
@@ -34,6 +35,7 @@ export const DEFAULT_IMPORTS = [
   MatInputModule,
   MatProgressSpinnerModule,
   MatDialogModule,
+  MatSidenavModule,
   ReactiveFormsModule,
   FormsModule,
   AgmCoreModule,
