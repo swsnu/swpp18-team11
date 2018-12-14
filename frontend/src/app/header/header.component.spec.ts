@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import { DEFAULT_DUMB_IMPORTS, DEFAULT_IMPORTS } from '../testing';
 import { UserService } from '../user.service';
-import { UrlService } from "../url.service";
+import { UrlService } from '../url.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
