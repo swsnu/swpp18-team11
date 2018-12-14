@@ -5,6 +5,9 @@ from kiorder.models import Purchasable as PurchasableModel
 
 class Purchasable(BaseResource):
     login_required = True
+    
+    use_api_cache = True
+    api_cache_timeout = 60
 
     def represent_option(self, option):
         return {
@@ -25,7 +28,7 @@ class Purchasable(BaseResource):
         return {
             "id": purch.id,
             "name": purch.name,
-            "thumbnail": purch.image and purch.image.url or None, 
+            "thumbnail": purch.image and purch.image.url or None,
             "base_price": purch.base_price,
             "options": [
                 self.represent_option(option)
@@ -72,5 +75,3 @@ class Purchasable(BaseResource):
                 for pc in purchasable_categories
             ]
         })
-
-

@@ -149,6 +149,14 @@ elif DEPLOYMENT_STAGE in ('staging', 'production'):
             }
           }
         }
+    else:
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+            }
+        }
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEPLOYMENT_STAGE != 'production'
