@@ -112,7 +112,7 @@ elif DEPLOYMENT_STAGE in ('staging', 'production'):
         }
     }
 
-    if not ENV['DISABLE_CACHE']:
+    if not os.environ.get('DISABLE_CACHE'):
         servers = os.environ['MEMCACHEDCLOUD_SERVERS']
         username = os.environ['MEMCACHEDCLOUD_USERNAME']
         password = os.environ['MEMCACHEDCLOUD_PASSWORD']
