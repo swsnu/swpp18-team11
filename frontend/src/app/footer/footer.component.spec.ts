@@ -38,18 +38,11 @@ describe('FooterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get my cart when created', () => {
-    component.ngOnInit();
-    expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
-    expect(component.myCartCount).toEqual(1);
-  });
-
   it('emptyMyCart should show confirm and empty cart', () => {
     spyOn(window, 'confirm').and.returnValue(true);
     component.emptyMyCart();
     expect(window.confirm).toHaveBeenCalled();
     expect(myCartServiceSpy.emptyMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
   });
 
   it('emptyMyCart should do nothing if confirm fails', () => {
