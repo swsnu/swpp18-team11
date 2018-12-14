@@ -1,9 +1,11 @@
 <mat-drawer-container class="container">
   <mat-drawer mode="over"
-              [(opened)]="sidenavOpened">
+              [(opened)]="sidenavOpened"
+              (openedStart)="openSideNav()">
     <!--Side bar-->
     <app-hamburger-menu
-      (sideNavClosed)="closeSideNav()">
+      (sideNavClosed)="closeSideNav()"
+      [sideNavOpenEvent]="sidenavOpenEvent">
     </app-hamburger-menu>
   </mat-drawer>
   <!--Main content-->

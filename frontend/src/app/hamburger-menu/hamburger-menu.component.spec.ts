@@ -4,6 +4,7 @@ import { HamburgerMenuComponent } from './hamburger-menu.component';
 import { User, UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DEFAULT_IMPORTS } from '../testing';
+import { EventEmitter } from '@angular/core';
 
 describe('HamburgerMenuComponent', () => {
   let component: HamburgerMenuComponent;
@@ -11,11 +12,14 @@ describe('HamburgerMenuComponent', () => {
   let testUser: User;
   let userServiceSpy;
   let routerSpy;
+  const eventEmitter = new EventEmitter<boolean>();
 
   beforeEach(async(() => {
     testUser = new User('id', 'userName', 'type');
-    userServiceSpy = jasmine.createSpyObj('UserService', ['getCurrentUser']);
+    userServiceSpy = jasmine.createSpyObj('UserService',
+      ['getCurrentUser', 'signOut']);
     userServiceSpy.getCurrentUser.and.returnValue(testUser);
+    userServiceSpy.signOut.and.returnValue(new Promise(() => true));
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
@@ -34,6 +38,7 @@ describe('HamburgerMenuComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HamburgerMenuComponent);
     component = fixture.componentInstance;
+    component.sideNavOpenEvent = eventEmitter;
     fixture.detectChanges();
   });
 
@@ -50,7 +55,9 @@ describe('HamburgerMenuComponent', () => {
     expect(component.isLoggedIn()).toEqual(true);
   });
 
-  it('navigator should call router.navigate', () => {
-
+  it('signOut should signOut', () => {
+    component.signOut();
+    expect(userServiceSpy.signOut).toHaveBeenCalled();
   });
+
 });
