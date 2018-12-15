@@ -2,7 +2,7 @@ import json
 
 from django.contrib.auth import authenticate, login, logout
 from kiorder.models import User, Store
-
+from kiorder.api.v1.store import BaseStore
 from .base import BaseResource
 
 class BaseUser(BaseResource):
@@ -61,12 +61,23 @@ class SignOut(BaseUser):
     login_required = True
 
     def get(self, request):
+        user = request.user
+        user.current_store = None
+        user.save()
         logout(request)
         return self.success()
 
 
-class CurrentStore(BaseUser):
+class CurrentStore(BaseUser, BaseStore):
     login_required = True
+
+    def get(self, request):
+        user = request.user
+        store = user.current_store
+        if store is None:
+            return self.error("no current store")
+        else:
+            return self.success(self.represent_store(store))
 
     def post(self, request):
         user = request.user

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angu
 import { UserService, User } from '../user.service';
 import { Router } from '@angular/router';
 import { of, Subscription } from 'rxjs';
+import { Store } from '../store';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -15,6 +16,7 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
   subscriber: Subscription;
   userName = '';
   user: User;
+  currentStore$: Promise<Store>;
 
   constructor(
     private userService: UserService,
@@ -23,7 +25,8 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUser();
-    this.subscriber = this.sideNavOpenEvent.subscribe(() => this.getUser());
+    this.subscriber = this.sideNavOpenEvent.subscribe(() => this.updateInfo());
+    this.getCurrentStore();
   }
 
   ngOnDestroy() {
@@ -46,7 +49,18 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
       () => this.sideNavClosed.emit(true));
   }
 
+  private updateInfo(): void {
+    this.getUser();
+    this.getCurrentStore();
+  }
+
   private getUser(): void {
     this.user = this.userService.getCurrentUser();
+  }
+
+  private getCurrentStore(): void {
+    if (this.isLoggedIn()) {
+      this.currentStore$ = this.userService.getCurrentStore();
+    }
   }
 }

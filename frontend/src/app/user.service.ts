@@ -73,6 +73,21 @@ export class UserService {
       .pipe()
       .toPromise();
   }
+  getCurrentStore(): Promise<Store> {
+    const url = '/kiorder/api/v1/user/current_store';
+    return this.http.get(url)
+      .pipe(
+        map((x: any) => {
+          if (x.success) {
+            const store: any = x.data;
+            store.franchiseId = store.francise_id;
+            return new Store(store);
+          } else {
+            return null;  // currently no store set by user.
+          }
+        }))
+      .toPromise();
+  }
   isLoggedIn(): boolean {
     return this.getCurrentUser() !== null;
   }

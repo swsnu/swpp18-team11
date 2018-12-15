@@ -5,6 +5,7 @@ import { User, UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DEFAULT_IMPORTS } from '../testing';
 import { EventEmitter } from '@angular/core';
+import { Store } from '../store';
 
 describe('HamburgerMenuComponent', () => {
   let component: HamburgerMenuComponent;
@@ -17,7 +18,7 @@ describe('HamburgerMenuComponent', () => {
   beforeEach(async(() => {
     testUser = new User('id', 'userName', 'type');
     userServiceSpy = jasmine.createSpyObj('UserService',
-      ['getCurrentUser', 'signOut']);
+      ['getCurrentUser', 'getCurrentStore', 'signOut']);
     userServiceSpy.getCurrentUser.and.returnValue(testUser);
     userServiceSpy.signOut.and.returnValue(new Promise(() => true));
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
