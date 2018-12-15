@@ -10,32 +10,30 @@ export class UrlService {
   isUrlStore(locationUrl: string): boolean {
     if (!locationUrl) {
       return false;
-    }
-    else if (
+    } else if (
       locationUrl.startsWith('order') ||
       locationUrl.startsWith('mycart') ||
       locationUrl.startsWith('payment')
     ) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   getPageTitle(locationUrl: string): string {
     if (!locationUrl) {
-      return ""
+      return '';
     }
     if (this.isUrlStore(locationUrl)) {
-      return "KingBurger" // TODO: to return store-specific title
+      return 'KingBurger'; // TODO: to return store-specific title
     }
-    switch(locationUrl) {
-      case "sign-in": return "Sign In";
-      case "sign-up": return "Sign Up";
-      case "store": return "Select Store!";
-      case "my-order": return "My Orders";
-      default: return "Not a valid page"
+    switch (locationUrl) {
+      case 'sign-in': return 'Sign In';
+      case 'sign-up': return 'Sign Up';
+      case 'store': return 'Select Store!';
+      case 'my-order': return 'My Orders';
+      default: return 'Not a valid page';
     }
   }
 

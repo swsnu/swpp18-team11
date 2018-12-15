@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
-import {Subscription} from "rxjs";
-import {UrlService} from "../url.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UrlService } from '../url.service';
 
 @Component({
   selector: 'app-header',
@@ -10,9 +10,9 @@ import {UrlService} from "../url.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   locationUrl: string;
-  pageTitle: string = "";
+  pageTitle = '';
   subscription: Subscription;
-  isPageStore: boolean = false;
+  isPageStore = false;
 
   constructor(
     private router: Router,
@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.locationUrl = this.router.url.substr(1);
-        this.pageTitle = this.urlService.getPageTitle(this.locationUrl)
-        this.isPageStore = this.urlService.isUrlStore(this.locationUrl)
+        this.pageTitle = this.urlService.getPageTitle(this.locationUrl);
+        this.isPageStore = this.urlService.isUrlStore(this.locationUrl);
       }
-    })
+    });
   }
 
   ngOnInit() {
