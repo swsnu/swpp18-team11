@@ -21,6 +21,7 @@ pytest = "*"
 pytest-django = "*"
 ipython = "*"
 pytest-cov = "*"
+locustio = "*"
 
 [requires]
 python_version = "3.7"
