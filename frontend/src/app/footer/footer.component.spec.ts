@@ -38,11 +38,6 @@ describe('FooterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get my cart when created', () => {
-    pending('by Somewhat reason?');
-    component.ngOnInit();
-  });
-
   it('emptyMyCart should show confirm and empty cart', () => {
     pending('by Somewhat reason?');
     spyOn(window, 'confirm').and.returnValue(true);
