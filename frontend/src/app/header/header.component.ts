@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UrlService } from '../url.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +14,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   pageTitle = '';
   subscription: Subscription;
   isPageStore = false;
+  @Output() sideNavOpened = new EventEmitter<boolean>();
 
   constructor(
     private router: Router,
     private urlService: UrlService,
+    private userService: UserService,
   ) {
     this.locationUrl = this.router.url.substr(1);
     this.subscription = this.router.events.subscribe((event) => {
@@ -36,5 +39,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  signOut(): void {
+    this.userService.signOut();
   }
 }

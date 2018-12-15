@@ -1,0 +1,11 @@
+.mat-toolbar-row {
+  height: 56px;
+  margin: 0;
+}
+.message {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
