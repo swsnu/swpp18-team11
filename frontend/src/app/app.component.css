@@ -4,12 +4,14 @@
 .main {
   margin-top: 64px;
   margin-bottom: 50px;
+  z-index: 10;
 }
 .header {
   margin: 0;
   width: 100%;
   position: fixed;
   top: 0;
+  z-index: 1;
 }
 .footer {
   margin: 0;
@@ -17,8 +19,8 @@
   height: 50px;
   position: fixed;
   bottom: 0;
+  z-index: 1;
 }
 .timeout-warning {
   color: #7f7f7f;
 }
-
