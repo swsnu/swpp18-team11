@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 /* Angular Material stuffs */
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material';
+import {MatCardModule, MatIconModule} from '@angular/material';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
@@ -36,6 +36,7 @@ export const DEFAULT_IMPORTS = [
   MatProgressSpinnerModule,
   MatDialogModule,
   MatSidenavModule,
+  MatCardModule,
   ReactiveFormsModule,
   FormsModule,
   AgmCoreModule,

@@ -1,20 +1,31 @@
-<h2> 내 주문목록 </h2>
-<ul *ngFor="let txItem of (txItems$ | async)">
-  <li>
-    <img width="50" height="50" src={{txItem.purchasable.thumbnail}}/> <br/>
-    {{txItem.purchasableName}} x {{txItem.qty}} <br/>
-    옵션:
-    <span *ngIf="txItem.options.length > 0; else noOption">
-      <br/>
-      <ul *ngFor="let option of txItem.options">
-        <li>
-          {{option.optionName}} x {{option.qty}}
-        </li>
-      </ul>
-    </span>
-    <ng-template #noOption> 없음 <br/></ng-template>
-    총 가격: {{txItem.totalPrice}} <br/>
-    주문상태: {{txItem.state}} <br/>
-    결제일시: {{txItem.createdAt}} <br/>
-  </li>
-</ul>
+<div>
+  <h2> 내 주문목록 </h2>
+</div>
+<div>
+  <mat-card *ngFor="let txItem of (txItems$ | async)"
+            class="my-order-card">
+    <mat-card-header>
+      <div>
+        <img width="50" height="50" src={{txItem.purchasable.thumbnail}}/>
+      </div>
+      <mat-card-title>{{txItem.purchasableName}}</mat-card-title>
+      <mat-card-subtitle>x {{txItem.qty}}개</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <span *ngIf="txItem.options.length > 0">
+          <b>옵션:</b><br/>
+          <ul *ngFor="let option of txItem.options"
+              class="option-list">
+            <li>
+              &nbsp;&nbsp;&nbsp;&nbsp;{{option.optionName}} x {{option.qty}}
+            </li>
+          </ul>
+        </span>
+      <b>총 가격:</b> {{txItem.totalPrice}} <br/>
+      <b>주문상태:</b> {{txItem.state}} <br/>
+      <b>결제일시:</b> {{txItem.createdAt}} <br/>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
