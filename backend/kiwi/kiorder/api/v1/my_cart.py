@@ -71,22 +71,9 @@ class BaseMyCart(BaseResource):
 
 
 class MyCart(BaseMyCart):
-    def _get_mock_user(self, request):
-        user = None
-        if 'user-id' in request.session.keys() \
-                and request.session['user-id'] is None:
-            user_id = str(request.session['user-id'])
-        else:
-            user_id = '4'
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            pass
-        return user
-
     def get(self, request):
         store = self.get_current_store()
-        user = self._get_mock_user(request)
+        user = request.user
         my_cart_service = MyCartService()
         my_cart = my_cart_service.get_my_cart_of(store, user)
         return self.success(self.represent_my_cart(my_cart))
@@ -94,7 +81,7 @@ class MyCart(BaseMyCart):
     # adds 1 my_cart_item into my_cart.
     def post(self, request):
         store = self.get_current_store()
-        user = self._get_mock_user(request)
+        user = request.user
         my_cart_service = MyCartService()
         my_cart = my_cart_service.get_my_cart_of(store, user)
         tx_service = TxService()
@@ -107,7 +94,7 @@ class MyCart(BaseMyCart):
 
     def delete(self, request):
         store = self.get_current_store()
-        user = self._get_mock_user(request)
+        user = request.user
         my_cart_service = MyCartService()
         my_cart = my_cart_service.get_my_cart_of(store, user)
         my_cart_service.empty_my_cart(my_cart)
