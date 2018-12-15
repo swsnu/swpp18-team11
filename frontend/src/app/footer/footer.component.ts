@@ -42,6 +42,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   emptyMyCart(): void {
     if (confirm('장바구니를 비우시겠습니까?')) {
       this.myCartService.emptyMyCart();
+      };
     }
   }
 }
