@@ -1,10 +1,14 @@
 .menus {
-  padding-top: 0px;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
 }
-.menus .mat-list-item {
-  height: auto;
-  vertical-align: middle;
-  padding: 0px;
+.menu-card {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 110px;
 }
 .thumbnail {
   width: 100px;
@@ -18,7 +22,7 @@
 }
 .menuName {
   font-weight: bold;
-  font-size: 25px;
+  font-size: 20px;
 }
 .badge-icon {
   width: 20px;
@@ -27,4 +31,57 @@
 }
 .badge-name {
   font-size: 15px
+}
+
+/*device bigger than iPad*/
+@media screen and (min-width: 768px) {
+  .category-tab .mat-tab-label {
+    font-size: 20px;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  .menus {
+    display: grid;
+    grid-row: 2;
+    grid-row-gap: 20px;
+  }
+  .menu-card-container {
+    display: inline-block;
+    text-align: center;
+  }
+  .menu-card {
+    padding-left: 0;
+    padding-right: 0;
+    width: 300px;
+    height: auto;
+    display: inline-block;
+    margin: 3%;
+  }
+  .thumbnail {
+    width: 200px;
+    height: 200px;
+  }
+  .category-tab {
+    padding-top:0;
+    position: fixed;
+  }
+  .menuName {
+    font-weight: bold;
+    font-size: 30px;
+  }
+  .menuPrice {
+    font-size: 23px;
+  }
+  .badge-icon {
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+  }
+  .badge-name {
+    font-size: 15px
+  }
 }

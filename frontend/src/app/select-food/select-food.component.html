@@ -3,15 +3,17 @@
   <mat-tab *ngFor="let category of categories$ | async"
             label = "{{category.name}}"
             class = "category-tab">
-
-    <mat-list class="menus" *ngIf="selectedCategory">
-      <mat-list-item *ngFor="let menu of selectedCategory.purchasables"
-                     routerLink="/order/{{menu.id}}">
+    <div class="container">
+      <div class="menus" *ngIf="selectedCategory">
+        <div class="menu-card-container">
+          <mat-card class="menu-card"
+                    *ngFor="let menu of selectedCategory.purchasables"
+                    routerLink="/order/{{menu.id}}">
         <span>
           <img class="thumbnail"
                src="{{menu.thumbnail}}">
         </span>
-        <span>
+            <span>
           <div>
             <span class="menuName">
               {{menu.name}}
@@ -21,11 +23,12 @@
               <span class="badge-name">{{badge.name}}</span>
             </span>
           </div>
-          {{mathFloor(menu.base_price)}}
+          <span class="menuPrice">{{mathFloor(menu.base_price)}}원</span>
         </span>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>
 
