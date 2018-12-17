@@ -23,7 +23,10 @@ class StoreOfFranchise(BaseStore):
     def get(self, request, *, franchise_id):
         params = request.GET
         try:
-            franchise = Franchise.objects.get(pk=franchise_id)
+            if franchise_id == 'all':
+                franchise_list = Franchise.objects.all()
+            else:
+                franchise_list = [Franchise.objects.get(pk=int(franchise_id))]
             lng = float(params['lng'])
             lat = float(params['lat'])
             radius_in_km = float(params['radius_in_km'])
@@ -33,7 +36,7 @@ class StoreOfFranchise(BaseStore):
             self.abort(status_code=404)
 
         stores = StoreService().search_nearby(
-            franchise=franchise,
+            franchise_list=franchise_list,
             lng=lng,
             lat=lat,
             radius=radius_in_km,

@@ -9,7 +9,7 @@ urlpatterns = [
     path('api/v1/user/sign_out', api.v1.user.SignOut.as_view()),
     path('api/v1/user/current_store', api.v1.user.CurrentStore.as_view()),
     path('api/v1/franchise', api.v1.franchise.Franchise.as_view()),
-    path('api/v1/franchise/<int:franchise_id>/store', api.v1.store.StoreOfFranchise.as_view()),
+    path('api/v1/franchise/<str:franchise_id>/store', api.v1.store.StoreOfFranchise.as_view()),
     path('api/v1/store/<int:id>', api.v1.store.StoreDetail.as_view()),
     path('api/v1/purchasable', api.v1.purchasable.Purchasable.as_view()),
     path('api/v1/purchasable/<int:id>', api.v1.purchasable.Purchasable.as_view()),

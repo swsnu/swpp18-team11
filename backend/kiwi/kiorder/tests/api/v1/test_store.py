@@ -24,7 +24,7 @@ def test_store_api(user_logged_in, client, franchise):
         response = client.get('/kiorder/api/v1/franchise/999/store', {'lng': -99, 'lat': 99, 'radius_in_km': 1})
         assert response.status_code == 200
         assert response.json() == {'data': [{'id': 1, 'franchise_id': 999, 'location': {'lat': 50.0, 'lng': -50.0}, 'name': 'MY_STORE', 'timezone': 'UTC'}], 'success': True}
-        instance.search_nearby.assert_called_with(franchise=franchise, lat=99.0, lng=-99.0, radius=1)
+        instance.search_nearby.assert_called_with(franchise_list=[franchise], lat=99.0, lng=-99.0, radius=1)
 
 @pytest.mark.django_db
 def test_store_api_format_error(user_logged_in, client, franchise):

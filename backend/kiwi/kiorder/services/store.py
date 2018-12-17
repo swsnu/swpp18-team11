@@ -11,17 +11,24 @@ km = float
 
 class StoreService:
     def search_nearby(self, *,
-                      franchise: Franchise,
+                      franchise_list: List[Franchise],
                       lng: float,
                       lat: float,
                       radius: km) -> List[Store]:
+
+        def flatten(list_of_lists):
+            return sum(list_of_lists, [])
+
         point = Point(lng, lat)
         distance = Distance(km=radius)
-        stmt = Store.objects.filter(
-            franchise=franchise,
-            location__distance_lte=(point, distance),
+        stmt_list = list(
+            map(lambda franchise: Store.objects.filter(
+                    franchise=franchise,
+                    location__distance_lte=(point, distance)),
+                franchise_list
+                )
         )
-        stores = [store for store in stmt.all()]
+        stores = flatten([[store for store in stmt.all()] for stmt in stmt_list])
         stores.sort(key=lambda store: store.location.distance(point))
         return stores
 

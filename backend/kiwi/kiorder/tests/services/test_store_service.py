@@ -20,7 +20,7 @@ def test_spatial_search(store_1):
     store_2.save()
 
     stores = service.search_nearby(
-        franchise=store_1.franchise, 
+        franchise_list=[store_1.franchise],
         lng=store_1.location.x,
         lat=store_1.location.y,
         radius=90,
@@ -29,7 +29,7 @@ def test_spatial_search(store_1):
     assert stores[0] == store_1
 
     stores = service.search_nearby(
-        franchise=store_1.franchise, 
+        franchise_list=[store_1.franchise],
         lng=store_1.location.x,
         lat=store_1.location.y,
         radius=200,
