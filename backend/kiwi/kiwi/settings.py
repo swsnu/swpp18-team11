@@ -87,7 +87,7 @@ if DEPLOYMENT_STAGE == 'development':
             'TEST': {'NAME': ':memory:'}
         }
     }
-    SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+    SPATIALITE_LIBRARY_PATH = 'mod_spatialite.so'
 elif DEPLOYMENT_STAGE in ('staging', 'production'):
     from urllib.parse import urlparse
     # Heroku setting
