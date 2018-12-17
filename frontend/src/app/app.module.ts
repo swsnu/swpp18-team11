@@ -43,7 +43,6 @@ import { MatDialogModule } from '@angular/material';
 
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
-import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 
 @NgModule({
   declarations: [
@@ -93,8 +92,7 @@ import { ShowHidePasswordModule } from 'ngx-show-hide-password';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    NgIdleModule.forRoot(),
-    ShowHidePasswordModule.forRoot()
+    NgIdleModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
-import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +10,7 @@ import {Observable, of} from 'rxjs';
 export class SignInComponent implements OnInit {
   username: string;
   password: string;
-  maskedPassword: string;
+  userid: string;
 
   constructor(
     private router: Router,
@@ -21,7 +20,6 @@ export class SignInComponent implements OnInit {
   ngOnInit() {
     this.username = 'user1';
     this.password = 'user1';
-    this.maskedPassword = '*'.repeat(this.password.length);
   }
 
   onClickSignIn() {
@@ -29,13 +27,5 @@ export class SignInComponent implements OnInit {
   }
   onClickSignOut() {
     this.userService.signOut();
-  }
-  onInputPassword() {
-    if (this.maskedPassword.length > this.password.length) {
-      this.password = this.password + this.maskedPassword.slice(-1);
-      this.maskedPassword = '*'.repeat(this.password.length);
-    } else {
-      this.password = this.password.slice(0, -1);
-    }
   }
 }

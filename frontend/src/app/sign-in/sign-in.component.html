@@ -7,9 +7,7 @@
 </div>
 <div>
   <label> password: </label>
-  <show-hide-password size="lg" btnStyle="primary" [btnOutline]="false">
-    <input type="password" [(ngModel)]="password">
-  </show-hide-password>
+  <input id="password" [(ngModel)]="password">
 </div>
 <button (click)="onClickSignIn()"> sign in </button>
 <button (click)="onClickSignOut()"> sign out </button>
