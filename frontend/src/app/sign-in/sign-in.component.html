@@ -1,13 +1,19 @@
-<p>
-  sign-in works!
-</p>
-<div>
-  <label> username: </label>
-  <input id="username" [(ngModel)]="username">
-</div>
-<div>
-  <label> password: </label>
-  <input id="password" [(ngModel)]="password">
-</div>
-<button (click)="onClickSignIn()"> sign in </button>
-<button (click)="onClickSignOut()"> sign out </button>
+<mat-list>
+  <mat-list-item>
+    <mat-form-field>
+      <mat-label> username: </mat-label>
+      <input matInput id="username" [(ngModel)]="username">
+    </mat-form-field>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-form-field>
+      <mat-label> password: </mat-label>
+      <input matInput id="password" type="password" [(ngModel)]="password">
+    </mat-form-field>
+  </mat-list-item>
+  <mat-list-item>
+    <button mat-button (click)="onClickSignIn()"> sign in </button>
+    <button mat-button (click)="onClickSignOut()"> sign out </button>
+  </mat-list-item>
+</mat-list>
+
