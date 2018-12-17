@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { TxItem, TxItemOption } from "./tx-item";
+import { TxItem, TxItemOption } from './tx-item';
 import { Purchasable } from './purchasable';
 import { Option } from './option';
-import {before} from "selenium-webdriver/testing";
+import { before } from 'selenium-webdriver/testing';
 
 describe('Tx_item', () => {
   let testPurchasable: Purchasable;
   let testTxItemOption: TxItemOption;
   let testTxItem: TxItem;
 
-  beforeEach(()=> {
+  beforeEach(() => {
     testPurchasable = new Purchasable({
       id: 1,
       name: 'testPurch',
@@ -35,19 +35,19 @@ describe('Tx_item', () => {
       price: testPurchasable.base_price,
       options: [testTxItemOption],
       totalPrice: (testPurchasable.base_price * 2),
-      createdAt: "testBed",
-      state: "tested",
+      createdAt: 'testBed',
+      state: 'tested',
     });
   });
 
-  beforeEach(()=>{
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ TxItem, TxItemOption ],
       imports: [ Purchasable ],
     });
   });
 
-  it ('loadTxItemOption should convert Option to TxItemOption', ()=>{
+  it ('loadTxItemOption should convert Option to TxItemOption', () => {
     const newTxItemOption = testTxItem.loadTxItemOption({
       name: 'testOption',
       base_price: 10,
@@ -55,5 +55,5 @@ describe('Tx_item', () => {
       total_price: 20,
     });
     expect(newTxItemOption).toEqual(testTxItemOption);
-  })
+  });
 });

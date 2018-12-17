@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 export class SignInComponent implements OnInit {
   username: string;
   password: string;
-  userid: string;
+  isLoggedIn = false;
+  loggedInUserName = '';
 
   constructor(
     private router: Router,
@@ -20,6 +21,7 @@ export class SignInComponent implements OnInit {
   ngOnInit() {
     this.username = '';
     this.password = '';
+    this.getUserStatus();
   }
 
   onClickSignIn() {
@@ -27,5 +29,12 @@ export class SignInComponent implements OnInit {
   }
   onClickSignOut() {
     this.userService.signOut();
+  }
+
+  private getUserStatus(): void {
+    this.isLoggedIn = this.userService.isLoggedIn();
+    if (this.isLoggedIn) {
+      this.loggedInUserName = this.userService.getCurrentUser().username;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,9 +11,13 @@ export class SignUpComponent implements OnInit {
   username: string;
   password: string;
   confirmPassword: string;
+  hide = true; // hide and hideC: to choose whether to show text or **** in password
+  hideC = true;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private location: Location,
+
   ) { }
 
   ngOnInit() {
@@ -28,5 +33,9 @@ export class SignUpComponent implements OnInit {
     } else {
       this.userService.signUp(this.username, this.password);
     }
+  }
+
+  back(): void {
+    this.location.back();
   }
 }

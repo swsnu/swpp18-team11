@@ -1,0 +1,12 @@
+.sign-in-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+.button-group {
+  margin-top: 10px;
+}
+.mat-stroked-button {
+  margin: 10px;
+}

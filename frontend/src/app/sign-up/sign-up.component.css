@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+.mat-stroked-button {
+  margin: 10px;
+}
