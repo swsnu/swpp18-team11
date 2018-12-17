@@ -36,6 +36,17 @@
     </div>
   </ng-template>
 </ng-template>
-<button (click)="cancel()">뒤로 가기</button>
-<button (click)="cancelPayment()">결제 취소</button>
-<button (click)="confirm()">확인</button>
+<div class="button-group">
+  <button class="navigate-button"
+          mat-stroked-button (click)="cancel()">
+    <mat-icon>arrow_back</mat-icon>
+    뒤로 가기</button>
+  <button class="navigate-button"
+          mat-raised-button (click)="confirm()" color="primary">
+    <mat-icon>check</mat-icon>
+    확인</button>
+  <button class="navigate-button"
+          mat-stroked-button (click)="cancelPayment()">
+    <mat-icon>close</mat-icon>
+    결제 취소</button>
+</div>

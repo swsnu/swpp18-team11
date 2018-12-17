@@ -15,12 +15,18 @@
   vertical-align: middle;
   font-size: medium;
 }
+.button-group {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
 .navigate-button {
   margin-left: 10px;
   margin-right: 10px;
 }
 .option-dialog-button {
   position: absolute;
+  min-width: 30px;
   right: 45%;
 }
 .quantity-control-buttons {
@@ -41,14 +47,14 @@
   top: 0;
   right: 0;
 }
+.remove-x {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 #totalPrice {
   text-align: right;
   margin-top: 30px;
   margin-right: 20px;
 }
-.button-group {
-  text-align: center;
-  margin: 20px;
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
+
