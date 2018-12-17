@@ -1,28 +1,3 @@
-<!--mat-grid-list class="container"
-               cols="2">
-  <mat-grid-tile class="done-title">
-    <h1> Done </h1>
-  </mat-grid-tile>
-  <mat-grid-tile class="todo-doing-title">
-    <h1> Doing </h1>
-  </mat-grid-tile>
-  <mat-grid-tile class="done-ticket-display">
-    <ul class='done-ticket'>
-      <li *ngFor='let ticket of doneTickets$ | async' class='blink_me'>
-        {{ ticket.number }}
-      </li>
-    </ul>
-  </mat-grid-tile>
-  <mat-grid-tile class="todo-doing-ticket-display">
-    <ul class='todo-doing-ticket'>
-      <li *ngFor='let ticket of todoDoingTickets$ | async'>
-        {{ ticket.number }}
-      </li>
-    </ul>
-  </mat-grid-tile>
-</mat-grid-list-->
-
-
 <div class="container">
   <div class="title"
        id="done-title">

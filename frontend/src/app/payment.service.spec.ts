@@ -8,22 +8,12 @@ import { SpecifyOrderComponent } from './specify-order/specify-order.component';
 import { MyCartComponent } from './my-cart/my-cart.component';
 import { PaymentComponent } from './payment/payment.component';
 import { SelectOptionComponent } from './select-option/select-option.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 import { Purchasable } from './purchasable';
 import { Option } from './option';
 import { of } from 'rxjs';
-import {
-  MatBadgeModule,
-  MatButtonModule,
-  MatDividerModule, MatExpansionModule,
-  MatIconModule,
-  MatListModule,
-  MatTabsModule,
-  MatToolbarModule
-} from '@angular/material';
 import { MyCartItem } from './my-cart-item';
+import { DEFAULT_DUMB_IMPORTS, DEFAULT_IMPORTS } from './testing';
 
 describe('PaymentService', () => {
   let service: PaymentService;
@@ -46,17 +36,7 @@ describe('PaymentService', () => {
         SelectOptionComponent,
       ],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes),
-        NgbModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatTabsModule,
-        MatDividerModule,
-        MatListModule,
-        MatBadgeModule,
-        MatButtonModule,
-        MatExpansionModule,
+        ...DEFAULT_IMPORTS, ...DEFAULT_DUMB_IMPORTS,
       ]
     });
     service = TestBed.get(PaymentService);

@@ -25,7 +25,6 @@ describe('MyCartComponent', () => {
   let testMyCart: MyCartItem[];
   let myCartServiceSpy;
   let routerSpy;
-  let locationSpy;
 
   beforeEach(() => {
     // initial settings
@@ -48,7 +47,6 @@ describe('MyCartComponent', () => {
 
   beforeEach(async(() => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    locationSpy = jasmine.createSpyObj('Location', ['back']);
     myCartServiceSpy = jasmine.createSpyObj('MyCartService',
           [
             'getMyCart', 'getTotalPrice', 'patchMyCartQty',
@@ -72,7 +70,6 @@ describe('MyCartComponent', () => {
       ],
       providers: [
         { provide: Router, useValue: routerSpy},
-        { provide: Location, useValue: locationSpy},
         { provide: MyCartService, useValue: myCartServiceSpy },
         { provide: APP_BASE_HREF, useValue : '/' } // prevent error 'root' undefined)
       ]

@@ -14,15 +14,16 @@
   padding-left: 30px;
   padding-right: 20px;
 }
-
 .button-group {
   text-align: center;
   margin-top: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
+  display: flex;
+  justify-content: space-evenly;
 }
-.navigate-button {
-  margin-left: 10px;
-  margin-right: 10px;
+.mat-stroked-button {
+  padding-left: 8px;
+  padding-right: 8px;
 }
 mat-expansion-panel {
   margin: 20px;

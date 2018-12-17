@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { MyCartService } from '../my-cart.service';
 import { Purchasable } from '../purchasable';
 import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
@@ -23,7 +22,6 @@ export class MyCartComponent implements OnInit, OnDestroy {
   constructor(
     private myCartService: MyCartService,
     private router: Router,
-    private location: Location,
     private optionDialog: MatDialog
   ) { }
 
