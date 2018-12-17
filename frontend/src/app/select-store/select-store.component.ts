@@ -11,7 +11,7 @@ import { Franchise } from '../franchise';
   styleUrls: ['./select-store.component.css']
 })
 export class SelectStoreComponent implements OnInit, OnDestroy {
-  franchiseId: any | null = null;
+  franchiseId: any | null = 'all';
 
   ngOnInit() { }
   ngOnDestroy() { }
