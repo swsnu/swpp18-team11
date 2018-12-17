@@ -18,8 +18,8 @@ export class SignInComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.username = 'user1';
-    this.password = 'user1';
+    this.username = '';
+    this.password = '';
   }
 
   onClickSignIn() {
