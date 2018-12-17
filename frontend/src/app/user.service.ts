@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -21,6 +21,8 @@ export class User {
   providedIn: 'root'
 })
 export class UserService {
+  signInAndOutEvent = new EventEmitter<any>();
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -53,10 +55,7 @@ export class UserService {
     return this.http.get(url)
       .pipe()
       .toPromise()
-      .then(response => {
-        this.setCurrentUser(null);
-        this.router.navigateByUrl('/sign-in');
-      })
+      .then(response => this.handleSignOutSuccess(response))
       .catch(e => this.handleError(e));
   }
   setCurrentUser(user: User) {
@@ -123,6 +122,14 @@ export class UserService {
     if (response.success) {
       this.setCurrentUser(new User(response.data.user_id, response.data.username, response.data.user_type));
       this.router.navigateByUrl('/store');
+      this.signInAndOutEvent.emit(1);
+    }
+  }
+  handleSignOutSuccess(response: any) {
+    if (response.success) {
+      this.setCurrentUser(null);
+      this.router.navigateByUrl('/sign-in');
+      this.signInAndOutEvent.emit(1);
     }
   }
   handleError(e: any) {
