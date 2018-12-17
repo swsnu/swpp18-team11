@@ -14,14 +14,18 @@ import { UserService } from './user.service';
 
 export class AppComponent implements OnDestroy {
   locationUrl = '';
-  subscription: Subscription;
+  routerEventSubscription: Subscription;
+  userEventSubscription: Subscription;
   idleWarning = '';
   IDLE_TIMEOUT = 60;
   warningCount = this.IDLE_TIMEOUT > 60 ? 30 : this.IDLE_TIMEOUT / 2;
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.routerEventSubscription) {
+      this.routerEventSubscription.unsubscribe();
+    }
+    if (this.userEventSubscription) {
+      this.userEventSubscription.unsubscribe();
     }
     this.idle.stop();
   }
@@ -33,28 +37,36 @@ export class AppComponent implements OnDestroy {
     private userService: UserService
   ) {
     this.locationUrl = this.router.url;
-    this.subscription = this.router.events.subscribe((event) => {
+    this.routerEventSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.locationUrl = this.router.url;
       }
     });
-
+    this.userEventSubscription = this.userService.signInAndOutEvent.subscribe((event) => {
+      this.setKioskIdleTimer();
+    });
+    this.setKioskIdleTimer();
+  }
+  setKioskIdleTimer() {
     // set reset timer for kiosk account
     if (this.userService.isLoggedIn() && this.userService.userType !== 'customer') {
-      idle.setIdle(0.01);
-      idle.setTimeout(this.IDLE_TIMEOUT);
-      idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+      this.idle.setIdle(0.01);
+      this.idle.setTimeout(this.IDLE_TIMEOUT);
+      this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
-      idle.onTimeout.subscribe(() => {
+      this.idle.onTimeout.subscribe(() => {
         this.myCartService.emptyMyCart();
         this.router.navigateByUrl('/order');
         this.idle.watch();
       });
-      idle.onTimeoutWarning.subscribe((countdown) => {
+      this.idle.onTimeoutWarning.subscribe((countdown) => {
         this.idleWarning = 'time out: ' + countdown + ' seconds left';
       });
 
       this.idle.watch();
+    } else {
+      this.idleWarning = '';
+      this.idle.stop();
     }
   }
 }
