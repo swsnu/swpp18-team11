@@ -8,12 +8,12 @@
         <div class="quantity-control-buttons">
           <button mat-button
                   class="quantity-button"
-                  (click)="decrement(option.id)"
+                  (click)="option.decrement()"
                   [disabled]="option.quantity < 1">-</button>
           <label id="optionQuantity{{option.id}}">{{option.quantity}}개</label>
           <button mat-button
                   class="quantity-button"
-                  (click)="increment(option.id)"
+                  (click)="option.increment()"
                   [disabled]="option.quantity >= option.max_capacity">+</button>
         </div>
     </mat-list-item>

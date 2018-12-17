@@ -5,6 +5,8 @@ import { LatLngBounds, LatLngLiteral } from '@agm/core';
 import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { Store } from '../store';
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 interface Marker {
   lat: number;
@@ -32,7 +34,12 @@ export class SelectStoreMapComponent implements OnInit, OnChanges, OnDestroy {
   markUpdateRequired$: Subject<void> = new Subject<void>();
   markUpdateRequiredSub: Subscription;
 
-  constructor(private storeService: StoreService, private geolocationService: GeolocationService) { }
+  constructor(
+    private router: Router,
+    private storeService: StoreService,
+    private geolocationService: GeolocationService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.geolocationService.loadLatLng().then(latLng => this.initialLatLng = this.latLng = latLng)
@@ -68,6 +75,12 @@ export class SelectStoreMapComponent implements OnInit, OnChanges, OnDestroy {
     // 1 deg latitude corresponds to about 110.574 km
     this.radius = Math.abs(latLngBounds.getNorthEast().lng() - latLngBounds.getSouthWest().lng()) * 110.574;
     this.markUpdateRequired$.next();
+  }
+
+  handleClickStore(store) {
+    this.userService.setCurrentStore(store)
+      .then(r => this.router.navigateByUrl('/order'))
+      .catch(e => alert(JSON.stringify(e)));
   }
 
   updateMarkers() {

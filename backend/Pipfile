@@ -9,6 +9,12 @@ gtts = "*"
 "django-sortedm2m" = "*"
 pillow = "*"
 django-map-widgets = "*"
+requests = ">=2.20.0"
+django-cors-headers = "*"
+uwsgi = "*"
+"psycopg2" = "*"
+"boto3" = "*"
+django-storages = "*"
 
 [dev-packages]
 pytest = "*"

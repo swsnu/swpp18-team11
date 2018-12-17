@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { MyCartService } from './my-cart.service';
+import { UserService } from './user.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class AppComponent implements OnDestroy {
   constructor(
     private router: Router,
     private idle: Idle,
-    private myCartService: MyCartService
+    private myCartService: MyCartService,
+    private userService: UserService
   ) {
     this.locationUrl = this.router.url;
     this.subscription = this.router.events.subscribe((event) => {
@@ -37,27 +39,22 @@ export class AppComponent implements OnDestroy {
       }
     });
 
-    // TODO: if (user type === kiosk) {
-    idle.setIdle(0.01);
-    idle.setTimeout(this.IDLE_TIMEOUT);
-    idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    // set reset timer for kiosk account
+    if (this.userService.isLoggedIn() && this.userService.userType !== 'customer') {
+      idle.setIdle(0.01);
+      idle.setTimeout(this.IDLE_TIMEOUT);
+      idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
-    idle.onTimeout.subscribe(() => {
-      this.myCartService.emptyMyCart();
-      this.router.navigateByUrl('/order');
+      idle.onTimeout.subscribe(() => {
+        this.myCartService.emptyMyCart();
+        this.router.navigateByUrl('/order');
+        this.idle.watch();
+      });
+      idle.onTimeoutWarning.subscribe((countdown) => {
+        this.idleWarning = 'time out: ' + countdown + ' seconds left';
+      });
+
       this.idle.watch();
-    });
-    idle.onTimeoutWarning.subscribe((countdown) => {
-      /*
-      if (countdown > this.warningCount) {
-        this.idleWarning = '';
-      } else {
-        this.idleWarning = '움직임이 없어  ' + countdown + '초 후에 장바구니가 초기화됩니다';
-      }
-      */
-      this.idleWarning = 'time out: ' + countdown + ' seconds left';
-    });
-
-    this.idle.watch();
+    }
   }
 }

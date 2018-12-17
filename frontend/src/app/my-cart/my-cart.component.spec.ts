@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MyCartComponent } from './my-cart.component';
-import { DEFAULT_IMPORTS } from '../testing';
+import { DEFAULT_DUMB_IMPORTS, DEFAULT_IMPORTS } from '../testing';
 
 import { Router } from '@angular/router';
 import { APP_BASE_HREF, Location } from '@angular/common';
@@ -11,27 +11,54 @@ import { Purchasable } from '../purchasable';
 import { Option } from '../option';
 import { MyCartDialogComponent } from '../my-cart-dialog/my-cart-dialog.component';
 import { SelectOptionComponent } from '../select-option/select-option.component';
+import { MyCartItem } from '../my-cart-item';
+import { Observable, of } from 'rxjs';
+import { SelectFoodComponent } from '../select-food/select-food.component';
+import { MenuDataService } from '../menu-data.service';
 
 describe('MyCartComponent', () => {
   let component: MyCartComponent;
   let fixture: ComponentFixture<MyCartComponent>;
   let testPurchasable: Purchasable;
-  let testMyCart: Purchasable[];
+  let testMyCartItem: MyCartItem;
+  let testMyCart$: Observable<MyCartItem[]>;
+  let testMyCart: MyCartItem[];
   let myCartServiceSpy;
   let routerSpy;
   let locationSpy;
+
+  beforeEach(() => {
+    // initial settings
+    testPurchasable = new Purchasable({
+      id: 1,
+      name: 'Hamburger',
+      thumbnail: 'jpg',
+      base_price: 10,
+      options: [],
+      total_price: 10,
+      quantity: 1
+    });
+    testMyCartItem = new MyCartItem({
+      myCartItemId : 1,
+      purchasable : testPurchasable
+    });
+    testMyCart = [testMyCartItem];
+    testMyCart$ = of(testMyCart);
+  });
 
   beforeEach(async(() => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     locationSpy = jasmine.createSpyObj('Location', ['back']);
     myCartServiceSpy = jasmine.createSpyObj('MyCartService',
           [
-            'isEmpty', 'getMyCart', 'setMyCart', 'getTotalPrice',
-            'updateMyCart', 'removePurchasable', 'emptyMyCart'
+            'getMyCart', 'getTotalPrice', 'patchMyCartQty',
+            'patchMyCartOptions', 'removeMyCartItem', 'emptyMyCart'
           ]);
-    myCartServiceSpy.getMyCart.and.returnValue(testMyCart);
-    myCartServiceSpy.getTotalPrice.and.returnValue(20);
-    myCartServiceSpy.isEmpty.and.returnValue(false); // default
+    myCartServiceSpy.getMyCart.and.returnValue(testMyCart$);
+    myCartServiceSpy.getTotalPrice.and.returnValue(of(20).toPromise());
+    myCartServiceSpy.patchMyCartQty.and.returnValue(of({}).toPromise());
+    myCartServiceSpy.patchMyCartOptions.and.returnValue(of({}).toPromise());
+    myCartServiceSpy.removeMyCartItem.and.returnValue(of({}).toPromise());
 
     TestBed.configureTestingModule({
       declarations: [
@@ -51,18 +78,6 @@ describe('MyCartComponent', () => {
       ]
     })
       .compileComponents();
-
-    // initial settings
-    testPurchasable = new Purchasable({
-      id: 1,
-      name: 'Hamburger',
-      thumbnail: 'jpg',
-      base_price: 10,
-      options: [],
-      total_price: 10,
-      quantity: 1
-    });
-    testMyCart = [testPurchasable, testPurchasable];
   }));
 
   beforeEach(() => {
@@ -75,128 +90,42 @@ describe('MyCartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should check if myCart is empty', () => {
-    // empty cart
-    myCartServiceSpy.isEmpty.and.returnValue(true);
+  it('ngOnInit should call getMyCart, getTotalPrice, getMyCartCount,', async((() => {
     component.ngOnInit();
-
-    routerSpy = fixture.debugElement.injector.get(Router);
-    const navigateSpy = routerSpy.navigate as jasmine.Spy;
-    expect(navigateSpy).toHaveBeenCalledWith(['/order']);
-  });
-
-  it('updateTotalPrice should call myCartService.getTotalPrice', () => {
-    component.updateTotalPrice();
-    expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
-    expect(component.totalPrice).toEqual(myCartServiceSpy.getTotalPrice());
-  });
-
-  it('updateMyCart should set myCart and updateTotalPrice', () => {
-    const testMyCartAnother = [testPurchasable];
-    component.updateMyCart(testMyCartAnother);
-    expect(component.myCart).toEqual(testMyCartAnother);
-    expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
-  });
-
-  it('getMyCart should change myCart value', () => {
-    component.getMyCart();
     expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
-    expect(component.myCart).toEqual(myCartServiceSpy.getMyCart());
-  });
-
-  it('hasOptions should check Purchasable options', () => {
-    // option undefined
-    const optionUndefinedPurchasable = new Purchasable({
-      id: 2, name: 'noOption', total_price: 10
+    expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
+    fixture.whenStable().then(() => {
+      expect(component.myCart$).toEqual(testMyCart$);
+      expect(component.totalPrice).toEqual(20);
     });
-    optionUndefinedPurchasable.options = undefined;
-    expect(component.hasOptions(optionUndefinedPurchasable)).toEqual(false);
-    // option empty array
-    expect(component.hasOptions(testPurchasable)).toEqual(false);
-    // has potions
-    const optionPurchasable = new Purchasable({
-      id: 3, name: 'yesOption', options: [new Option({}), new Option({})]
+  })));
+
+  it('increment should increase myCartItems quantity', async(() => {
+    component.increment(testMyCartItem);
+    fixture.whenStable().then(() => {
+      expect(testMyCartItem.purchasable.quantity).toEqual(2);
+      expect(myCartServiceSpy.patchMyCartQty).toHaveBeenCalledWith(testMyCartItem, 2);
     });
-    expect(component.hasOptions(optionPurchasable)).toEqual(true);
-  });
+  }));
 
-  it('increment should update purchasable quantity', () => {
-    component.myCart = testMyCart;
-    // fail: more than maximum quantity case
-    component.myCart[0].quantity = 100;
-    component.increment(0);
-    expect(component.myCart[0].quantity).toEqual(100);
-    // success
-    component.myCart[0].quantity = 1;
-    component.increment(0);
-    expect(component.myCart[0].quantity).toEqual(2);
-    // updateTotalPrice of Product
-    expect(component.myCart[0].total_price).toEqual(20);
-    // updateTotalPrice of myCart
-    expect(myCartServiceSpy.updateMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
-  });
+  it('decrement should decrease myCartItems quantity', async(() => {
+    testMyCartItem.purchasable.quantity = 3;
+    component.decrement(testMyCartItem);
+    fixture.whenStable().then(() => {
+      expect(testMyCartItem.purchasable.quantity).toEqual(2);
+      expect(myCartServiceSpy.patchMyCartQty).toHaveBeenCalledWith(testMyCartItem, 2);
+    });
+  }));
 
-  it('decrement should update purchasable quantity', () => {
-    component.myCart = testMyCart;
-    // less than minimum quantity case
-    component.myCart[0].quantity = 0;
-    component.decrement(0);
-    expect(component.myCart[0].quantity).toEqual(0);
-    // success
-    component.myCart[0].quantity = 2;
-    component.decrement(0);
-    expect(component.myCart[0].quantity).toEqual(1);
-    // updateTotalPrice of Product
-    expect(component.myCart[0].total_price).toEqual(10);
-    // updateTotalPrice of myCart
-    expect(myCartServiceSpy.updateMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.getTotalPrice).toHaveBeenCalled();
-  });
+  it('removeMyCartItem should remove myCartItem', async(() => {
+    component.removeMyCartItem(testMyCartItem);
+    fixture.whenStable().then(() => {
+      expect(myCartServiceSpy.removeMyCartItem).toHaveBeenCalledWith(testMyCartItem);
+    });
+  }));
 
-  it('updateOptionChange should update purchasable options', () => {
-    const newOptions: Option[] = [new Option({total_price: 100})];
-    component.updateOptionChange(newOptions, 0);
-    // updatePurchasablePrice called
-    expect(component.myCart[0].total_price).toEqual(110);
-    // myCartService.updateMyCart called
-    expect(myCartServiceSpy.updateMyCart).toHaveBeenCalled();
-  });
-
-  it('removePurchasable should remove purchasable from myCart', () => {
-    component.removePurchasable(0);
-    expect(myCartServiceSpy.removePurchasable).toHaveBeenCalledWith(0);
-    expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.isEmpty).toHaveBeenCalled();
-  });
-
-  it('removePurchasable navigates to order page if myCart became empty', () => {
-    // remove to make myCart empty case
-    myCartServiceSpy.isEmpty.and.returnValue(true);
-    component.removePurchasable(0);
-    expect(myCartServiceSpy.removePurchasable).toHaveBeenCalledWith(0);
-    expect(myCartServiceSpy.getMyCart).toHaveBeenCalled();
-    expect(myCartServiceSpy.isEmpty).toHaveBeenCalled();
-    // send back to select-food page
-    routerSpy = fixture.debugElement.injector.get(Router);
-    const navigateSpy = routerSpy.navigate as jasmine.Spy;
-    expect(navigateSpy).toHaveBeenCalledWith(['/order']);
-  });
-
+  it('emptyMyCart should empty myCart', (() => {
+    component.emptyCart();
+    expect(myCartServiceSpy.emptyMyCart).toHaveBeenCalled();
+  }));
 });
-
-  function totalPrice (cart: Purchasable[]): number {
-    let price = 0;
-    for (const purchasable of cart) {
-      price += purchasable.total_price;
-    }
-    return price;
-  }
-
-  @Component({
-    selector: 'app-select-option',
-    template: ''
-  })
-  class MockSelectOptionComponent {
-    options: Option[];
-  }

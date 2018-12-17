@@ -41,6 +41,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material';
 
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +61,8 @@ import { MatDialogModule } from '@angular/material';
     SelectStoreFranchiseComponent,
     SelectStoreMapComponent,
     MyCartDialogComponent,
+    SignUpComponent,
+    SignInComponent,
   ],
   entryComponents: [
     MyCartDialogComponent,

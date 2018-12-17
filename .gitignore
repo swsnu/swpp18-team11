@@ -126,3 +126,4 @@ yarn-error.log
 /modules/rollup-test/dist/
 
 media/
+static/

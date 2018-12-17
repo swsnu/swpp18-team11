@@ -1,15 +1,19 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <mat-icon class="myOrderIcon"
-              routerLink="/my-order">
-      list</mat-icon>
-
-    <mat-icon class="deleteCartIcon"
-              (click)="emptyMyCart()">
-              remove_shopping_cart</mat-icon>
-
-    <mat-icon class="myCartIcon"
-              routerLink="/mycart">
-      shopping_cart</mat-icon>
+      <mat-icon class="myOrderIcon"
+                routerLink="/my-order"
+                *ngIf="isPageStore">
+        list
+      </mat-icon>
+      <mat-icon class="deleteCartIcon"
+                (click)="emptyMyCart()"
+                *ngIf="isPageStore">
+        remove_shopping_cart
+      </mat-icon>
+      <mat-icon class="myCartIcon"
+                routerLink="/mycart"
+                *ngIf="isPageStore">
+        shopping_cart
+      </mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>

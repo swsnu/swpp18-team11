@@ -1,8 +1,17 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <mat-icon>menu</mat-icon>
-    <span id="title"
-          routerLink="/order">
-      {{storeTitle}}</span>
+    <!--Store Title-->
+    <div *ngIf="isPageStore; else normalTitle">
+          <span class="title"
+                routerLink="/order">
+      {{pageTitle}}</span>
+    </div>
+    <!--Normal Title-->
+    <ng-template #normalTitle>
+      <span class="title">
+        {{pageTitle}}
+      </span>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>

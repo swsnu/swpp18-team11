@@ -7,6 +7,7 @@ import { PaymentService } from '../payment.service';
 
 import { Purchasable } from '../purchasable';
 import { Observable } from 'rxjs';
+import { MyCartItem } from '../my-cart-item';
 
 @Component({
   selector: 'app-payment',
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 
 export class PaymentComponent implements OnInit {
 
-  myCart: Purchasable[];
+  myCart: MyCartItem[];
   totalPrice: number;
   status = {
     confirmedBuyList: false,
@@ -33,11 +34,20 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.getMyCart();
-    this.totalPrice = this.myCartService.getTotalPrice();
+    this.getTotalPrice();
   }
 
   getMyCart(): void {
-    this.myCart = this.myCartService.getMyCart();
+    this.myCartService.getMyCart()
+      .toPromise().then(myCart => {
+        this.myCart = myCart;
+    });
+  }
+
+  private getTotalPrice(): void {
+    this.myCartService.getTotalPrice().then(
+      totalPrice => this.totalPrice = totalPrice
+    );
   }
 
   cleanUp(): void {
@@ -47,7 +57,7 @@ export class PaymentComponent implements OnInit {
     this.status.paymentMethod = '';
   }
 
-  calcel(): void {
+  cancel(): void {
     this.location.back();
   }
 

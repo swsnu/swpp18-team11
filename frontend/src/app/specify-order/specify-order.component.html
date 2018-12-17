@@ -1,17 +1,17 @@
-<div *ngIf="product">
+<div *ngIf="purchasable">
   <div class="product-info">
-    <img class="thumbnail" src="{{product.thumbnail}}"/>
-    <h3 id="name">{{product.name}} </h3>
+    <img class="thumbnail" src="{{purchasable.thumbnail}}"/>
+    <h3 id="name">{{purchasable.name}} </h3>
   </div>
   <div id="mainMenu">
-    <span>단품 {{product.base_price}}원</span>
+    <span>단품 {{purchasable.base_price}}원</span>
     <label id="mainMenuQuantity">
-      <button mat-button (click)="decrement()">-</button>
-      {{product.quantity}}개
-      <button mat-button (click)="increment()">+</button>
+      <button mat-button (click)="purchasable.decrement()">-</button>
+      {{purchasable.quantity}}개
+      <button mat-button (click)="purchasable.increment()">+</button>
     </label>
   </div>
-  <mat-expansion-panel *ngIf="hasOptions()"
+  <mat-expansion-panel *ngIf="purchasable.hasOptions()"
     [expanded]="expandOption"
     [hideToggle]="true"
     (opened)="changeOptionPageStatus(true)"
@@ -22,8 +22,7 @@
         <mat-icon>add_circle_outline</mat-icon>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-select-option [options]="product.options"
-                       (optionChanged)="updateOptionChange($event)"></app-select-option>
+    <app-select-option [options]="purchasable.options"></app-select-option>
     <mat-action-row class="option-confirm">
       <button mat-icon-button
               class="confirm-option-button"
@@ -33,7 +32,7 @@
     </mat-action-row>
   </mat-expansion-panel>
   <div id="totalPrice">
-    <label> 총 {{product.total_price}}원 </label>
+    <label> 총 {{purchasable.total_price}}원 </label>
   </div>
   <div class="button-group">
     <button class="navigate-button"
