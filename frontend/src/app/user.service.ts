@@ -36,7 +36,7 @@ export class UserService {
     return this.http.post(url, body)
       .pipe()
       .toPromise()
-      .then(response => this.handleSignInSuccess(response))
+      .then(response => this.handleSignUpSuccess(response))
       .catch(e => this.handleError(e));
   }
   signIn(username: string, password: string): Promise<any> {
@@ -93,10 +93,6 @@ export class UserService {
   get userType(): string {
     return this.getCurrentUser().userType;
   }
-  getUserId(): string {
-    const currentUser = this.getCurrentUser();
-    return currentUser.id;
-  }
   getMyTx(): Observable<TxItem[]> {
     const url = '/kiorder/api/v1/test_tx';
     return this.http.get(url)
@@ -117,6 +113,11 @@ export class UserService {
       createdAt: txItem.created_at,
       state: txItem.state
     });
+  }
+  handleSignUpSuccess(response: any) {
+    if (response.success) {
+      this.router.navigateByUrl('/sign-in');
+    }
   }
   handleSignInSuccess(response: any) {
     if (response.success) {
