@@ -93,10 +93,6 @@ export class UserService {
   get userType(): string {
     return this.getCurrentUser().userType;
   }
-  getUserId(): string {
-    const currentUser = this.getCurrentUser();
-    return currentUser.id;
-  }
   getMyTx(): Observable<TxItem[]> {
     const url = '/kiorder/api/v1/test_tx';
     return this.http.get(url)

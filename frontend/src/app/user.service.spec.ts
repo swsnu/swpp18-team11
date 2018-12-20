@@ -178,6 +178,11 @@ describe('UserService', () => {
           expect(store).toBeDefined();
           expect(store.id).toBe(1);
           expect(store.name).toBe('s');
+          service.signOut().then(() => {
+            service.getCurrentStore().then(x => {
+              expect(x).toBeNull();
+            });
+          });
         });
       });
     });
@@ -197,6 +202,7 @@ describe('UserService', () => {
     expect(txItems.length).toBe(1);
     expect(txItems[0].purchasableName).toBe('p');
   });*/
+
   it('should loadTxItem', () => {
     spyOn(service, 'loadTxItem').and.callThrough();
     const myTxItem = service.loadTxItem(txMock);
