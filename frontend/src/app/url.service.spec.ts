@@ -15,13 +15,13 @@ describe('UrlService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('isUrlStore should check if url is store', ()=>{
+  it('isUrlStore should check if url is store', () => {
     expect(service.isUrlStore(null)).toEqual(false);
     expect(service.isUrlStore('mycart')).toEqual(true);
     expect(service.isUrlStore('meah')).toEqual(false);
   });
 
-  it('getPageTitle should return page title of given url', ()=>{
+  it('getPageTitle should return page title of given url', () => {
     expect(service.getPageTitle(null)).toEqual('');
     expect(service.getPageTitle('order')).toEqual('KingBurger');
     expect(service.getPageTitle('sign-in')).toEqual('Sign In');
